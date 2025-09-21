@@ -9,10 +9,6 @@ declare var $:any;
 })
 export class FuncionesService {
 
-    /***************************************** REGLAS DE LAS VENTAS *****************************************/
-    
-    /***************************************** REGLAS DE LAS VENTAS *****************************************/
-
     exportarReporteExcel(header: any, body: any, nombreArchivoExcel: string){
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Hoja1');
@@ -146,6 +142,17 @@ export class FuncionesService {
             return "";
         }
     }
+
+    convertir_barra_fecha_hora(fecha: string){
+        if(fecha != ""){
+        var part_fecha = fecha.split("-");
+        var new_fecha = part_fecha[2]+"/"+part_fecha[1]+"/"+part_fecha[0];
+        //              DIA            -  MES            -  AÑO
+            return new_fecha;
+        }else{
+            return "";
+        }
+      }
 
     capitalizarTexto(texto) {
         if (!texto || texto.trim() === "") {
@@ -449,14 +456,6 @@ export class FuncionesService {
 
         return array_pisos_final;
     }
-
-    mostrar_modal(name_modal: string){
-        $('#'+name_modal).modal('show');
-      }
-    
-      ocultar_modal(name_modal: string){
-        $('#'+name_modal).modal('hide');
-      }
 
     notificacion_mensaje(tipo: String, message: String){
         if(tipo == "Success"){

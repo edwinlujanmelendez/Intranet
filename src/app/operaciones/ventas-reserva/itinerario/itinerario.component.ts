@@ -162,10 +162,10 @@ export class ItinerarioComponent implements OnInit {
           this.listadoItinerariosVuelta = responseItinerario['listaVueltaDisponibles'];
         }else if(this.ida_vuelta == 2 && responseItinerario['listaVueltaDisponibles'] == null){
           this.ida_vuelta = 1;
-          this.funcionesService.mostrar_modal("modal_not_tickets_vuelta");
+          //this.funcionesService.mostrar_modal("modal_not_tickets_vuelta");
         }
       }else{
-        this.funcionesService.mostrar_modal("modal_not_tickets_ida");
+        //this.funcionesService.mostrar_modal("modal_not_tickets_ida");
       }
 
       $(".loader").fadeOut("slow");

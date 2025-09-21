@@ -20,7 +20,6 @@ export class ReporteVentasPasajesComponent implements OnInit {
   anio: string = "";
 
   ltAgencias: any = [];
-  //codSelectAgencia: number = 345;
   codSelectUsuario: number = 0;
   agencia_id: number = 0;
   ListUsuariosCounter: any = [];
@@ -83,6 +82,8 @@ export class ReporteVentasPasajesComponent implements OnInit {
   date_fecha_inicio: string = "";
   date_fecha_fin: string = "";
 
+  ArrayMostrarModal: any = [];
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService) {
     this.date = new Date();
     var dia = "";
@@ -135,117 +136,50 @@ export class ReporteVentasPasajesComponent implements OnInit {
   buscarReporteDetallado(){
     $(".loader").fadeIn("slow");
 
-    /*this.cantidad_pagados_pagolink = 0;
-    this.monto_dinero_pagados_pagolink = 0;
-    this.cantidad_ventas_ef = 0;
-    this.monto_dinero_ventas_ef = 0;
-    this.cantidad_ventas_tc = 0;
-    this.monto_dinero_ventas_tc = 0;
-    this.cantidad_credito = 0;
-    this.monto_dinero_credito = 0;
-    this.cantidad_nota_credito = 0;
-    this.monto_dinero_nota_credito = 0;
-    this.cantidad_cortesias = 0;
-    this.monto_dinero_cortesias = 0;
-    
-    this.cantidad_recibo_caja = 0;
-    this.monto_dinero_recibo_caja = 0;
-    this.cantidad_deposito = 0;
-    this.monto_dinero_deposito = 0;
-    this.cantidad_migracion = 0;
-    this.monto_dinero_migracion = 0;
-
-    this.cantidad_reserva = 0;
-    this.cantidad_anulados = 0;
-    this.ListReporteDetallado = [];
-    
-    $("#tabla_reportes").DataTable().destroy();*/
-
     this.cantidad_pagados_pagolink = 0;
     this.monto_dinero_pagados_pagolink = 0;
-    //this.cantidad_pagados_pagoefectivo = 0;
-    //this.monto_dinero_pagados_pagoefectivo = 0;
     this.cantidad_reserva = 0;
     this.cantidad_anulados = 0;
     this.ListReporteDetallado = [];
     var cantidad_pagos_pagolink: any = [];
-    //var cantidad_pagos_pagoefectivo: any = [];
     $("#tabla_reportes").DataTable().destroy();
 
     this.taskService.getReporteDetallado(this.agencia_id, this.codSelectUsuario, $("#fechaInicio").val(), $("#fechaFin").val()).subscribe(responsegetReporteDetallado => {
       //console.log(responsegetReporteDetallado);
-      //this.ListReporteDetallado = responsegetReporteDetallado;
+      this.ListReporteDetallado = responsegetReporteDetallado;
 
-      //for(var a=0; a<responsegetReporteDetallado.length; a++){
-      //  if(responsegetReporteDetallado[a]['nroBoleto'] == 'BB80-00824973'){
-      //    console.log(responsegetReporteDetallado[a]);
-      //  }
-      //}
-
-      // abajo: scrollY: 354,
-      /*setTimeout(() => {
+      setTimeout(() => {
         $("#tabla_reportes").DataTable({pageLength: 10,
-          filter: true,
           deferRender: true,
           scrollY: 400,
           scrollCollapse: true,
           scroller: true,
-          "searching": true
+          "searching": true,
+          order: [[6, "desc"]]
         });
       }, 100);
 
-      this.contar_cantidad_dinero_reporte(responsegetReporteDetallado);
+      $(".loader").fadeOut("slow");
 
-      $(".loader").fadeOut("slow");*/
-
-      //console.log(responsegetReporteDetallado);
-        this.ListReporteDetallado = responsegetReporteDetallado;
-
-        // abajo: scrollY: 354,
-        setTimeout(() => {
-          $("#tabla_reportes").DataTable({pageLength: 10,
-            //filter: true,
-            deferRender: true,
-            scrollY: 400,
-            scrollCollapse: true,
-            scroller: true,
-            "searching": true,
-            order: [[6, "desc"]]
-          });
-        }, 100);
-
-        $(".loader").fadeOut("slow");
-
-        // TODO: CONTAR CANTIDAD Y DINERO, PAGOLINK Y PAGOEFECTIVO
-        for(var a=0; a<responsegetReporteDetallado.length; a++){
-          if(responsegetReporteDetallado[a]['tipo_movimiento'] == "EFECTIVO"){
-            if(responsegetReporteDetallado[a]['tipforpag'] != "ORBIS"){
-              cantidad_pagos_pagolink.push(responsegetReporteDetallado[a]['n_numopeban']);
-              this.monto_dinero_pagados_pagolink = this.monto_dinero_pagados_pagolink + responsegetReporteDetallado[a]['n_imppag'];
-            }
-            //else if(responsegetReporteDetallado[a]['tipforpag'] == "ORBIS"){
-            //  cantidad_pagos_pagoefectivo.push(responsegetReporteDetallado[a]['n_numopeban']);
-            //  this.monto_dinero_pagados_pagoefectivo = this.monto_dinero_pagados_pagoefectivo + responsegetReporteDetallado[a]['n_imppag'];
-            //}
-          }
-          if(responsegetReporteDetallado[a]['tipo_movimiento'] == "RESERVA"){
-            this.cantidad_reserva++;
-          }
-          /*if(responsegetReporteDetallado[a]['tipo_movimiento'] == "ANULACION SISTEMA"){
-            this.cantidad_anulados++;
-          }*/
-          if(responsegetReporteDetallado[a]['tipo_movimiento'] == "ANULACION"){
-            this.cantidad_anulados++;
+      // TODO: CONTAR CANTIDAD Y DINERO, PAGOLINK Y PAGOEFECTIVO
+      for(var a=0; a<responsegetReporteDetallado.length; a++){
+        if(responsegetReporteDetallado[a]['tipo_movimiento'] == "EFECTIVO"){
+          if(responsegetReporteDetallado[a]['tipforpag'] != "ORBIS"){
+            cantidad_pagos_pagolink.push(responsegetReporteDetallado[a]['n_numopeban']);
+            this.monto_dinero_pagados_pagolink = this.monto_dinero_pagados_pagolink + responsegetReporteDetallado[a]['n_imppag'];
           }
         }
+        if(responsegetReporteDetallado[a]['tipo_movimiento'] == "RESERVA"){
+          this.cantidad_reserva++;
+        }
+        if(responsegetReporteDetallado[a]['tipo_movimiento'] == "ANULACION"){
+          this.cantidad_anulados++;
+        }
+      }
 
-        // TODO: PAGOLINK
-        cantidad_pagos_pagolink = [...new Set(cantidad_pagos_pagolink)];
-        this.cantidad_pagados_pagolink = cantidad_pagos_pagolink.length;
-
-        // TODO: PAGOEFECTIVO
-        //cantidad_pagos_pagoefectivo = [...new Set(cantidad_pagos_pagoefectivo)];
-        //this.cantidad_pagados_pagoefectivo = cantidad_pagos_pagoefectivo.length;
+      // TODO: PAGOLINK
+      cantidad_pagos_pagolink = [...new Set(cantidad_pagos_pagolink)];
+      this.cantidad_pagados_pagolink = cantidad_pagos_pagolink.length;
     });
   }
 
@@ -430,7 +364,7 @@ export class ReporteVentasPasajesComponent implements OnInit {
     this.modal_numoperacion = dat['n_numopeban'];
     this.modal_numero_cip = dat['numero_cip'];
 
-    this.funcionesService.mostrar_modal("modalVerVenta");
+    this.abrirModal('ModalVerVenta');
   }
 
   enviar_url_pago(){
@@ -447,7 +381,7 @@ export class ReporteVentasPasajesComponent implements OnInit {
         //console.log(responsepostEnviarUrlPago);
         if(Number(responsepostEnviarUrlPago) == 1){
           $(".loader").fadeOut("slow");
-          this.funcionesService.ocultar_modal("modalVerVenta");
+          this.cerrarModal('ModalVerVenta');
           this.funcionesService.notificacion_mensaje("Success", "Se envió el correo correctamente.");
           this.buscarReporteDetallado();
         }else{
@@ -457,23 +391,13 @@ export class ReporteVentasPasajesComponent implements OnInit {
     }
   }
 
-  convertir_barra_fecha_hora(fecha: string){
-    if(isPlatformBrowser(this.platformId)){
-      if(fecha != ""){
-        var part_fecha = fecha.split("-");
-        var new_fecha = part_fecha[2]+"/"+part_fecha[1]+"/"+part_fecha[0];
-        //              DIA            -  MES            -  AÑO
-        return new_fecha;
-      }else{
-        return "";
-      }
-    }
-    return "";
+  abrirModal(nombreModal: string) {
+    this.ArrayMostrarModal[nombreModal] = true;
+    document.body.classList.add('overflow-x-hidden');
   }
 
-
-// Performance: stable identity for *ngFor to avoid full DOM re-render
-trackByIndex(index: number, _item: any): number { 
-  return index; 
-}
+  cerrarModal(nombreModal: string) {
+      this.ArrayMostrarModal[nombreModal] = false;
+      document.body.classList.remove('overflow-x-hidden');
+  }
 }

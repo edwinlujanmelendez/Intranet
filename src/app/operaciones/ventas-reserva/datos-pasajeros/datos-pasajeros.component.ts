@@ -1284,7 +1284,7 @@ export class DatosPasajerosComponent implements OnInit {
             $(".loader").fadeOut("slow");
           });
         }else{
-          this.funcionesService.mostrar_modal("modal_mensaje_sin_espacios");
+          //this.funcionesService.mostrar_modal("modal_mensaje_sin_espacios");
 
           $('#'+txtidpasajero).val(String(''));
           $('#'+txtflagws).val(String(''));
@@ -1356,7 +1356,7 @@ export class DatosPasajerosComponent implements OnInit {
 
     this.arrayAdultosSeleccion();
 
-    this.funcionesService.ocultar_modal("modal_fecha_nacimiento");
+    //this.funcionesService.ocultar_modal("modal_fecha_nacimiento");
   }
 
   ConsultarCupon(){}
@@ -1573,7 +1573,7 @@ export class DatosPasajerosComponent implements OnInit {
     this.tituloMensajeAlerta = titulo;
     this.textoMensajeAlerta = mensaje;
 
-    this.funcionesService.mostrar_modal("modal_mensajealerta");
+    //this.funcionesService.mostrar_modal("modal_mensajealerta");
   }
 
   arrayAdultosSeleccion(){
@@ -1617,11 +1617,11 @@ export class DatosPasajerosComponent implements OnInit {
     $("#txtnombresInfante").val("");
     $("#txtapellidosInfante").val("");
     $("#fecha_nacimiento_infante").val(this.date_actual);
-    this.funcionesService.mostrar_modal('modalAgregarInfante');
+    //this.funcionesService.mostrar_modal('modalAgregarInfante');
   }
 
   editarDatosInfante(id: string){
-    this.funcionesService.mostrar_modal('modalAgregarInfante');
+    //this.funcionesService.mostrar_modal('modalAgregarInfante');
 
     for(var a=0; a<this.lista_infante_detalle.length; a++){
       if(this.lista_infante_detalle[a]['id'] == id){
@@ -1978,7 +1978,7 @@ export class DatosPasajerosComponent implements OnInit {
             $(".loader").fadeOut("slow");
           });
         }else{
-          this.funcionesService.mostrar_modal("modal_mensaje_sin_espacios");
+          //this.funcionesService.mostrar_modal("modal_mensaje_sin_espacios");
 
           $('#'+txtidpasajero).val(String(''));
           $('#'+txtflagws).val(String(''));
@@ -2045,7 +2045,7 @@ export class DatosPasajerosComponent implements OnInit {
           generoInfante = 2;
         }
 
-        this.funcionesService.ocultar_modal('modalAgregarInfante');
+        //this.funcionesService.ocultar_modal('modalAgregarInfante');
 
         $('#btn_agregar_infante_'+id).css('display', 'none');
         $('#btn_verdatos_infante_'+id).css('display', 'inline');

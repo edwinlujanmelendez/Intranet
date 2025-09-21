@@ -103,9 +103,8 @@ details[open] .icon-despegable {
     font-size: 9px; color: #4e4d50; font-weight: bold;
 }
 
-/* ESTILO PARA LAS TABLAS DE LA INTRANET */
-#tabla_reportes th, 
+/*#tabla_reportes th, 
 #tabla_reportes td {
     min-width: 120px;
     white-space: nowrap;
-}
+}*/

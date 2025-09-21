@@ -554,7 +554,6 @@ export class ConsultaBoletosComponent implements OnInit {
     this.responsegetBuscarPasajes = this.responsegetBuscarPasajes.filter(item => {
       const existente = datos_maestros.find( d => d.boleto.c_numboleto === item.c_numboleto || d.boleto.c_numboleto === item.c_numbolant);
       if(existente){
-        console.log(item.c_numboleto + " *** " + item.c_numbolant);
         existente.datos_asociados.push(item); return false;
       }
       return true;

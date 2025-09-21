@@ -20,7 +20,7 @@
 
                                 <div class="flex items-center">
                                     <label for="fechaFin" class="w-1/3 text-right text-xs font-medium text-gray-700 mr-2">Fecha Fin:</label>
-                                    <input type="date" id="fechaFin" [(ngModel)]="date_fecha_fin" (change)="changeSelectAgencia()" [min]="date_fecha_inicio" class="w-2/3 border border-gray-300 rounded-md text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="date" id="fechaFin" [(ngModel)]="date_fecha_fin" (change)="changeSelectAgencia()" [min]="date_fecha_inicio" [max]="date_actual" class="w-2/3 border border-gray-300 rounded-md text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
                             </div>
 
@@ -28,7 +28,7 @@
                                 <div class="flex items-center">
                                     <label for="selectCodAgencia" class="w-1/3 text-right text-xs font-medium text-gray-700 mr-2">Agencia:</label>
                                     <select id="selectCodAgencia" [(ngModel)]="agencia_id" (change)="changeSelectAgencia()" class="w-2/3 border border-gray-300 rounded-md text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option *ngFor="let agencia of ltAgencias; trackBy: trackByIndex" [value]="agencia.agencia_id">{{agencia.c_denominacion}}</option>
+                                        <option *ngFor="let agencia of ltAgencias;" [value]="agencia.agencia_id">{{agencia.c_denominacion}}</option>
                                     </select>
                                 </div>
 
@@ -36,7 +36,7 @@
                                     <label for="selectCodUsuario" class="w-1/3 text-right text-xs font-medium text-gray-700 mr-2">Counter:</label>
                                     <select id="selectCodUsuario" [(ngModel)]="codSelectUsuario" class="w-2/3 border border-gray-300 rounded-md text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         <option value="0" selected>TODOS</option>
-                                        <option *ngFor="let ltUsuariosCounter of ListUsuariosCounter; trackBy: trackByIndex" [value]="ltUsuariosCounter.usuario_id">{{ltUsuariosCounter.apellidoPaterno}} {{ltUsuariosCounter.apellidoMaterno}}, {{ltUsuariosCounter.nombre}}</option>
+                                        <option *ngFor="let ltUsuariosCounter of ListUsuariosCounter;" [value]="ltUsuariosCounter.usuario_id">{{ltUsuariosCounter.apellidoPaterno}} {{ltUsuariosCounter.apellidoMaterno}}, {{ltUsuariosCounter.nombre}}</option>
                                     </select>
                                 </div>
 
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="overflow-x-auto">
-                                <table *ngIf="ListReporteDetallado.length > 0" id="tabla_reportes" class="min-w-full divide-y divide-gray-200">
+                                <table *ngIf="ListReporteDetallado.length > 0" id="tabla_reportes" class="min-w-full table-auto divide-y divide-gray-200">
                                     <thead class="bg-gray-100">
                                         <tr class="text-gray-500 uppercase font-semibold tracking-wider">
                                             <th class="text-xss text-center">RUTA</th>
@@ -158,188 +158,160 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalVerVenta" tabindex="1" role="dialog" aria-labelledby="modalVerVentaTitle" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content" style="width: 94%;">
-        <div class="modal-header" style="border-bottom: 1px solid #ccc;">
-            <h6 *ngIf="modal_tipo_movimiento != 'EFECTIVO'" class="modal-title" style="font-weight: bold;">DETALLES DE LA VENTA <br><span style="color: #ff0027; font-size: 13px;">{{modal_tipo_movimiento}}</span></h6>
-            <h6 *ngIf="modal_tipo_movimiento == 'EFECTIVO'" class="modal-title" style="font-weight: bold;">DETALLES DE LA VENTA <br><span style="color: #10a35f; font-size: 13px;">{{modal_tipo_movimiento}}</span></h6>
-            <i class="fa fa-times" style="font-size: 20px; cursor: pointer;" (click)="funcionesService.ocultar_modal('modalVerVenta');"></i>
-        </div>
-        <div class="modal-body" style="color: #383838 !important; font-size: 12px;">
-            <form>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>BOLETO :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_boleto}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>NRO. CONTROL :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_nro_control}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-10">
-                        <div class="row">
-                            <div class="col-3" style="text-align: right;"><label>PASAJERO :</label></div>
-                            <div class="col-9"><span style="color: #ff6719;">{{modal_pasajero}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-2">&nbsp;</div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>NRO ASIENTO :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_nro_asiento}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>IMPORTE :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{ modal_importe | number:'1.2-2' }}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>ORIGEN :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_origen}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>DESTINO :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_destino}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>FECHA PARTIDA :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_fecha_partida}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>HORA PARTIDA :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_hora_partida}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>COMPROBANTE :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_comprobante}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>FORMA PAGO :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_forma_pago}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>TIPO FORMA PAGO :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_tipo_forma_pago}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>OPERADOR TARJETA :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_operador_tarjeta}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>TARJETA CREDITO :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_tarjeta_credito}}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>NRO OPERACION :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_nro_operacion}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="modal_numero_cip != null" class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        &nbsp;
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>NRO CIP :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_numero_cip}}</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="modal_url_pago != null" class="row" style="margin-bottom: 9px; margin-top: 18px;">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2" style="text-align: right; width: 20.5%;"><label>URL DE PAGO :</label></div>
-                            <div class="col-10" style="width: 79.5%;">
-                                <a target="_blank" href="{{modal_url_pago}}" title="Click para abrir en una Nueva Pestaña" style="text-decoration: underline">{{modal_url_pago}}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-body" style="color: #383838 !important; font-size: 12px; border-top: 1px solid #ccc;">
-            <form>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>USUARIO VENTA :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{ modal_usuario_venta | uppercase }}</span></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div *ngIf="modal_boleto == null" class="col-5" style="text-align: right;"><label>FECHA EXPIRACIÓN :</label></div>
-                            <div *ngIf="modal_boleto == null" class="col-7"><span style="color: #ff6719;">{{modal_fecha_expiracion}} {{modal_hora_expiracion}}</span></div>
+<div *ngIf="ArrayMostrarModal['ModalVerVenta']" id="ModalVerVenta" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('ModalVerVenta')">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
-                            <div *ngIf="modal_boleto != null" class="col-5" style="text-align: right;"><label>PAGO REALIZADO :</label></div>
-                            <div *ngIf="modal_boleto != null && modal_fecha_hora_pago != null" class="col-7"><span style="color: #ff6719;">{{modal_fecha_hora_pago}}</span></div>
-                            <div *ngIf="modal_boleto != null && modal_fecha_hora_pago == null" class="col-7"><span style="color: #ff6719;">PAGO MANUAL</span></div>
-                        </div>
+    <div class="relative bg-white w-full max-w-5xl rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+        <div class="flex items-center justify-between border-b border-gray-300 px-5 pt-3 pb-2">
+            <h6 *ngIf="modal_tipo_movimiento != 'EFECTIVO'" class="font-bold text-gray-800 text-base">
+                DETALLES DE LA VENTA <br />
+                <span class="text-red-600 text-xs">{{ modal_tipo_movimiento }}</span>
+            </h6>
+            <h6 *ngIf="modal_tipo_movimiento == 'EFECTIVO'" class="font-bold text-gray-800 text-base">
+                DETALLES DE LA VENTA <br />
+                <span class="text-green-600 text-xs">{{ modal_tipo_movimiento }}</span>
+            </h6>
+
+            <i class="fa fa-times text-xl cursor-pointer" (click)="cerrarModal('ModalVerVenta')"></i>
+        </div>
+
+        <div class="px-6 py-4 text-sm text-gray-700">
+            <form class="space-y-2">
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">BOLETO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_boleto }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">NRO. CONTROL :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_nro_control }}</span>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-5" style="text-align: right;"><label>OBSERVACIONES :</label></div>
-                            <div class="col-7"><span style="color: #ff6719;">{{modal_observaciones}}</span></div>
-                        </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">PASAJERO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_pasajero }}</span>
                     </div>
-                    <div *ngIf="modal_email_pasajero != null && modal_tipo_movimiento == 'RESERVA'" class="col-6">
-                        <div class="row">
-                            <div class="col-8">
-                                <input class="form-control" [(ngModel)]="modal_email_pasajero" style="height: 1%; border: 1px solid #7239EA;">
-                            </div>
-                            <div class="col-4" style="text-align: center;">
-                                <span class="badge btn_enviar_url_pago" title="Enviar URL de Pago Link" (click)="enviar_url_pago()">
-                                    <i class="fad fa-envelope" style="color: #7239EA;"></i> &nbsp; ENVIAR URL
-                                </span>
-                            </div>
-                        </div>
+                    <div class="w-1/2 flex"></div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">NRO ASIENTO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_nro_asiento }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">IMPORTE :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_importe | number:'1.2-2' }}</span>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">ORIGEN :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_origen }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">DESTINO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_destino }}</span>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">FECHA PARTIDA :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_fecha_partida }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">HORA PARTIDA :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_hora_partida }}</span>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">COMPROBANTE :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_comprobante }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">FORMA PAGO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_forma_pago }}</span>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">TIPO FORMA PAGO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_tipo_forma_pago }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">OPERADOR TARJETA :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_operador_tarjeta }}</span>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">TARJETA CREDITO :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_tarjeta_credito }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">NRO OPERACION :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_nro_operacion }}</span>
+                    </div>
+                </div>
+
+                <div *ngIf="modal_numero_cip != null" class="flex">
+                    <div class="w-1/2"></div>
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">NRO CIP :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_numero_cip }}</span>
+                    </div>
+                </div>
+
+                <div *ngIf="modal_url_pago != null" class="flex mt-4">
+                    <div class="w-1/5 text-right">
+                        <label class="font-medium mr-1">URL DE PAGO :</label>
+                    </div>
+                    <div class="w-4/5">
+                        <a target="_blank" [href]="modal_url_pago" class="underline text-blue-600" title="Click para abrir en una Nueva Pestaña">{{ modal_url_pago }}</a>
                     </div>
                 </div>
             </form>
         </div>
-      </div>
+
+        <div class="border-t border-gray-300 px-6 py-4 text-sm text-gray-700">
+            <form class="space-y-2">
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">USUARIO VENTA :</label>
+                        <span class="w-3/5 text-orange-600 uppercase">{{ modal_usuario_venta }}</span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <label *ngIf="modal_boleto == null" class="w-2/5 text-right font-medium mr-1">FECHA EXPIRACIÓN :</label>
+                        <span *ngIf="modal_boleto == null" class="w-3/5 text-orange-600">{{ modal_fecha_expiracion }} {{ modal_hora_expiracion }}</span>
+
+                        <label *ngIf="modal_boleto != null" class="w-2/5 text-right font-medium mr-1">PAGO REALIZADO :</label>
+                        <span *ngIf="modal_boleto != null && modal_fecha_hora_pago != null" class="w-3/5 text-orange-600">{{ modal_fecha_hora_pago }}</span>
+                        <span *ngIf="modal_boleto != null && modal_fecha_hora_pago == null" class="w-3/5 text-orange-600">PAGO MANUAL</span>
+                    </div>
+                </div>
+            
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label class="w-2/5 text-right font-medium mr-1">OBSERVACIONES :</label>
+                        <span class="w-3/5 text-orange-600">{{ modal_observaciones }}</span>
+                    </div>
+
+                    <div *ngIf="modal_email_pasajero != null && modal_tipo_movimiento == 'RESERVA'" class="w-1/2 flex items-center">
+                        <input [(ngModel)]="modal_email_pasajero" class="border border-purple-600 rounded px-2 py-1 flex-1 text-sm"/>
+                        <button type="button" (click)="enviar_url_pago()" class="inline-flex items-center gap-1 rounded bg-purple-600 text-white px-3 py-1 text-xs font-semibold hover:bg-purple-700" title="Enviar URL de Pago Link">
+                            <i class="fad fa-envelope"></i> ENVIAR URL
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

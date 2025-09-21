@@ -400,7 +400,7 @@
                                             <font class="terminos_condiciones">*</font> 
                                             <font class="terminos_condiciones">
                                                 He cumplido con el proceso de venta de acuerdo a los procesos estipulados publicados aquí 
-                                                <i class="fad fa-file-alt" (click)="funcionesService.mostrar_modal('modalTerminosCondiciones')" style="cursor: pointer; color: #ff6719;" title="ver Términos y Condiciones"></i>
+                                                <i class="fad fa-file-alt" style="cursor: pointer; color: #ff6719;" title="ver Términos y Condiciones"></i>     <!-- (click)="funcionesService.mostrar_modal('modalTerminosCondiciones')" -->
                                             </font>
                                         </label>
                                     </div>
@@ -541,7 +541,7 @@
                 <font style="color: #a0a0a0; font-weight: bold; font-size: 17px;">{{textoMensajeAlerta}}</font>
             </div>
             <div class="col-3 text-center" style="background-color: rgb(211, 211, 211); padding: 1rem; font-size: 43px; color: #ff6719; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                <i class="fad fa-times" (click)="funcionesService.ocultar_modal('modal_mensajealerta')" style="cursor: pointer;"></i>
+                <i class="fad fa-times" style="cursor: pointer;"></i>       <!-- (click)="funcionesService.ocultar_modal('modal_mensajealerta')" -->
             </div>
         </div>
       </div>
@@ -553,7 +553,7 @@
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" style="font-weight: bold;">Datos del pasajero <font style="color: #737373; font-size: 14px;">Infante</font></h5>
-            <i class="fa fa-times" style="font-size: 20px; cursor: pointer;" (click)="funcionesService.ocultar_modal('modalAgregarInfante');"></i>
+            <i class="fa fa-times" style="font-size: 20px; cursor: pointer;"></i>       <!-- (click)="funcionesService.ocultar_modal('modalAgregarInfante');" -->
         </div>
         <div class="modal-body" style="color: #383838 !important;">
             <form>
@@ -608,7 +608,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn" style="background-color: #ff6719; color: white;" (click)="guardarDatosInfante()">Guardar</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="funcionesService.ocultar_modal('modalAgregarInfante');">Cerrar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>        <!-- (click)="funcionesService.ocultar_modal('modalAgregarInfante');" -->
         </div>
       </div>
     </div>
@@ -656,7 +656,7 @@
       <div class="modal-content" style="    border-color: #ec6726 !important;">
         <div class="modal-body" style="padding: 0.45rem !important; height: 539px; overflow-y: auto;">
             <div style="text-align: right; padding-right: 2px;">
-                <i class="fa fa-times" style="font-size: 20px; cursor: pointer;" (click)="funcionesService.ocultar_modal('modalTerminosCondiciones');"></i>
+                <i class="fa fa-times" style="font-size: 20px; cursor: pointer;"></i>       <!-- (click)="funcionesService.ocultar_modal('modalTerminosCondiciones');" -->
             </div>
             <div class="text-center" style="margin-bottom: 17px; font-weight: 600; font-size: 20px;">
                 Clausulas Generales de Contratación del Servicio de Viaje
@@ -776,7 +776,7 @@
                 <font style="color: #a0a0a0; font-weight: bold; font-size: 12px;">Tener en cuenta que se debe tener una carta notarial.</font>
             </div>
             <div class="col-3 text-center" style="background-color: rgb(211, 211, 211); padding-top: 1rem; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                <i class="fad fa-exclamation-circle" (click)="funcionesService.ocultar_modal('modal_alert_menor')" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>
+                <i class="fad fa-exclamation-circle" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>     <!-- (click)="funcionesService.ocultar_modal('modal_alert_menor')" -->
             </div>
         </div>
       </div>

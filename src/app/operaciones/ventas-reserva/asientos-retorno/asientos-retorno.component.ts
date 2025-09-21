@@ -235,7 +235,7 @@ export class AsientosRetornoComponent implements OnInit {
           this.cont_asientos++;
           desc = 1;
         }else{
-          this.funcionesService.mostrar_modal("modal_limitmax");
+          //this.funcionesService.mostrar_modal("modal_limitmax");
         }
       }
 
@@ -423,7 +423,7 @@ export class AsientosRetornoComponent implements OnInit {
           this.cont_asientos = 0;
           this.asientos_seleccionados = [];
           this.calcular_pasajeros();
-          this.funcionesService.mostrar_modal("modal_asientos_ocupados");
+          //this.funcionesService.mostrar_modal("modal_asientos_ocupados");
 
           this.funcionesService.notificacion_mensaje("Error", "Los asientos están ocupados, elija otros asientos.");
         }
@@ -448,7 +448,7 @@ export class AsientosRetornoComponent implements OnInit {
           this.cont_asientos = 0;
           this.asientos_seleccionados = [];
           this.calcular_pasajeros();
-          this.funcionesService.mostrar_modal("modal_asientos_ocupados");
+          //this.funcionesService.mostrar_modal("modal_asientos_ocupados");
 
           this.funcionesService.notificacion_mensaje("Error", "El asiento está ocupado, elija otros asiento.");
         }
