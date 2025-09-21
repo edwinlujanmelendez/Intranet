@@ -1,0 +1,9 @@
+.tamanio_imagen{
+    width: 79%;
+}
+
+@media only screen and (max-width: 1399px) {
+    .tamanio_imagen{
+        width: 100%;
+    }
+}

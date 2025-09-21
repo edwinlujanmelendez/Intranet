@@ -1,0 +1,88 @@
+.container_ruta_ida_vuelta_selec{
+    background-color: #e5e5e5; 
+}
+.rut_ida_vuelta_select_ida_vuelta{
+    color: #ff6719; font-size: 16px;
+}
+.rut_ida_vuelta_select_ciudad_ida_vuelta{
+    color: #4E4D50; font-weight: bold; font-size: 17px;
+}
+.rut_ida_vuelta_select_icon{
+    font-size: 20px; color: #ff6719;
+}
+.rut_ida_vuelta_select_icon2{
+    font-size: 15px; color: #686868;
+}
+.rut_ida_vuelta_select_fecha_ida_vuelta{
+    color: #4E4D50; font-size: 12px;
+}
+.rut_ida_vuelta_select_hora_embar_ida_vuelta{
+    color: #4E4D50; font-weight: bold; font-size: 15.5px;
+}
+.rut_ida_vuelta_select_salida_embar_ida_vuelta{
+    font-size: 9px; color: #4e4d50; font-weight: bold;
+}
+
+
+.container_ruta_ida_vuelta_no_selec{
+    background-color: #ffffff; 
+}
+.rut_ida_vuelta_no_select_ida_vuelta{
+    color: #a5a5a7; font-size: 16px;
+}
+.rut_ida_vuelta_no_select_ciudad_ida_vuelta{
+    color: #a5a5a7; font-weight: bold; font-size: 17px;
+}
+.rut_ida_vuelta_no_select_icon{
+    font-size: 20px; color: #a5a5a7;
+}
+.rut_ida_vuelta_no_select_icon2{
+    font-size: 15px; color: #686868;
+}
+.rut_ida_vuelta_no_select_fecha_ida_vuelta{
+    color: #ada9a4; font-size: 12px;
+}
+.rut_ida_vuelta_no_select_hora_embar_ida_vuelta{
+    color: #a5a5a7; font-weight: bold; font-size: 17px;
+}
+.rut_ida_vuelta_no_select_salida_embar_ida_vuelta{
+    font-size: 9px; color: #a5a5a7; font-weight: bold;
+}
+
+.border_button_infante{
+    color: #4e4d50b5; 
+    border: 1px solid #bbb; 
+    padding: 4px; 
+    border-radius: 5px;
+}
+.datos_infate_border{
+    border-left: 1px dashed #ccc;
+}
+.empty_datos{
+    border: 1px solid red !important;
+}
+
+.txt_total_1{
+    background-color: #ff6719; padding: 1px 7px; font-size: 12.5px; color: var(--color-13,#fff); font-weight: 700; line-height: 14px; border-radius: 4px;
+}
+.txt_total_2{
+    color: #ff6719; text-decoration: line-through; text-decoration-thickness: 2px; margin-left: 5px;
+}
+.txt_total_3{
+    font-weight: bold; font-size: 14.5px; color: white;
+}
+.txt_total_4{
+    font-size: 14px; padding-top: 4px;
+}
+.txt_total_5{
+    font-size: 13px;
+}
+.txt_total_6{
+    font-weight: bold; font-size: 24px;
+}
+.txt_total_7{
+    font-size: 12px;;
+}
+.txt_total_8{
+    margin-top: 19px; padding-left: 30px;
+}

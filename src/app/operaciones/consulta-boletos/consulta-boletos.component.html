@@ -1,0 +1,515 @@
+<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+        <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Menú Principal</h1>
+        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+            <li class="breadcrumb-item text-muted">
+                <font class="text-muted">Inicio</font>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <li class="breadcrumb-item text-muted">Consulta Boletos</li>
+        </ul>
+        </div>        
+    </div>
+</div>
+
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="kt_app_content_container" class="app-container container-fluid">
+        <div id="div_message" class="row" style="border-color: #c5c5c5;">
+            <div class="col-xxl-8 col-10" style="margin: 7px;">
+                <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
+                    <div class="card-body pt-5 pb-5">
+                        <div class="form-group" style="font-size: 14px; color: #434343; text-align: center;">
+                            <span style="color: #ec6726;">Búsqueda: </span> Realizar la búsqueda por el N° de Operación, Código CIP, Voucher, Boleto o Factura.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-8 col-10" style="margin-bottom: 8px;">
+                <div class="form-group row">
+                    <div class="col-sm-1" style="display: flex; justify-content: center; align-items: center;">
+                        BUSCAR:
+                    </div>
+                    <div class="col-sm-4">
+                    <input type="text" class="form-control form-control-sm" style="text-transform: uppercase;" id="inputBuscar" (keyup.enter)="buscarDatos()"> 
+                    </div>
+                    <div class="col-sm-7" style="display: flex; align-items: center; justify-content: normal;">
+                        <button class="btn btn-success btn-sm" (click)="buscarDatos()">Buscar</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <div id="div_buscando_pdf" style="width: auto; display: none;">
+                            <i class="fad fa-spinner-third fa-spin" style="font-size: 24px; color: red;" title="Buscando PDFs"></i>
+                            &nbsp;
+                            <i class="fad fa-file-pdf" style="font-size: 18px; color: red;" title="Buscando PDFs"></i>
+                            &nbsp;
+                            <span style="color: red;">Buscando PDF...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-8 col-10" *ngIf="nuevos_datos_agrupados.length == 0">
+                <div style="width: 75%; position: relative; margin: 0 auto; text-align: center; color: gray; margin-top: 10%;">
+                    No existe el boleto en la base de datos. <br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div id="div_vista_viajes" class="col-xxl-8 col-10" style="display: none;">
+
+                <div *ngFor="let DatosLista of DatosPartidasUnicas;" class="card card-itinerario" style="border-color: #c5c5c5; margin-bottom: 1.5%;">
+                    <div class="row g-0" style="display: flex; justify-content: center;">
+                        <div class="col-10 div_servicio">
+                            <div style="margin-top: 2%; text-align: left;">
+                                <div class="servicio">Servicio 
+                                    <span class="servicio_detall">{{DatosLista.servicio}}</span> 
+                                    <div class="icon_detalle"><span style="font-weight: bold;">Fecha Partida</span>&nbsp;<i class="fal fa-calendar-check"></i>&nbsp;{{DatosLista.fecha_partida}}</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
+                                        <span class="font_ruta">{{DatosLista.salida}}</span>
+                                    </div>
+                                    <div class="col-2" style="text-align: center;">
+                                        <i class="fal fa-long-arrow-right icon_flecha"></i>
+                                    </div>
+                                    <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
+                                        <span class="font_ruta2">{{DatosLista.destino}}</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: -12px;">
+                                    <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
+                                        <span class="dat_salida_embar">Embarque</span>  
+                                        <span class="dat_hora_embar">{{DatosLista.hora_partida}} h</span>
+                                    </div>
+                                    <div class="col-2" style="text-align: center;">&nbsp;</div>
+                                    <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
+                                        <span class="dat_llegada_desem">Desembarque</span>  
+                                        <span class="dat_hora_desem">{{DatosLista.hora_llegada}} h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-10 margin_embarque_desembarque">
+                            <div class="row">
+                                <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
+                                    <span class="dat_salida_embar_detall">{{DatosLista.direccion_partida}}</span>
+                                </div>
+                                <div class="col-2" style="text-align: center;">&nbsp;</div>
+                                <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
+                                    <span class="dat_llegada_desem_detall">{{DatosLista.direccion_llegada}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table style="margin-top: 8px;">
+                            <thead class="border_table_head">
+                                <th class="text-center border_table_head">Nombre del Pasajero</th>
+                                <th class="text-center border_table_head">Boleto</th>
+                                <th class="text-center border_table_head">Nro Asiento</th>
+                                <th class="text-center border_table_head">Precio Pasaje</th>
+                                <th class="text-center border_table_head">Promoción</th>
+                                <th class="text-center border_table_head">Nuevo Boleto</th>
+                            </thead>
+                            <tbody class="border_table_body">
+                                <tr class="border_table_body" *ngFor="let ListaPasajeros of DatosVistaViajes; index as i;">
+                                    <td class="text-center border_table_body" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros) == true"><i class="fad fa-user" style="color: #575757;"></i>&nbsp; {{ListaPasajeros.nombres_apellidos}}</td>
+                                    <td class="text-center border_table_body" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros) == true">
+                                        <span *ngIf="ListaPasajeros.c_numboleto?.includes('BB') || ListaPasajeros.c_numboleto?.includes('FB')">{{ListaPasajeros.c_numboleto}}</span>
+                                        <span *ngIf="!ListaPasajeros.c_numboleto?.includes('BB') && !ListaPasajeros.c_numboleto?.includes('FB')">
+                                            <span *ngIf="ListaPasajeros.c_numbolant?.includes('BB') || ListaPasajeros.c_numbolant?.includes('FB')">{{ListaPasajeros.c_numbolant}}</span>
+                                        </span>
+                                    </td>
+                                    <td class="text-center border_table_body" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros) == true">
+                                        <i class="fad fa-chair-office" style="color: #575757;"></i>&nbsp; {{ListaPasajeros.n_numasiento}}
+                                    </td>
+                                    <td class="text-center border_table_body" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros) == true">S/. {{ListaPasajeros.n_imppag}}</td>
+                                    <td class="text-center border_table_body" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros) == true">
+                                        <span *ngIf="ListaPasajeros.nombre_promocion1 == null && ListaPasajeros.nombre_promocion2 == null">-</span>
+                                        <span *ngIf="ListaPasajeros.nombre_promocion1 != null && ListaPasajeros.nombre_promocion2 == null">{{ListaPasajeros.nombre_promocion1}} - {{ListaPasajeros.descuento_promocion1}}</span>
+                                        <span *ngIf="ListaPasajeros.nombre_promocion1 == null && ListaPasajeros.nombre_promocion2 != null">{{ListaPasajeros.nombre_promocion2}} - {{ListaPasajeros.descuento_promocion2}}</span>
+                                    </td>
+                                    <td class="text-center border_table_body" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros) == true">
+                                        {{verificarDataObservaciones(ListaPasajeros)}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <br>
+
+                <!---------------------------------------- DETALLES DE LA VENTA ---------------------------------------->
+                <div *ngFor="let DatosLista of DatosDetallesVenta; index as i;" class="row" style="margin: 2px;">
+                    <div class="col-3 border_table_head">
+                        Estado de Pago: 
+                    </div>
+                    <div class="col-9 border_table_body" style="padding-top: 5px; padding-bottom: 5px;">
+                        <span *ngIf="DatosLista.detalle_result_ws_id == 'En espera de pago'" style="background-color: #f0ad4e; color: white; padding: 2px; font-size: 14px;">En espera de pago</span>
+                        <span *ngIf="DatosLista.detalle_result_ws_id == 'Pago Desaprobado'" style="background-color: #D83A3A; color: white; padding: 2px; font-size: 14px;">Pago Desaprobado</span>
+                        <span *ngIf="DatosLista.detalle_result_ws_id == 'Pago Denegado'" style="background-color: #D83A3A; color: white; padding: 2px; font-size: 14px;">Pago Denegado</span>
+                        <span *ngIf="DatosLista.detalle_result_ws_id == 'Pagado'" style="background-color: #5cb85c; color: white; padding: 2px; font-size: 14px;">Pagado</span>
+                        <span *ngIf="DatosLista.detalle_result_ws_id == 'Pago Expirado'" style="background-color: #D83A3A; color: white; padding: 2px; font-size: 14px;">Pago Expirado</span>
+                        <span *ngIf="DatosLista.detalle_result_ws_id == 'No existe el Nro Operación en Niubiz'" style="background-color: #D83A3A; color: white; padding: 2px; font-size: 14px;">No existe el Nro Operación en Niubiz</span>
+                    </div>
+                    <div class="col-3 border_table_head">
+                        Tipo de Pago: 
+                    </div>
+                    <div class="col-9 border_table_body">
+                        <span *ngIf="DatosLista.numoperacion != '' && !DatosLista.numoperacion?.includes('PE')">
+                            Tarjeta &nbsp;<i class="fad fa-credit-card"></i>
+                        </span>
+                        <span *ngIf="DatosLista.numoperacion != '' && DatosLista.numoperacion?.includes('PE')">
+                            <img src="./assets/img/pago-efectivo2.png" style="width: 23%;">
+                        </span>
+                        <span *ngIf="DatosLista.numoperacion == ''">
+                            Efectivo &nbsp;<i class="fad fa-money-bill"></i>
+                        </span>
+                    </div>
+                    <div class="col-3 border_table_head">
+                        Canal de Venta: 
+                    </div>
+                    <div class="col-9 border_table_body">
+                        <span *ngIf="DatosLista.canal_venta?.includes('WEB')">
+                            {{DatosLista.canal_venta}} &nbsp;<i class="fad fa-globe" style="color: #575757;"></i>
+                        </span>
+                        <span *ngIf="!DatosLista.canal_venta?.includes('WEB')">
+                            {{DatosLista.canal_venta}} &nbsp;<i class="fad fa-building" style="color: #575757;"></i>
+                        </span>
+                    </div>
+                    <div class="col-3 border_table_head">
+                        Boleto: 
+                    </div>
+                    <div class="col-9 border_table_body" style="padding-top: 5px; padding-bottom: 5px;">
+                        <span *ngIf="DatosLista.boleto != null" style="background-color: #5cb85c; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-ticket" style="color: white;"></i> Boleto Canjeado</span>
+                        <span *ngIf="DatosLista.boleto == null" style="background-color: #D83A3A; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-ticket" style="color: white;"></i> Falta Canjear el Boleto</span>
+                    </div>
+                    <div *ngIf="DatosLista.telefono != null" class="col-3 border_table_head">
+                        Telefono: 
+                    </div>
+                    <div *ngIf="DatosLista.telefono != null" class="col-9 border_table_body">
+                        {{DatosLista.telefono}} &nbsp;<i class="fad fa-phone" style="color: #575757;"></i>
+                    </div>
+                    <div *ngIf="DatosLista.email != null" class="col-3 border_table_head">
+                        email: 
+                    </div>
+                    <div *ngIf="DatosLista.email != null" class="col-9 border_table_body">
+                        {{DatosLista.email}} &nbsp;<i class="fad fa-envelope" style="color: #575757;"></i>
+                    </div>
+                    <div class="col-3 border_table_head">
+                        Tipo: 
+                    </div>
+                    <div class="col-9 border_table_body">
+                        {{DatosLista.tipo}}
+                    </div>
+                    <div class="col-3 border_table_head">
+                        Estado del Correo: 
+                    </div>
+                    <div class="col-9 border_table_body" style="padding-top: 5px; padding-bottom: 5px;">
+                        <span *ngIf="DatosLista.correo_enviado == 1" style="background-color: #5cb85c; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-envelope" style="color: white;"></i> Se envió el Correo</span>
+                        <span *ngIf="DatosLista.correo_enviado == 0" style="background-color: #D83A3A; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-envelope" style="color: white;"></i> No se envió el Correo</span>
+                        <span *ngIf="DatosLista.correo_enviado == 2" style="background-color: #D83A3A; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-envelope" style="color: white;"></i> No se envió el Correo</span>
+                        <span *ngIf="DatosLista.correo_enviado == 2">&nbsp;</span>
+                        <span *ngIf="DatosLista.correo_enviado == 2" style="background-color: #D83A3A; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-file-pdf" style="color: white;"></i> Falta archivo/s PDF</span>
+                        <span *ngIf="DatosLista.correo_enviado == 3" style="background-color: rgb(92, 146, 184); color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-envelope-open-text" style="color: white;"></i> Ya pasó su fecha de partida</span>
+                        <span *ngIf="DatosLista.correo_enviado == 4" style="background-color: #D83A3A; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-envelope-open" style="color: white;"></i> Correo Invalido</span>
+                        <span *ngIf="DatosLista.correo_enviado == 5" style="background-color: #D83A3A; color: white; padding: 4px; border-radius: 10px; font-size: 13px;"><i class="fad fa-exclamation-circle" style="color: white;"></i> Error Desconocido - Contactar a Sistemas</span>
+                    </div>
+                    <div *ngIf="DatosLista.tipo?.includes('FACTURA')" class="col-3 border_table_head">
+                        Número RUC: 
+                    </div>
+                    <div *ngIf="DatosLista.tipo?.includes('FACTURA')" class="col-9 border_table_body">
+                        {{DatosLista.ruc}}
+                    </div>
+                    <div *ngIf="DatosLista.tipo?.includes('FACTURA')" class="col-3 border_table_head">
+                        Razón Social: 
+                    </div>
+                    <div *ngIf="DatosLista.tipo?.includes('FACTURA')" class="col-9 border_table_body">
+                        {{DatosLista.razon_social}}
+                    </div>
+                    <div *ngIf="DatosLista.tipo?.includes('FACTURA')" class="col-3 border_table_head">
+                        Dirección RUC: 
+                    </div>
+                    <div *ngIf="DatosLista.tipo?.includes('FACTURA')" class="col-9 border_table_body">
+                        {{DatosLista.direccion_ruc}}
+                    </div>
+
+                    <div class="col-3">&nbsp;</div><div class="col-9">&nbsp;</div>
+
+                    <div *ngIf="DatosLista.numoperacion != ''" class="col-3 border_table_head">
+                        Número de Operación:
+                    </div>
+                    <div *ngIf="DatosLista.numoperacion != ''" class="col-9 border_table_body">
+                        {{DatosLista.numoperacion}}
+                    </div>
+                    <div *ngIf="DatosLista.numeroCip != ''" class="col-3 border_table_head">
+                        Número CIP:
+                    </div>
+                    <div *ngIf="DatosLista.numeroCip != ''" class="col-9 border_table_body">
+                        {{DatosLista.numeroCip}}
+                    </div>
+
+                    <div class="col-3">&nbsp;</div><div class="col-9">&nbsp;</div>
+
+                    <div class="col-3 border_table_head">
+                        Se compró el Pasaje: 
+                    </div>
+                    <div class="col-9 border_table_body">
+                        {{DatosLista.fecha_insercion}} &nbsp;<i class="fad fa-calendar-alt" style="color: #575757;"></i>
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_niubiz != null" class="col-3 border_table_head">
+                        Se recibió el Pago desde Niubiz: 
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_niubiz != null" class="col-9 border_table_body">
+                        {{DatosLista.fecha_hora_niubiz}} &nbsp;<i class="fad fa-calendar-alt" style="color: #575757;"></i>
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_niubiz == null && DatosLista.fecha_hora_niubiz2 != null" class="col-3 border_table_head">
+                        Se recibió el Pago desde la Web Services de Niubiz: 
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_niubiz == null && DatosLista.fecha_hora_niubiz2 != null" class="col-9 border_table_body">
+                        {{DatosLista.fecha_hora_niubiz2}} &nbsp;<i class="fad fa-calendar-alt" style="color: #575757;"></i>
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_canje != null" class="col-3 border_table_head">
+                        Se Canjeó el Pasaje: 
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_canje != null" class="col-9 border_table_body">
+                        {{DatosLista.fecha_hora_canje}} &nbsp;<i class="fad fa-calendar-alt" style="color: #575757;"></i>
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_correo != null" class="col-3 border_table_head">
+                        Se envió el correo: 
+                    </div>
+                    <div *ngIf="DatosLista.fecha_hora_correo != null" class="col-9 border_table_body">
+                        {{DatosLista.fecha_hora_correo}} &nbsp;<i class="fad fa-calendar-alt" style="color: #575757;"></i>
+                    </div>
+                </div>
+
+                <br *ngIf="permitir_descargar_pdfs == 1 || permitir_enviar_correo == 1">
+
+                <!---------------------------------------- ENVIAR CORREO O DESCARGAR PDF ---------------------------------------->
+                <div *ngIf="permitir_descargar_pdfs == 1 || permitir_enviar_correo == 1" class="row" style="margin: 2px;">
+                    <div class="card">
+                        <div class="row" style="padding-top: 1.5%;">
+                            <span style="padding-bottom: 0.5%; font-size: 13px; font-weight: bold;">PDF Encontrados:</span>
+                            <div *ngFor="let documento of pdf_para_descargar; index as i;">
+                                <input type="checkbox" id="chk_documentos_{{i}}" name="chk_documentos_{{i}}" value="{{documento.boleto}}" (click)="select_chk_document(i, documento)">&nbsp;&nbsp;
+                                <label for="chk_documentos_{{i}}"><i class="fad fa-file-pdf" style="color: red; font-size: 14px; padding: 3px;"></i> {{documento.boleto}}</label>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 2%; padding-bottom: 1.5%;">
+                            <div *ngIf="permitir_descargar_pdfs == 1 && permitir_enviar_correo == 1" class="col-5" style="display: flex; align-items: center; justify-content: center;">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fad fa-envelope"></i></span>
+                                    <input id="email_pdf_correo" type="email" class="form-control" placeholder="Correo Electrónico" disabled>
+                                </div>
+                            </div>
+                            <div *ngIf="permitir_descargar_pdfs == 1 && permitir_enviar_correo == 1" class="col-2" style="display: flex; align-items: center; justify-content: center;">
+                                <button id="button_pdf_correo" class="btn btn-sm btn-warning" style="color: black; " (click)="enviarPdfCorreo()" disabled>Enviar Correo</button>
+                            </div>
+                            <div *ngIf="permitir_descargar_pdfs == 1 && permitir_enviar_correo == 1" class="col-1" style="border-right: 1px dashed #ccc;"></div>
+                            <div *ngIf="permitir_descargar_pdfs == 1" class="col-4" style="display: flex; align-items: center; justify-content: center;">
+                                <button id="button_download_pdf" class="btn btn-sm btn-danger" (click)="descargar_pdfs()" disabled><i class="fad fa-file-pdf" style="font-size: 15px;"></i> &nbsp; Descargar PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <div class="col-12" *ngIf="nuevos_datos_agrupados.length > 0" style="border-color: #c5c5c5; margin-top: 2%;">
+                <div class="col-xxl-8 col-10">
+                    <div class="card card-flush mb-4" style="border-color: #c5c5c5;">
+                        <div class="card-body pt-4 pb-4">
+                            <div class="form-group" style="font-size: 14px; color: #434343; display: flex; align-items: center;">
+                                <i class="fad fa-info-circle" style="color: #ec6726; font-size: 14px;"></i> &nbsp; Aquí se muestra los cambios que han tenido cada boleto a lo largo del tiempo.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="div_vista_detalles" class="col-12" style="display: none; margin-top: 0.3%;">
+                <table style="width: 100%;" *ngIf="nuevos_datos_agrupados.length > 0">
+                    <thead>
+                        <th class="text-center border_table_head">#</th>
+                        <th class="text-center border_table_head" style="width: 9.3%;">Creación</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">Comprobante</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">T. Movimiento</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">N. Pedido</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">Boleto</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">Boleto Ref.</th>
+                        <th class="text-center border_table_head" style="width: 3.97%;">Importe</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">Ruta</th>
+                        <th class="text-center border_table_head" style="width: 6.97%;">F. Partida</th>
+                        <th class="text-center border_table_head" style="width: 4.97%;">H. Partida</th>
+                        <th class="text-center border_table_head" style="width: 12.3%;">Pasajero</th>
+                        <th class="text-center border_table_head" style="width: 12.3%;">Cliente</th>
+                        <th class="text-center border_table_head" style="width: 3.3%;">Asiento</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let DatosMaestro of nuevos_datos_agrupados; index as i; last as ult;" style="border-width: 1px;">
+                            <td *ngIf="DatosMaestro.datos_asociados.length > 0" class="text-left" colspan="14" style="padding: 0; border-left: hidden; border-right: hidden;" [ngClass]="{'hidden_border_bottom': ult}">
+                                <div style="border-left: 1px #a3a3a3 solid; border-right: 1px #a3a3a3 solid; padding-left: 1%; font-size: 13px; font-weight: bold; color: #5c5c5c;">
+                                    {{i+1}}° Venta
+                                </div>
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr *ngFor="let DatosLista of DatosMaestro.datos_asociados; index as ii;" [style.cursor]="DatosLista.c_observaciones && DatosLista.c_observaciones.trim() !== '' ? 'help' : 'pointer'" [attr.title]="DatosLista.c_observaciones && DatosLista.c_observaciones.trim() !== '' ? 'Observaciones: '+DatosLista.c_observaciones+' - Usuario Modific: '+DatosLista.audusumod : null" (click)="toggle_seleccion('#tr_lista_boletos_'+DatosLista.venpas_id)" id="tr_lista_boletos_{{DatosLista.venpas_id}}">
+                                            <td class="text-center border_table_body" [ngClass]="getClaseFila(DatosLista)">
+                                                <i *ngIf="DatosLista.pdf_para_descargar == 0" class="fad fa-file-pdf" style="font-size: 14px; padding: 3px;" title="El Boleto {{DatosLista.c_numboleto}}, se no encuentra en el FE"></i>
+                                                <i *ngIf="DatosLista.pdf_para_descargar == 1" class="fad fa-file-pdf" style="color: red; font-size: 14px; padding: 3px;" title="El Boleto {{DatosLista.c_numboleto}}, se encuentra en el FE"></i>
+                                            </td>
+                                            <td class="text-center border_table_body" style="width: 9.3%;" [ngClass]="getClaseFila(DatosLista)">{{funcionesService.convert_audfecins(DatosLista.audfecins)}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.detalle_tipcom}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.detalle_tipmov}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.nro_operation_niubiz}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.c_numboleto}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.c_numbolant}}</td>
+                                            <td class="text-center border_table_body" style="width: 3.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.n_imppag}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.detalle_ruta}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{funcionesService.convert_format_fecha_barra(DatosLista.fecha_partida)}}</td>
+                                            <td class="text-center border_table_body" style="width: 4.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.hora_partida}}</td>
+                                            <td class="text-center border_table_body" style="width: 12.3%;" [ngClass]="getClaseFila(DatosLista)">{{funcionesService.capitalizarTexto(DatosLista.nombres_apellidos)}}</td>
+                                            <td class="text-left border_table_body" style="width: 12.3%;" [ngClass]="getClaseFila(DatosLista)">
+                                                <span *ngIf="DatosLista.ruc_cliente != null">RUC:</span> {{DatosLista.ruc_cliente}}
+                                                <br *ngIf="DatosLista.ruc_cliente != null">
+                                                {{funcionesService.capitalizarTexto(DatosLista.razon_social)}}
+                                            </td>
+                                            <td class="text-center border_table_body" style="width: 3.3%;" [ngClass]="getClaseFila(DatosLista)">
+                                                <span *ngIf="DatosLista.n_numasiento != 0">{{DatosLista.n_numasiento}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td *ngIf="ult == false" colspan="14" style="background-color: transparent;">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr><td *ngIf="responsegetBuscarPasajes.length > 0" colspan="14">&nbsp;</td></tr>
+                        
+                        <tr *ngIf="responsegetBuscarPasajes.length > 0" style="border-width: 1px;">
+                            <td class="text-left" colspan="14" style="padding: 0; border-left: hidden; border-right: hidden;">
+                                <div style="border-left: 1px #a3a3a3 solid; border-right: 1px #a3a3a3 solid; padding-left: 1%; font-size: 13px; font-weight: bold; color: #5c5c5c;">Registros Asociados</div>
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr *ngFor="let DatosLista of responsegetBuscarPasajes; index as ii;" [style.cursor]="DatosLista.c_observaciones && DatosLista.c_observaciones.trim() !== '' ? 'help' : 'pointer'" [attr.title]="DatosLista.c_observaciones && DatosLista.c_observaciones.trim() !== '' ? 'Observaciones: '+DatosLista.c_observaciones+' - Usuario Modific: '+DatosLista.audusumod : null" (click)="toggle_seleccion('#tr_lista_boletos_no_asociados_'+DatosLista.venpas_id)" id="tr_lista_boletos_no_asociados_{{DatosLista.venpas_id}}" style="cursor: pointer;">
+                                            <td class="text-center border_table_body" [ngClass]="getClaseFila(DatosLista)">
+                                                <i *ngIf="DatosLista.pdf_para_descargar == 0" class="fad fa-file-pdf" style="font-size: 14px; padding: 3px;" title="El Boleto {{DatosLista.c_numboleto}}, se no encuentra en el FE"></i>
+                                                <i *ngIf="DatosLista.pdf_para_descargar == 1" class="fad fa-file-pdf" style="color: red; font-size: 14px; padding: 3px;" title="El Boleto {{DatosLista.c_numboleto}}, se encuentra en el FE"></i>
+                                            </td>
+                                            <td class="text-center border_table_body" style="width: 9.3%;" [ngClass]="getClaseFila(DatosLista)">{{funcionesService.convert_audfecins(DatosLista.audfecins)}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.detalle_tipcom}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.detalle_tipmov}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.nro_operation_niubiz}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.c_numboleto}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.c_numbolant}}</td>
+                                            <td class="text-center border_table_body" style="width: 3.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.n_imppag}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.detalle_ruta}}</td>
+                                            <td class="text-center border_table_body" style="width: 6.97%;" [ngClass]="getClaseFila(DatosLista)">{{funcionesService.convert_format_fecha_barra(DatosLista.fecha_partida)}}</td>
+                                            <td class="text-center border_table_body" style="width: 4.97%;" [ngClass]="getClaseFila(DatosLista)">{{DatosLista.hora_partida}}</td>
+                                            <td class="text-center border_table_body" style="width: 12.3%;" [ngClass]="getClaseFila(DatosLista)">{{funcionesService.capitalizarTexto(DatosLista.nombres_apellidos)}}</td>
+                                            <td class="text-left border_table_body" style="width: 12.3%;" [ngClass]="getClaseFila(DatosLista)">
+                                                <span *ngIf="DatosLista.ruc_cliente != null">RUC:</span> {{DatosLista.ruc_cliente}}
+                                                <br *ngIf="DatosLista.ruc_cliente != null">
+                                                {{funcionesService.capitalizarTexto(DatosLista.razon_social)}}
+                                            </td>
+                                            <td class="text-center border_table_body" style="width: 3.3%;" [ngClass]="getClaseFila(DatosLista)">
+                                                <span *ngIf="DatosLista.n_numasiento != 0">{{DatosLista.n_numasiento}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+            <div class="col-12" *ngIf="DataMaestroDataTransbordos.length > 0" style="border-color: #c5c5c5; margin-top: 2%;">
+                <div class="col-xxl-8 col-10">
+                    <div class="card card-flush mb-4" style="border-color: #c5c5c5;">
+                        <div class="card-body pt-4 pb-4">
+                            <div class="form-group" style="font-size: 14px; color: #434343; display: flex; align-items: center;">
+                                <i class="fad fa-bus" style="color: #ec6726; font-size: 14px;"></i> &nbsp; Aquí se muestra los transbordos encontrados en los boletos.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="div_vista_transbordos" class="col-12" style="display: none; margin-top: 0.3%;">
+                <table style="width: 100%;" *ngIf="DataMaestroDataTransbordos.length > 0">
+                    <tbody>
+                        <tr *ngFor="let DataBoleto of DataMaestroDataTransbordos; index as i; last as ult;" style="border-width: 1px;">
+                            <td *ngIf="DataBoleto.datos_asociados_transbordos.length > 0" class="text-left" colspan="14" style="padding: 0; border-left: hidden; border-right: hidden;" [ngClass]="{'hidden_border_bottom': ult}">
+                                <div style="border-left: 1px #a3a3a3 solid; border-right: 1px #a3a3a3 solid; padding-left: 1%; padding-top: 0.5%; padding-bottom: 0.5%; font-size: 13px; font-weight: bold; color: #5c5c5c;">
+                                    Nro Boleto: {{DataBoleto.boleto}}
+                                </div>
+                                <table style="width: 100%;">
+                                    <thead>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Tipo de Pago</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Pasajero</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Nro Boleto</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Ruta</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Importe Total</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Tarifa Asiento</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Itinerario Origen</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Servicio Origen</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Fecha Origen</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Hora Partida</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Asiento Origen</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Itinerario Destino</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Servicio Destino</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Fecha Despues</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Hora Despues</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Asiento Despues</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Fecha Modificada</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Usuario Modifica</th>
+                                        <th class="text-center border_table_head" style="width: 5.26%; font-size: 12px;">Agencia Venta</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let DatosLista of DataBoleto.datos_asociados_transbordos; index as ii;">
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.tipo_de_pago}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{funcionesService.capitalizarTexto(DatosLista.pasajero)}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.nro_boleto}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.ruta}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.importe_total}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.tarifa_asiento}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.itinerario_idorigen}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.servicio_de_origen}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.fecha_origen}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.hora_partida}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.asiento_origen}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.itinerario_destino}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.servicio_destino}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.fecha_par_despues}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.hora_despues}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.asiento_despues}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.fecha_modificada}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.usuario_modifica}}</td>
+                                            <td class="text-center border_table_body" style="font-size: 11.5px;">{{DatosLista.agencia_venta}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td *ngIf="ult == false" colspan="14" style="background-color: transparent;">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

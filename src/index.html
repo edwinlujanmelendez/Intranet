@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Intranet - Ecommerce</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="./assets/img/favicon.ico" data-noprefix>
+
+  <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+  <!--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+</head>
+
+<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+    <app-root></app-root>
+</body>
+
+<!------------------- JS DE LA PLANTILLA ------------------->
+<script src="./assets/metronic/assets/plugins/global/plugins.bundle.js"></script>
+<script src="./assets/metronic/assets/js/scripts.bundle.js"></script>
+<script src="./assets/metronic/assets/js/widgets.bundle.js"></script>
+<script src="./assets/metronic/assets/js/custom/widgets.js"></script>
+<!------------------- JS DE LA PLANTILLA ------------------->
+
+<script>
+    var time = new Date().getTime();
+    $(document.body).bind("mousemove keypress", function(e) {
+        time = new Date().getTime();
+    });
+
+    function refresh() {
+        //console.log((new Date().getTime() - time)/1000);
+        if(new Date().getTime() - time >= 2400000){       //10800 segundos  -  180 minutos     || 2400 segundos  -  40 minutos
+            localStorage.removeItem("StorageLoginToken");
+            window.location.reload(true);
+        }else{ 
+            setTimeout(refresh, 1000);
+        }
+    }
+
+    setTimeout(refresh, 1000);
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+</html>

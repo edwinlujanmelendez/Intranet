@@ -1,0 +1,334 @@
+.card-itinerario{
+    border-radius: 10px;
+    border-color: #c5c5c5;
+}
+.servicio{
+    font-size: 16px; 
+    color: #8e8e96;
+    font-style: italic;
+}
+.dat_servicio{
+    font-size: 19px; 
+    font-weight: bold; 
+    color: #4d4d4d; 
+    margin-top: -4px;
+}
+.dat_via_detalle{
+    float: right; 
+    margin-right: 18px; 
+    font-size: 14.5px;
+}
+.linea_servicio{
+    border-bottom: #bfbfbf 1.9px solid; 
+    width: 74%; 
+    float: right;
+    margin-right: 3%;
+}
+.linea_servicio_modal{
+    border-bottom: #bfbfbf 1px solid;
+}
+.embarque_desembarque{
+    font-size: 14px; 
+    color: #9b8d7a;
+}
+.margin_embarque_desembarque{
+    margin-top: -20px;
+    padding-left: 6%;
+}
+.dat_salida_embar{
+    font-size: 12px;
+    font-style: oblique;
+    font-weight: 500;
+}
+.dat_hora_embar{
+    font-size: 20px; 
+    color: #ff6a1d; 
+    font-weight: bold;
+    margin-top: -7px;
+}
+.dat_llegada_desem{
+    font-size: 12px;
+    font-style: oblique;
+    color: #a2a2a2;
+    font-weight: 500;
+}
+.dat_hora_desem{
+    font-size: 20px; 
+    color: #a2a2a2; 
+    font-weight: bold;
+    margin-top: -7px;
+}
+.dat_salida_embar_detall{
+    font-size: 11px;
+    font-weight: 500;
+}
+.dat_llegada_desem_detall{
+    font-size: 11px;
+    font-weight: 500;
+    color: #a2a2a2;
+}
+.margin_asientos_dispo{
+    margin-top: -13px;
+}
+.icon_detalle{
+    color: #a2a2a2; 
+    font-size: 13px; 
+    float: left; 
+    margin-right: 25px;
+    margin-top: 4px;
+}
+.icon_detalle_asientos{
+    width: 34%;
+    font-size: 10px !important;
+}
+.image_detalle{
+    width: 6%;
+    margin-top: -1px;
+}
+.image_detalle2{
+    width: 19.5%;
+    margin-top: -4px;
+}
+.casilla_precio{
+    font-size: 12px;
+    border-radius: 5px; 
+    padding-left: 6px; 
+    padding-top: 21px;
+    background-color: #ededed;
+    border-top-right-radius: 10px;
+}
+.desde{
+    font-size: 11px;
+    padding-top: 3px;
+}
+.casilla_precio_num{
+    margin-top: -9px; 
+    text-align: center;
+}
+.casilla_precio_num_1{
+    font-size: 18px;
+    font-weight: bold;
+}
+.casilla_precio_num_2{
+    font-size: 38px; 
+    font-weight: bold;
+}
+.casilla_precio_c1{
+    text-align: right; 
+    margin-left: 9px;
+    margin-top: -4px;
+}
+.casilla_precio_c2{
+    margin-left: -15px;
+    margin-top: 0;
+}
+.btn_select_service{
+    background-color: #ff6719; 
+    color: white; 
+    padding-top: 5px; 
+    padding-bottom: 5px; 
+    padding-left: 25px; 
+    padding-right: 25px; 
+    border-radius: 4px; 
+    cursor: pointer;
+    font-size: 13px;
+}
+.icon_flecha{
+    font-size: 56px; 
+    color: #a2a2a2;
+}
+.div_servicio{
+    padding-left: 4%;
+}
+.div_footer{
+    padding-left: 4%;
+    padding-right: 4%;
+}
+.span_promocion{
+    background-color: rgb(26, 126, 193); 
+    color: #ffffff; 
+    padding-top: 2px; 
+    padding-bottom: 2px; 
+    padding-left: 10px; 
+    padding-right: 10px; 
+    border-radius: 4px; 
+    font-size: 10px;
+}
+.margin_embarque_desembarque2{
+    margin-top: -20px;
+}
+
+
+@media only screen and (max-width: 500px) {
+    .div_servicio{
+        padding-left: 4%;
+    }
+    
+    .div_footer{
+        padding-left: 4%;
+        padding-right: 4%;
+    }
+
+    .servicio{
+        font-size: 11px; 
+        color: #b1b1c3;
+    }
+    .dat_servicio{
+        font-size: 13px; 
+        font-weight: bold; 
+        color: #4d4d4d; 
+        margin-top: -4px;
+    }
+    .linea_servicio{
+        /*border-bottom: #bfbfbf 1px solid;*/
+        border-bottom: #bfbfbf 1.9px solid; 
+        width: 55%; 
+        float: right;
+        margin-right: 3%;
+    }
+    .linea_servicio_modal{
+        border-bottom: #bfbfbf 1px solid;
+    }
+    .margin_embarque_desembarque{
+        margin-top: -17px;
+        padding-left: 4%;
+    }
+    .embarque_desembarque{
+        font-size: 9px; 
+        color: #9b8d7a;
+    }
+
+    .dat_salida_embar{
+        font-size: 8px;
+    }
+    .dat_hora_embar{
+        font-size: 10px; 
+        color: #ff6a1d; 
+        font-weight: bold;
+        margin-top: -3px;
+    }
+    .dat_llegada_desem{
+        font-size: 8px; 
+        color: #a2a2a2;
+    }
+    .dat_hora_desem{
+        font-size: 10px; 
+        color: #a2a2a2; 
+        font-weight: bold;
+        margin-top: -3px;
+    }
+    .dat_salida_embar_detall{
+        font-size: 7px;
+        font-weight: 500;
+    }
+    .dat_llegada_desem_detall{
+        font-size: 7px;
+        font-weight: 500;
+        color: #a2a2a2;
+    }
+    .margin_asientos_dispo{
+        margin-top: -25px;
+    }
+    .icon_detalle{
+        color: #6d6d6d; 
+        font-size: 9px; 
+        float: left; 
+        margin-right: 8px;
+        margin-top: 5px;
+    }
+    .icon_detalle_asientos{
+        width: 34%;
+        font-size: 8px !important;
+    }
+    .image_detalle{
+        width: 11% !important;
+        margin-top: -4px;
+    }
+    .image_detalle2{
+        width: 20%;
+        margin-top: -4px;
+    }
+    .casilla_precio{
+        font-size: 12px; 
+        background-color: #e6e6e6; 
+        border-radius: 10px; 
+        padding-left: 6px; 
+        padding-top: 9px;
+    }
+    .desde{
+        font-size: 7px;
+    }
+    .casilla_precio_num{
+        margin-top: -9px; 
+        text-align: center;
+    }
+    .casilla_precio_num_1{
+        font-size: 11px;
+    }
+    .casilla_precio_num_2{
+        font-size: 25px; 
+        font-weight: bold;
+    }
+    .casilla_precio_c1{
+        text-align: right; 
+        margin-left: 7px;
+        margin-top: 3px;
+    }
+    .casilla_precio_c2{
+        margin-left: -15px;
+        margin-top: 5%;
+    }
+    .btn_select_service{
+        background-color: #ff6719; 
+        color: white; 
+        padding-top: 3px; 
+        padding-bottom: 3px; 
+        padding-left: 13px; 
+        padding-right: 13px; 
+        border-radius: 4px; 
+        cursor: pointer;
+        font-size: 10px;
+    }
+    .icon_flecha{
+        font-size: 38px; 
+        color: #a2a2a2;
+    }
+    .servicio_detalle{
+        font-size: 15px;
+    }
+    .dat_servicio_detalle{
+        font-size: 20px; 
+    }
+    .footer_modal_services{
+        font-size: 10px;
+        margin-top: 0%;
+    }
+    .icon1_detalle{
+        font-size: 12px;
+    }
+    .icon1_detalle_asientos{
+        font-size: 12px !important;
+    }
+    .icon2_detalle{
+        font-size: 12px;
+    }
+    .icon1_detalle_font{
+        font-size: 10px;
+    }
+    .icon2_detalle_font{
+        font-size: 8.5px;
+    }
+    .span_promocion{
+        background-color: rgb(26, 126, 193); 
+        color: #ffffff; 
+        padding-top: 2px; 
+        padding-bottom: 2px; 
+        padding-left: 8px; 
+        padding-right: 8px; 
+        border-radius: 4px; 
+        font-size: 7px;
+    }
+    .margin_embarque_desembarque2{
+        margin-top: -33px;
+    }
+}

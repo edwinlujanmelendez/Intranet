@@ -1,0 +1,41 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="bg-white shadow-md rounded-2xl p-8 w-full max-w-md text-center">
+    
+    <!-- Título -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">Iniciar Sesión</h1>
+    <p class=" text-base mb-6 font-bold text-gray-400">Intranet MovilBus</p>
+
+    <!-- Inputs -->
+    <form class="space-y-4">
+        <input type="text" id="username" placeholder="Nombre de Usuario" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"/>
+        <input type="password" id="password" placeholder="Ingrese su contraseña" (keyup.enter)="ingresar()" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"/>
+        <div class="hidden" id="div_roles">
+            <select id="roles" aria-label="Selecciona tu rol" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                <option disabled value="0" selected>SELECCIONA TU ROL</option>
+                <option *ngFor="let ltrol of ltRoles" [value]="ltrol.rol_id">
+                {{ ltrol.c_denominacion }}
+                </option>
+            </select>
+        </div>
+        
+        <p class="text-right text-xs text-gray-400 font-bold">
+            <span class="cursor-pointer" title="Ver historial de versiones" (click)="versiones()">v {{version_intranet.toFixed(1)}}</span>
+        </p>
+
+        <button type="submit" (click)="ingresar()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition duration-200">
+            Ingresar
+        </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="flex justify-between items-center mt-12 text-sm">
+      <div class="flex items-center space-x-2">
+        <img src="assets/img/peru.svg" class="w-5 h-5 rounded" alt="Bandera de Perú" />
+        <span class="text-gray-500">Perú</span>
+      </div>
+      <a href="mailto:soporteti@movilbus.pe" class="text-orange-500 hover:underline">
+        soporteti@movilbus.pe
+      </a>
+    </div>
+  </div>
+</div>

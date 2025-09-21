@@ -1,0 +1,37 @@
+.boleto{
+    /*text-decoration: underline;*/
+    color: #2865cf;
+}
+.boleto:hover{
+    text-decoration: underline;
+    /*color: #ff6719 !important;*/
+    cursor: pointer;
+}
+.boton_view:hover{
+    color: #ff6719 !important;
+    cursor: pointer;
+}
+
+.row_delay_correo{
+    background-color: #FFEEF3;
+}
+.btn_enviar_url_pago{
+    cursor: pointer; 
+    border: 1px solid #7239EA;
+    background-color: #F8F5FF;
+    color: #7239EA;
+}
+.btn_enviar_url_pago:hover{
+    background-color: #ddd3f3;
+}
+.btn_enviar_url_pago:active{
+    scale: 1.05;
+}
+
+.texto_info_reporte{
+    font-weight: bold; 
+    font-size: 10.5px; 
+    display: flex; 
+    align-items: center;
+    justify-content: flex-end;
+}

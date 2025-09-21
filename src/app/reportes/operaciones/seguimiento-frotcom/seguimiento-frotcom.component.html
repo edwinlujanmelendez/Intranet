@@ -1,0 +1,166 @@
+<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+        <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Menú Principal</h1>
+        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+            <li class="breadcrumb-item text-muted">
+                <span class="text-muted">Reportes</span>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <li class="breadcrumb-item text-muted">Operaciones - Seguimiento Frotcom</li>
+        </ul>
+        </div>
+    </div>
+</div>
+
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="div_vista_no_liquidacion" style="display: none; margin-left: 1.8%;">
+        <p class="text-gray-500 pt-2 fw-semibold fs-6">La caja está cerrada.</p>
+    </div>
+    <div id="div_vista_itinerario" class="row app-container container-fluid">
+        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
+        <div class="col-xxl-8 col-md-10 col-12">
+            <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
+                <div class="card-body pt-5 pb-5">
+                    <div class="row" style="margin-bottom: 0.7%;">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label for="fechaInicio" class="col-sm-4 col-form-label" style="font-size: 12px; text-align: right;">Fecha Inicio:</label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control form-control-sm" id="fechaInicio" [(ngModel)]="date_fecha_inicio" [max]="date_actual" (change)="onFechaInicioChange()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label for="fechaFin" class="col-sm-4 col-form-label" style="font-size: 12px; text-align: right;">Fecha Fin:</label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control form-control-sm" id="fechaFin" [(ngModel)]="date_fecha_fin" [min]="minFechaFin" [max]="maxFechaFin" (change)="onFechaFinChange()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 0.7%;">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label for="selectCodOrigen" class="col-sm-4 col-form-label" style="font-size: 12px; text-align: right;">Origen:</label>
+                                <div class="col-sm-8">
+                                    <select id="selectCodOrigen" class="form-select form-select-sm" aria-label=".form-select-sm example" [(ngModel)]="codLocalidadIda" (change)="onChangeOrigen()">
+                                        <option value="0">TODOS</option>
+                                        <option *ngFor="let lt of ltLocalidadOrigen;" [value]="lt.id">{{lt.denominacion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label for="selectCodDestino" class="col-sm-4 col-form-label" style="font-size: 12px; text-align: right;">Destino:</label>
+                                <div class="col-sm-8">
+                                    <select id="selectCodDestino" class="form-select form-select-sm" aria-label=".form-select-sm example" [(ngModel)]="codLocalidadDestino">
+                                        <option value="0">TODOS</option>
+                                        <option *ngFor="let lt of ltLocalidadDestino;" [value]="lt.id">{{lt.denominacion}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <label class="col-sm-1">&nbsp;</label>
+                                <div class="col-sm-11 text-center">
+                                    <button class="btn btn-sm btn-success" (click)="buscarReporte()"><i class="ki-outline ki-magnifier fs-6 me-1"></i> BUSCAR</button>
+                                    &nbsp;
+                                    <button *ngIf="ListReporteSeguimientoFrotcom.length > 0" class="btn btn-sm btn-primary" (click)="tableToExcel()"><i class="fad fa-file-excel fs-6 me-1"></i> EXPORTAR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
+        
+        <!------------------------------------------------------- LISTA DEL REPORTE ------------------------------------------------------->
+        <div class="col-12">
+            <div class="card mb-5 mb-xl-8" style="border-color: #c5c5c5;">
+                <div class="card-body pt-3">
+                    <div *ngIf="ListReporteSeguimientoFrotcom.length == 0" style="position: relative; margin: 0 auto; text-align: center; color: gray; margin-top: 1.5%;">
+                        No hay registros disponibles para mostrar. <br>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="tabla_reportes" *ngIf="ListReporteSeguimientoFrotcom.length > 0" class="table table-row-dashed table-row-gray-300">
+                            <thead>
+                                <tr class="fw-bold text-muted bg-light fs-8">
+                                    <th class="text-center fs-9">ITINERARIO</th>
+                                    <th class="text-center fs-9">ORIGEN</th>
+                                    <th class="text-center fs-9">DESTINO</th>
+                                    <th class="text-center fs-9">EMBARQUE 1</th>
+                                    <th class="text-center fs-9">HORARIO SALIDA</th>
+                                    <th class="text-center fs-9">EMBARQUE 2</th>
+                                    <th class="text-center fs-9">HORARIO SALIDA</th>
+                                    <th class="text-center fs-9">ESCALA COMERCIAL 1</th>
+                                    <th class="text-center fs-9">HORA DE SALIDA</th>
+                                    <th class="text-center fs-9">ESCALA COMERCIAL 2</th>
+                                    <th class="text-center fs-9">HORA DE SALIDA</th>
+                                    <th class="text-center fs-9">ESCALA COMERCIAL 3</th>
+                                    <th class="text-center fs-9">HORA DE SALIDA</th>
+                                    <th class="text-center fs-9">ESCALA COMERCIAL 4</th>
+                                    <th class="text-center fs-9">HORA DE SALIDA</th>
+                                    <th class="text-center fs-9">ESCALA COMERCIAL 5</th>
+                                    <th class="text-center fs-9">HORA DE SALIDA</th>
+                                    <th class="text-center fs-9">DESEMBARQUE 1</th>
+                                    <th class="text-center fs-9">HORA LLEGADA</th>
+                                    <th class="text-center fs-9">DESEMBARQUE 2</th>
+                                    <th class="text-center fs-9">HORA LLEGADA</th>
+                                    <th class="text-center fs-9">DESEMBARQUE 3</th>
+                                    <th class="text-center fs-9">HORA LLEGADA</th>
+                                    <th class="text-center fs-9">DESEMBARQUE 4</th>
+                                    <th class="text-center fs-9">HORA LLEGADA</th>
+                                    <th class="text-center fs-9">DESEMBARQUE 5</th>
+                                    <th class="text-center fs-9">HORA LLEGADA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dat of ListReporteSeguimientoFrotcom; index as i;">
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.itinerario_id}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.origen}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.destino}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.embarque_1_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.embarque_1_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.embarque_2_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.embarque_2_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_1_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_1_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_2_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_2_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_3_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_3_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_4_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_4_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_5_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.escala_comercial_5_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_1_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_1_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_2_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_2_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_3_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_3_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_4_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_4_hora}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_5_nombre}}</td>
+                                    <td class="fw-bold fs-8" style="color: #4B5675; text-align: center;">{{dat.desembarque_5_hora}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

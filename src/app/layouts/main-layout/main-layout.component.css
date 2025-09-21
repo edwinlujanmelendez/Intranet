@@ -1,0 +1,330 @@
+.hover-scroll-overlay-y, .hover-scroll-y, .scroll-y {
+    overflow-y: hidden;
+}
+.display{
+    display: inline !important;
+}
+.submenu_imagen_perfil{
+    z-index: 107 !important;
+    position: fixed !important;
+    inset: 0px 0px auto auto !important;
+    margin: 0px !important;
+    transform: translate3d(-33.3333px, 59px, 0px) !important;
+}
+
+
+#select_filter{
+    display: none;
+}
+
+#cabecera1{
+    display: none;
+}
+#cabecera12{
+    display: none;
+}
+.cab1{
+    background-color: #E6E6E6; 
+    border-top: #bfbfbf 2px solid;
+    padding-top: 7px;
+    padding-bottom: 3px;
+}
+
+.cab11{
+    background-color: #E6E6E6;
+    /*border-bottom: #bfbfbf 2px solid;*/
+    padding-top: 3px;
+    padding-bottom: 10px;
+}
+
+.cab12{
+    background-color: #E6E6E6;
+    /*border-bottom: #bfbfbf 2px solid;*/
+    /*padding-top: 3px;*/
+    padding-bottom: 10px;
+}
+
+.cab2{
+    background-color: #ffffff; 
+    border-top: #bfbfbf 2px solid;
+    border-bottom: #bfbfbf 2px solid;
+}
+
+.progress1{
+    height: 9px; 
+    background-color: #ffffff;
+}
+
+.progress2{
+    height: 9px; 
+    background-color: #E5E5E5;
+}
+
+.sticky-top{
+    position: initial;
+    top: 0;
+    z-index: 1020;
+}
+
+.btn-principal{
+    -webkit-appearance: button;
+    border: none;
+    /*font-size: 10px;*/
+    font-size: 10.5px;
+    margin-top: 10px;
+    color: #73737a;
+    background: white;
+    border-radius: 1.2em!important;
+    padding: 4px 15px;
+    cursor: pointer;
+}
+
+.btn-principal-active{
+    -webkit-appearance: button;
+    border: none;
+    /*font-size: 10px;*/
+    font-size: 10.5px;
+    margin-top: 10px;
+    color: #ffffff;
+    /*color: #000000;*/
+    background: rgb(99 99 99);
+    font-weight: bold !important;
+    border-radius: 1.2em!important;
+    padding: 4px 15px;
+    cursor: pointer;
+}
+
+.vistas_filter{
+    display: inline-block;
+    margin-bottom: 11px;
+}
+.select_dia_viaje{
+    display: inline-block;
+}
+
+/*input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}*/
+
+.navbar-brand{
+    margin-left: 3rem;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 6 !important;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 10px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 0.86rem;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #cacaca;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.icon_arrow_bottom{
+    vertical-align: middle; 
+    float: right; 
+    margin-right: 10px; 
+    margin-top: 9px; 
+    color: #212529; 
+    font-size: 24px;
+}
+
+.nav-link{
+    display: inline !important;
+}
+
+#icon_back_page{
+    display: none;
+}
+
+.img_inicio_sidebar{
+    margin-top: -17px;
+}
+
+.sidenav_ocultar{
+    display: none;
+}
+
+/*select:focus > option:hover {
+    background: #ff9500 -webkit-linear-gradient(bottom, #ff9500 0%, #ff9500 100%);
+    color: #fff;
+}*/
+
+#palabra_time1{
+    display: none;
+}
+
+#palabra_time2{
+    display: none;
+}
+
+.menu_item_header{
+    font-size: 11.5px;
+    color: #ff6719;
+    text-transform: uppercase;
+}
+.menu_item_header_detalle{
+    font-size: 11.5px;
+    text-transform: uppercase;
+}
+
+.error_caja{
+    color: red;
+}
+
+@media only screen and (max-width: 1399px) {
+    .menu_item_header, .menu_item_header_detalle{
+        font-size: 9.9px;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    .navbar-brand{
+        margin-right: 17rem !important;
+    }
+    .sidenav_ocultar{
+        display: inline;
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    .navbar-brand{
+        margin-right: 15rem !important;
+    }
+}
+
+@media only screen and (max-width: 766px) {
+    .vistas_filter{
+        display: none;
+    }
+    .select_dia_viaje{
+        display: none;
+    }
+    #select_filter {
+        display: block;
+    }
+    #cabecera1{
+        display: block;
+    }
+    #cabecera12{
+        display: block;
+    }
+    #cabecera2{
+        display: none;
+    }
+    .sticky-top{
+        position: sticky;
+        top: 0;
+        z-index: 3;
+    }
+    #vistas_desktop{
+        display: none;
+    }
+    .sidenav {
+        padding-top: 15px; 
+        z-index: 6 !important;
+    }
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 0.95rem;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+    .navbar-brand{
+        margin-right: 27% !important;
+    }
+    .img_inicio_sidebar{
+        margin-top: -5pxpx;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .vistas_filter{
+        display: none;
+    }
+    .select_dia_viaje{
+        display: none;
+    }
+    #select_filter {
+        display: block;
+    }
+    #cabecera1{
+        display: block;
+    }
+    #cabecera12{
+        display: block;
+    }
+    #cabecera2{
+        display: none;
+    }
+    .sticky-top{
+        position: sticky;
+        top: 0;
+        z-index: 3;
+    }
+    #vistas_desktop{
+        display: none;
+    }
+    .sidenav {
+        padding-top: 15px; 
+        z-index: 6 !important;
+    }
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 0.95rem;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+    .navbar-brand{
+        margin-right: 27% !important;
+    }
+    .img_inicio_sidebar{
+        margin-top: -5px;
+    }
+    .sidenav_ocultar{
+        display: inline;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    .navbar-brand{
+        margin-right: 23% !important;
+    }
+}
+
+@media only screen and (max-width: 282px) {
+    #icon_menu_sidebar{
+        font-size: 23px;
+    }
+    .navbar-brand{
+        margin-right: 4% !important;
+    }
+}

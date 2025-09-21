@@ -1,0 +1,100 @@
+.border_table_head_cpas{
+    background-color: #dddddd;
+    border: 1px #a3a3a3 solid;
+    font-size: 13px;
+    color: #595959;
+}
+.border_table_body_cpas{
+    background-color: #f7f7f7;
+    border: 1px #a3a3a3 solid;
+    font-size: 12px;
+    color: #6d6d6d;
+}
+.div_servicio_cpas{
+    padding-left: 4%;
+}
+.servicio_cpas{
+    font-size: 13px; 
+    color: #8e8e96;
+}
+.servicio_detall_cpas{
+    font-size: 13px; 
+    font-weight: bold; 
+    color: #4d4d4d;
+}
+.icon_detalle_cpas{
+    float: right; 
+    color: #4c4c4c;
+}
+.font_ruta_cpas{
+    font-size: 16px; 
+    color: #4c4c4c; 
+    font-weight: bold;
+}
+.font_ruta2_cpas{
+    font-size: 16px; 
+    color: #a2a2a2; 
+    font-weight: bold;
+}
+.icon_flecha_cpas{
+    font-size: 50px; 
+    margin-top: -8px;
+    color: #a2a2a2;
+}
+.dat_salida_embar_cpas{
+    font-size: 11px;
+    font-style: oblique;
+    font-weight: 500;
+}
+.dat_hora_embar_cpas{
+    font-size: 16px; 
+    color: #ff6a1d; 
+    font-weight: bold;
+    margin-top: -7px;
+}
+.dat_llegada_desem_cpas{
+    font-size: 11px;
+    font-style: oblique;
+    color: #a2a2a2;
+    font-weight: 500;
+}
+.dat_hora_desem_cpas{
+    font-size: 16px; 
+    color: #a2a2a2; 
+    font-weight: bold;
+    margin-top: -7px;
+}
+.margin_embarque_desembarque_cpas{
+    margin-top: -7px;
+    margin-bottom: 10px;
+    padding-left: 6%;
+}
+.dat_salida_embar_detall_cpas{
+    font-size: 10px;
+    font-weight: 500;
+}
+.dat_llegada_desem_detall_cpas{
+    font-size: 10px;
+    font-weight: 500;
+    color: #a2a2a2;
+}
+.margin_top_bottom_precio_cpas{
+    margin-top: 17px; 
+    margin-bottom: 13px;
+}
+.font_ida_retorno_cpas{
+    color: #4E4D50; 
+    font-weight: bold; 
+    font-size: 15px;
+}
+.font_total_pasajero_cpas{
+    font-size: 12px;
+}
+.font_asientos_cpas{
+    font-size: 12px;
+}
+.font_monto_total_ida_cpas{
+    color: #4E4D50; 
+    font-weight: bold; 
+    font-size: 22px;
+}

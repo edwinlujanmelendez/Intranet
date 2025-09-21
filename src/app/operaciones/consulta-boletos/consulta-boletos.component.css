@@ -1,0 +1,186 @@
+h3{
+    color: #ff6719;
+}
+.cab1{
+    background-color: white;      /*#E6E6E6*/
+    /*border-top: #bfbfbf 2px solid;*/
+    padding-top: 7px;
+    padding-bottom: 3px;
+}
+.border_table_head{
+    background-color: #dddddd;
+    border: 1px #a3a3a3 solid;
+    font-size: 13px;
+    color: #595959;
+}
+.border_table_body{
+    background-color: #f7f7f7;
+    border: 1px #a3a3a3 solid;
+    font-size: 12px;
+    /*color: #6d6d6d;*/
+}
+.hidden_border_bottom{
+    border-bottom: hidden;
+}
+
+/***************** AGREGADO *****************/
+.div_servicio{
+    padding-left: 4%;
+}
+.servicio{
+    font-size: 13px; 
+    color: #8e8e96;
+}
+.servicio_detall{
+    font-size: 13px; 
+    font-weight: bold; 
+    color: #4d4d4d;
+}
+.icon_detalle{
+    float: right; 
+    color: #4c4c4c;
+}
+.font_ruta{
+    font-size: 16px; 
+    color: #4c4c4c; 
+    font-weight: bold;
+}
+.font_ruta2{
+    font-size: 16px; 
+    color: #a2a2a2; 
+    font-weight: bold;
+}
+.icon_flecha{
+    font-size: 50px; 
+    margin-top: -8px;
+    color: #a2a2a2;
+}
+.dat_salida_embar{
+    font-size: 11px;
+    font-style: oblique;
+    font-weight: 500;
+}
+.dat_hora_embar{
+    font-size: 16px; 
+    color: #ff6a1d; 
+    font-weight: bold;
+    margin-top: -7px;
+}
+.dat_llegada_desem{
+    font-size: 11px;
+    font-style: oblique;
+    color: #a2a2a2;
+    font-weight: 500;
+}
+.dat_hora_desem{
+    font-size: 16px; 
+    color: #a2a2a2; 
+    font-weight: bold;
+    margin-top: -7px;
+}
+.margin_embarque_desembarque{
+    margin-top: -7px;
+    margin-bottom: 10px;
+    padding-left: 6%;
+}
+.dat_salida_embar_detall{
+    font-size: 10px;
+    font-weight: 500;
+}
+.dat_llegada_desem_detall{
+    font-size: 10px;
+    font-weight: 500;
+    color: #a2a2a2;
+}
+.margin_top_bottom_precio{
+    margin-top: 17px; 
+    margin-bottom: 13px;
+}
+.font_ida_retorno{
+    color: #4E4D50; 
+    font-weight: bold; 
+    font-size: 15px;
+}
+.font_total_pasajero{
+    font-size: 12px;
+}
+.font_asientos{
+    font-size: 12px;
+}
+.font_monto_total_ida{
+    color: #4E4D50; 
+    font-weight: bold; 
+    font-size: 22px;
+}
+/***************** AGREGADO *****************/
+
+/*.tr_viaje{
+    background-color: #dfffec !important;
+}
+.tr_anulacion{
+    background-color: #ffdfdf !important;
+}
+.tr_nota_credito{
+    background-color: #faffdf !important;
+}
+.tr_postergacion{
+    background-color: #dff2ff !important;
+}*/
+
+/* ? ************** NUEVOS 1 ***************/
+.tr_viaje {
+    background-color: rgba(209, 231, 221, 0.7) !important; /* #d1e7dd */
+}
+
+.tr_anulacion {
+    background-color: rgba(248, 215, 218, 0.7) !important; /* #f8d7da */
+}
+
+.tr_nota_credito {
+    background-color: rgba(255, 243, 205, 0.7) !important; /* #fff3cd */
+}
+
+.tr_postergacion {
+    background-color: rgba(207, 226, 255, 0.7) !important; /* #cfe2ff */
+}
+
+/* ? ************** NUEVOS 2 ***************/
+/*.tr_viaje{
+    background-color: #d1e7dd;
+    color: #048b4d !important;
+}
+.tr_anulacion{
+    background-color: #f8d7da;
+    color: #d10e1f !important;
+}
+.tr_nota_credito{
+    background-color: #fff3cd;
+    color: #b18c16 !important;
+}
+.tr_postergacion{
+    background-color: #cfe2ff;
+    color: #195bc1 !important;
+}*/
+
+/*.tr_boleto_nota_credito{
+    background-color: #ffdfdf !important;
+}
+.tr_boleto_anterior_nota_credito{
+    background-color: #dff2ff !important;
+}*/
+.toggle_seleccion > td{
+    background-color: #ff6719 !important;       /*7239EA*/ /*0d6efd*/
+    color: #ffffff;
+}
+
+.text-small {
+  font-size: 12px !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .format_p{
+        width: 100%; 
+        text-align: justify; 
+        margin: 0 auto;
+    }
+}
