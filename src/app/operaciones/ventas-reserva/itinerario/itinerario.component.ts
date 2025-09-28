@@ -47,8 +47,6 @@ export class ItinerarioComponent implements OnInit {
 
   //token: string = "";
 
-  @ViewChild('div_vista_itinerario') myDivRef!: ElementRef;
-
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date_actual = this.funcionesService.getFechaHoyGuion();
   }
@@ -118,23 +116,8 @@ export class ItinerarioComponent implements OnInit {
         }
       });
 
-      //this.mostrarTamano();
-
       $(".loader").fadeOut("slow");
     }, 250);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.mostrarTamano();
-  }
-
-  mostrarTamano(): void {
-    const el = this.myDivRef.nativeElement;
-    const width = el.offsetWidth;
-    const height = el.offsetHeight;
-    
-    this.tamanio_div = `Ancho: ${width}px, Alto: ${height}px`;
   }
 
   onChangeOrigen(){

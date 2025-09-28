@@ -91,7 +91,7 @@ export class MainLayoutComponent implements OnInit {
     //$('#detalle_liquidacion').removeClass("error_caja");    
   }
 
-  puedeVer(menu: 'VentaReservaPasajes' | 'ReporteVentasPasajes' | 'Promociones') {
+  puedeVer(menu: 'VentaReservaPasajes' | 'ReporteVentasPasajes' | 'Promociones' | 'ReporteFrotcom') {
     return this.rolesService.manejarVistas(menu, this.rolId);
   }
 
@@ -150,8 +150,8 @@ export class MainLayoutComponent implements OnInit {
   /****************************** OPERACIONES ******************************/
 
   /****************************** REPORTES ******************************/
-  ReporteOperacionesSeguimientoFrotcom(){
-    this.router.navigate(['reportes/operaciones/seguimiento-frotcom']);
+  ReporteFrotcom(){
+    this.router.navigate(['reportes/operaciones/reporte-frotcom']);
   }
   /****************************** REPORTES ******************************/
   

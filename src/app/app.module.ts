@@ -23,7 +23,7 @@ import { PromocionesComponent } from './operaciones/promociones/promociones.comp
 
 import { AuditoriaBoletosComponent } from './modulo-ti/auditoria-boletos/auditoria-boletos.component';
 import { VersionesComponent } from './modulo-ti/versiones/versiones.component';
-import { SeguimientoFrotcomComponent } from './reportes/operaciones/seguimiento-frotcom/seguimiento-frotcom.component';
+import { ReporteFrotcomComponent } from './reportes/operaciones/reporte-frotcom/reporte-frotcom.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { InitLayoutComponent } from './layouts/init-layout/init-layout.component';
 
@@ -74,7 +74,7 @@ const routes: Routes = [
           {
             path: 'operaciones',
             children: [
-              { path: 'seguimiento-frotcom', component: SeguimientoFrotcomComponent }
+              { path: 'reporte-frotcom', component: ReporteFrotcomComponent }
             ]
           }
         ]
@@ -100,7 +100,7 @@ const routes: Routes = [
     PromocionesComponent,
     AuditoriaBoletosComponent,
     VersionesComponent,
-    SeguimientoFrotcomComponent,
+    ReporteFrotcomComponent,
     MainLayoutComponent,
     InitLayoutComponent
   ],

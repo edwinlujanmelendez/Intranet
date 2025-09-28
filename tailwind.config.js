@@ -9,6 +9,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        '8xl': '1440px', // un tamaño mayor que 7xl
+        '9xl': '1600px', // aún más grande
+      },
       screens: {
         'xxl': '1400px',
       },

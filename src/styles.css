@@ -107,4 +107,8 @@ details[open] .icon-despegable {
 #tabla_reportes td {
     min-width: 120px;
     white-space: nowrap;
+}
+#tabla_reportes_wrapper {
+  max-width: 100%;
+  overflow-x: auto;
 }*/

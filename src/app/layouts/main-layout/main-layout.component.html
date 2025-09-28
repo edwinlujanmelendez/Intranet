@@ -16,7 +16,7 @@
                     <span><i class="fad fa-tasks-alt text-gray-500 mr-1"></i> Operaciones</span>
                     <span class="icon-despegable"><i class="far fa-angle-right text-gray-500"></i></span>
                 </summary>
-                <ul class="mt-1 space-y-3 list-disc list-inside">
+                <ul class="mt-1 ml-5 space-y-3 list-disc list-inside">
                     <li *ngIf="puedeVer('VentaReservaPasajes')"><a (click)="VentaReservaPasajes()" class="no-underline text-gray-600 hover:text-orange-600 cursor-pointer">Venta de pasajes</a></li>
                     <li *ngIf="puedeVer('ReporteVentasPasajes')"><a (click)="ReporteVentasPasajes()" class="no-underline text-gray-600 hover:text-orange-600 cursor-pointer">Reporte de Ventas</a></li>
                     <li *ngIf="puedeVer('Promociones')"><a (click)="Promociones()" class="no-underline text-gray-600 hover:text-orange-600 cursor-pointer">Promociones</a></li>
@@ -27,11 +27,22 @@
             <details class="group">
                 <summary class="flex cursor-pointer items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:bg-orange-100">
                     <span><i class="fad fa-file-chart-line text-gray-500 mr-1"></i> Reportes</span>
-                    <span class="icon-despegable"><i class="far fa-angle-right text-gray-500"></i></span>
+                    <span class="icon-despegable"><i class="far fa-angle-right text-gray-500 transition-transform group-open:rotate-90"></i></span>
                 </summary>
-                <ul class="mt-1 space-y-3 list-disc list-inside">
-                    <li><a href="#" class="no-underline text-gray-600 hover:text-orange-600">Operaciones</a></li>
-                    <li><a href="#" class="no-underline text-gray-600 hover:text-orange-600">Seguimiento Frotcom</a></li>
+
+                <ul class="mt-1 ml-5 space-y-3">
+                    <li>
+                        <details class="group">
+                            <summary class="flex cursor-pointer items-center justify-between px-2 py-1 rounded-md text-gray-600 hover:text-orange-600">
+                            Operaciones
+                            <i class="far fa-angle-right text-gray-500 transition-transform group-open:rotate-90"></i>
+                            </summary>
+
+                            <ul class="mt-1 ml-5 space-y-2 list-disc list-inside">
+                                <li *ngIf="puedeVer('ReporteFrotcom')"><a (click)="ReporteFrotcom()" class="no-underline text-gray-600 hover:text-orange-600 cursor-pointer">Reporte Frotcom</a></li>
+                            </ul>
+                        </details>
+                    </li>
                 </ul>
             </details>
         </nav>
@@ -59,9 +70,9 @@
                 </button>
 
                 <div *ngIf="showMenu" class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 text-sm animate-fade-in text-right">
-                    <p class="mb-1"><span class="text-xs font-semibold mr-2">{{nombre_corto}}</span> <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20">Activo</span></p>
+                    <p class="mb-2"><span class="text-xs font-semibold mr-2">{{nombre_corto}}</span> <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20">Activo</span></p>
                     <p class="text-xs text-gray-500 dark:text-gray-300">{{email_usuario}}</p>
-                    <hr class="border-gray-300 dark:border-gray-700" />
+                    <hr class="border-gray-300 dark:border-gray-700 mt-3 mb-3" />
                     <!--<button (click)="toggleTheme()" class="mt-2 w-full px-3 py-1 text-sm rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Cambiar Tema</button>-->
 
                     <button class="text-gray-500 hover:text-red-500" (click)="CerrarSesion()">Cerrar Sesión</button>

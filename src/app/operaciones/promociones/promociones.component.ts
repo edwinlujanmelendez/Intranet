@@ -34,6 +34,7 @@ export class PromocionesComponent implements OnInit {
   codigosPremier: string = "24, 53";
 
   //token: string = "";
+  ArrayMostrarModal: any = [];
 
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
@@ -63,15 +64,7 @@ export class PromocionesComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    $('.js-example-basic-multiple').select2({
-      dropdownParent: $('#modal_create_editar_cupon .modal-body')
-    });
-
-    $('.select2-container').css('width', '100%');
-
-    $('.select2-container--default').css('font-size', '13px');
-    $('.select2-selection--multiple').css('font-size', '13px');
-    $('.select2-selection__choice').css('font-size', '13px');
+    
 
     /*this.taskService.getToken().subscribe(responseToken => {
       //console.log(responseToken);
@@ -85,6 +78,20 @@ export class PromocionesComponent implements OnInit {
     }, 100);
   }
 
+  ejecutarSelect2(){
+    setTimeout(() => {
+      $('.js-example-basic-multiple').select2({
+        dropdownParent: $('#modal_create_editar_cupon')
+      });
+
+      $('.select2-container').css('width', '100%');
+
+      $('.select2-container--default').css('font-size', '13px');
+      $('.select2-selection--multiple').css('font-size', '13px');
+      $('.select2-selection__choice').css('font-size', '13px');
+    }, 1);
+  }
+
   cargarListaPromocionesCupones(){
     this.lstDatosListaPromocionesCupones = [];
     this.lstRespaldoDatosListaPromocionesCupones = [];
@@ -95,13 +102,13 @@ export class PromocionesComponent implements OnInit {
       this.lstRespaldoDatosListaPromocionesCupones = responsePromocionesCupones;
 
       setTimeout(() => {
-        $("#tabla_promociones").DataTable({pageLength: 25,
-          filter: true,
+        $("#tabla_promociones").DataTable({pageLength: 10,
           deferRender: true,
           scrollY: 400,
           scrollCollapse: true,
           scroller: true,
-          "searching": true
+          "searching": true,
+          order: [[3, "desc"]]
         });
       }, 100);
     });
@@ -120,6 +127,9 @@ export class PromocionesComponent implements OnInit {
   }
 
   nuevoCupon(){
+    this.abrirModal('modal_create_editar_cupon');
+
+    setTimeout(() => {
     this.nameModal = "Nuevo Cupón";
 
     // ? LIMPIAR MODAL *********************
@@ -146,61 +156,62 @@ export class PromocionesComponent implements OnInit {
     $('#select_sistemas').val(0); $('#select_sistemas').removeClass("empty_datos");
 
     $('#rutas_prohibidas').val(null).trigger('change'); $('#rutas_prohibidas').removeClass("empty_datos");
-    $('#rutas_aceptadas').val(null).trigger('change'); $('#rutas_aceptadas').removeClass("empty_datos");
-
-    $('#modal_create_editar_cupon').modal('show'); 
+    $('#rutas_aceptadas').val(null).trigger('change'); $('#rutas_aceptadas').removeClass("empty_datos");    
+    }, 10);
   }
 
   editarPromocionCupon(DatosListaPromocionesCupones: any){
-    $('#code_promocion').val(DatosListaPromocionesCupones['cupones_id']);
-    $('#estado_promocion').val(DatosListaPromocionesCupones['estado']);
-    $('#nombre_promocion').val(DatosListaPromocionesCupones['nombre']);
+    this.abrirModal('modal_create_editar_cupon');
 
-    $('#fecha_cupon_inicio').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['fecha_inicio']));
-    $('#fecha_cupon_fin').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['fecha_fin']));
-    $('#fecha_compra_inicio').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['compra_inicio']));
-    $('#fecha_compra_fin').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['compra_fin']));
+    setTimeout(() => {
+      $('#code_promocion').val(DatosListaPromocionesCupones['cupones_id']);
+      $('#estado_promocion').val(DatosListaPromocionesCupones['estado']);
+      $('#nombre_promocion').val(DatosListaPromocionesCupones['nombre']);
 
-    this.seleccionarServiciosPromocionModal(DatosListaPromocionesCupones['servicios']);
+      $('#fecha_cupon_inicio').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['fecha_inicio']));
+      $('#fecha_cupon_fin').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['fecha_fin']));
+      $('#fecha_compra_inicio').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['compra_inicio']));
+      $('#fecha_compra_fin').val(this.funcionesService.convert_format_fecha_guion(DatosListaPromocionesCupones['compra_fin']));
 
-    $('#porcentaje_descuento').val(DatosListaPromocionesCupones['porcentaje_desc']);
-    $('#stock_pasajeros').val(DatosListaPromocionesCupones['usos_restantes']);
+      this.seleccionarServiciosPromocionModal(DatosListaPromocionesCupones['servicios']);
 
-    $('#select_grupo_cupones').val(DatosListaPromocionesCupones['grupoCuponesId']);
-    $('#stock_grupo_cupones').val(DatosListaPromocionesCupones['stock']);
+      $('#porcentaje_descuento').val(DatosListaPromocionesCupones['porcentaje_desc']);
+      $('#stock_pasajeros').val(DatosListaPromocionesCupones['usos_restantes']);
 
-    $('#select_sistemas').val(DatosListaPromocionesCupones['tipo_sistema']);
+      $('#select_grupo_cupones').val(DatosListaPromocionesCupones['grupoCuponesId']);
+      $('#stock_grupo_cupones').val(DatosListaPromocionesCupones['stock']);
 
-    $('#rutas_prohibidas').val(null).trigger('change');
-    $('#rutas_aceptadas').val(null).trigger('change');
-    
-    if(DatosListaPromocionesCupones['rutas_prohibidas'] != null){
-      var dat_lit_pro_cup = DatosListaPromocionesCupones['rutas_prohibidas'].split(",");
+      $('#select_sistemas').val(DatosListaPromocionesCupones['tipo_sistema']);
+
+      $('#rutas_prohibidas').val(null).trigger('change');
+      $('#rutas_aceptadas').val(null).trigger('change');
       
-      for(var a=0; a<dat_lit_pro_cup.length; a++){
-        let find1 = this.ltRutas.find(x => x?.id === Number(dat_lit_pro_cup[a]));
+      if(DatosListaPromocionesCupones['rutas_prohibidas'] != null){
+        var dat_lit_pro_cup = DatosListaPromocionesCupones['rutas_prohibidas'].split(",");
+        
+        for(var a=0; a<dat_lit_pro_cup.length; a++){
+          let find1 = this.ltRutas.find(x => x?.id === Number(dat_lit_pro_cup[a]));
 
-        var newOption = new Option(find1?.denominacion, "'"+dat_lit_pro_cup[a]+"'", true, true);
-        $('#rutas_prohibidas').append(newOption).trigger('change');
+          var newOption = new Option(find1?.denominacion, "'"+dat_lit_pro_cup[a]+"'", true, true);
+          $('#rutas_prohibidas').append(newOption).trigger('change');
+        }
+
+        this.todas_rutas();
       }
 
-      this.todas_rutas();
-    }
+      if(DatosListaPromocionesCupones['rutas_aceptadas'] != null){
+        var dat_lit_pro_cup = DatosListaPromocionesCupones['rutas_aceptadas'].split(",");
+        
+        for(var a=0; a<dat_lit_pro_cup.length; a++){
+          let find1 = this.ltRutas.find(x => x?.id === Number(dat_lit_pro_cup[a]));
 
-    if(DatosListaPromocionesCupones['rutas_aceptadas'] != null){
-      var dat_lit_pro_cup = DatosListaPromocionesCupones['rutas_aceptadas'].split(",");
-      
-      for(var a=0; a<dat_lit_pro_cup.length; a++){
-        let find1 = this.ltRutas.find(x => x?.id === Number(dat_lit_pro_cup[a]));
+          var newOption = new Option(find1?.denominacion, "'"+dat_lit_pro_cup[a]+"'", true, true);
+          $('#rutas_aceptadas').append(newOption).trigger('change');
+        }
 
-        var newOption = new Option(find1?.denominacion, "'"+dat_lit_pro_cup[a]+"'", true, true);
-        $('#rutas_aceptadas').append(newOption).trigger('change');
+        this.rutas_aceptadas();
       }
-
-      this.rutas_aceptadas();
-    }
-
-    $('#modal_create_editar_cupon').modal('show'); 
+    }, 10);
   }
 
   change_select_grupo_cupones(){
@@ -297,7 +308,8 @@ export class PromocionesComponent implements OnInit {
 
           $("#tabla_promociones").DataTable().destroy();
           this.cargarListaPromocionesCupones();
-          $('#modal_create_editar_cupon').modal('hide');
+          //$('#modal_create_editar_cupon').modal('hide');
+          this.cerrarModal('modal_create_editar_cupon');
         }else{
           if(responseupdateInsertPromocion['mensaje'].includes('0')){
             this.funcionesService.notificacion_mensaje("Error", "Hubo un error al insertar la promoción.");
@@ -403,6 +415,19 @@ export class PromocionesComponent implements OnInit {
     $('#btn_rutas_aceptadas').addClass('active');
     $('#div_rutas_aceptadas').css('display', 'inline');
     $('#div_rutas_excluidas').css('display', 'none');
+  }
+
+  abrirModal(nombreModal: string) {
+    this.ejecutarSelect2();
+
+    
+    this.ArrayMostrarModal[nombreModal] = true;
+    document.body.classList.add('overflow-x-hidden');
+  }
+
+  cerrarModal(nombreModal: string) {
+      this.ArrayMostrarModal[nombreModal] = false;
+      document.body.classList.remove('overflow-x-hidden');
   }
 
 }

@@ -1,40 +1,204 @@
-<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
-        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-        <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Menú Principal</h1>
-        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-            <li class="breadcrumb-item text-muted">
-                <font class="text-muted">Operaciones</font>
-            </li>
-            <li class="breadcrumb-item">
-                <span class="bullet bg-gray-500 w-5px h-2px"></span>
-            </li>
-            <li class="breadcrumb-item text-muted">Venta y Reserva de pasajes</li>  <!-- {{tamanio_div}} -->
-        </ul>
-        </div>
-        
-        <!--<div class="d-flex align-items-center gap-2 gap-lg-3">
-            <div class="m-0">
-                <button class="btn btn-sm btn-flex btn-secondary fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                    <i class="ki-outline ki-magnifier fs-6 text-muted me-1"></i> Buscar
-                </button>
+<div class="mt-3 mb-1 pl-7">
+    <div class="flex flex-col justify-center flex-wrap">
+        <span class="text-gray-900 dark:text-gray-100 font-bold text-lg my-0">Menú Principal</span>
+        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium pt-1">Operaciones - Venta y Reserva de Pasajes</p>
+    </div>
+</div>
+
+
+<div id="div_vista_liquidacion_ayer" class="hidden ml-2">
+    <p class="text-gray-500 pt-2 font-semibold text-base">
+        Tiene una liquidación del día anterior, salga del sistema y vuelva a iniciar sesión.
+    </p>
+</div>
+
+<div id="div_vista_no_liquidacion" class="hidden ml-2">
+    <p class="text-gray-500 pt-2 font-semibold text-base">
+        La caja está cerrada.
+    </p>
+</div>
+
+<div id="div_vista_itinerario" class="w-full mb-2">
+    <div id="div_progressbar">
+        <div class="w-full md:w-10/12 xxl:w-8/12 px-4 pt-3">
+            <div class="border border-gray-300 rounded-lg shadow-sm bg-white">
+                <div class="p-4 pb-2 space-y-2">
+                    <div class="flex">
+                        <span class="text-xs text-gray-500 mr-1">Paso {{num_paso}} de {{paso_final}}:</span>
+                        <span class="text-xs text-orange-500 font-bold mr-1">{{detalle_paso}}</span>
+                        <span *ngIf="detalle_paso2 != ''" class="text-xs text-gray-600 font-bold mr-1"> - {{detalle_paso2}}</span>
+                    </div>
+                    <div class="w-full">
+                        <div class="bg-gray-100 rounded h-4">
+                            <div class="bg-orange-500 text-xs font-bold text-white text-center rounded" [ngStyle]="{ width: porcen_bar + '%' }">{{porcen_bar}}%</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-600 font-bold">{{sub_titulo}}</div>
+                </div>
             </div>
-            <button class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Botón</button>
-        </div>-->
-        
+        </div>
+    </div>
+
+    <div id="div_seleccion_itinerario">
+        <div class="w-full md:w-10/12 xxl:w-8/12 px-4 pt-3">
+            <div class="border border-gray-300 rounded-lg shadow-sm bg-white">
+                <div class="p-4">
+                    <div class="flex">
+                        <div class="w-3/12 text-gray-600 font-semibold text-sm">ORIGEN*</div>
+                        <div class="w-3/12 text-gray-600 font-semibold text-sm">DESTINO*</div>
+                        <div class="w-3/12 text-gray-600 font-semibold text-sm">SALIDA*</div>
+                        <div class="w-3/12 text-gray-600 font-semibold text-sm">RETORNO(OPCIONAL)</div>
+                    </div>
+                    <div class="flex space-y-2 space-x-2">
+                        <div class="w-3/12 pt-2">
+                            <select [(ngModel)]="codLocalidadIda" (change)="onChangeOrigen()" class="w-full mb-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                                <option value="0" selected>SELECCIONAR</option>
+                                <option *ngFor="let ltLoc of ltLocalidadOrigen" [value]="ltLoc.id">
+                                    {{ ltLoc.denominacion }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="w-3/12">
+                            <select [(ngModel)]="codLocalidadDestino" (change)="onChangeOrigen()" class="w-full mb-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                                <option value="0" selected>SELECCIONAR</option>
+                                <option *ngFor="let ltLoc of ltLocalidadDestino" [value]="ltLoc.id">
+                                    {{ ltLoc.denominacion }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="w-3/12">
+                            <input type="date" id="txtFechaSalida1" name="salida" [min]="date_actual" [(ngModel)]="date_salida" class="w-full mb-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
+                        </div>
+                        <div class="w-3/12">
+                            <input type="date" id="txtFechaSalida1" name="retorno" [min]="date_salida" [(ngModel)]="date_retorno" class="w-full mb-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end">
+                        <button (click)="buscar_itinerarios()" class="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                            <i class="text-base mr-1"></i> BUSCAR ITINERARIOS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="div_listar_itinerarios_ida" class="w-full md:w-10/12 xxl:w-8/12 px-4 pt-3">
+            <div *ngFor="let dat of listadoItinerariosIda" class="mb-3">
+                <div *ngIf="dat.precioMinimo != 0" class="rounded-lg border border-gray-300 shadow-sm bg-white overflow-hidden">
+                    <div class="flex flex-wrap">
+                        <div class="w-8/12 lg:w-9/12 p-3">
+                            <div>
+                                <div class="text-sm font-semibold text-gray-500 text-base italic">Servicio</div>
+                                <div class="flex flex-wrap items-center font-semibold text-gray-700 text-lg">
+                                    <span>{{ dat.servicio }}</span>
+                                    <span *ngIf="dat.c_descripcion != null" class="ml-2 text-gray-500">{{ dat.c_descripcion }}</span>
+                                </div>
+                                <div class="border-b border-gray-300 my-2"></div>
+                            </div>
+
+                            <div class="flex justify-between text-center mt-3">
+                                <div class="flex flex-col w-5/12">
+                                    <span class="text-xs text-gray-500 italic">Embarque</span>
+                                    <span class="text-sm font-semibold">{{ dat.horaEmbarque }} h</span>
+                                </div>
+                                <div class="w-2/12 flex items-center justify-center"><i class="fal fa-long-arrow-right text-4xl text-gray-500"></i></div>
+                                <div class="flex flex-col w-5/12">
+                                    <span class="text-xs text-gray-500 italic">Desembarque</span>
+                                    <span class="text-sm font-semibold">{{ dat.horaDesembarque }} h</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-4/12 lg:w-3/12 bg-gray-200 cursor-pointer p-3 text-center" (click)="seleccionar_itinerario_ida(dat)">
+                            <div class="text-gray-700 pb-2">
+                                <div class="flex">
+                                    <div class="w-4/12 text-right text-xs text-gray-500">
+                                        desde <br />
+                                        <span class="text-sm font-bold">S/</span>
+                                    </div>
+                                    <div class="w-8/12 text-left">
+                                        <span class="text-xl font-bold text-gray-800">{{ dat.precioMinimo }}</span>
+                                        <span *ngIf="verificar_punto(dat.precioMinimo) == 2" class="text-sm">.00</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-sm font-semibold text-orange-600">
+                                    SELECCIONAR
+                                </div>
+                                <div class="mt-2">
+                                    <span *ngIf="dat.promocionFlag == 90" class="px-2 py-1 text-xs font-semibold bg-orange-100 text-orange-700 rounded" title="Esta ruta cuenta con una promoción">Cyber WOW</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    <!-- Dirección -->
+                    <div
+                        class="w-8/12 lg:w-9/12 px-3 py-2"
+                        [ngClass]="{ 'mt-2': dat.promocionFlag == 90 }"
+                    >
+                        <div class="flex justify-between text-center text-sm text-gray-600">
+                        <span class="w-5/12">{{ dat.direccionEmbarque }}</span>
+                        <span class="w-2/12">&nbsp;</span>
+                        <span class="w-5/12">{{ dat.direccionDesembarque }}</span>
+                        </div>
+                    </div>
+                    <div class="w-4/12 lg:w-2/12">&nbsp;</div>
+
+                    <!-- Asientos disponibles -->
+                    <div class="w-full pr-2 text-right">
+                        <span class="text-sm font-semibold text-orange-500">
+                        Solo quedan {{ dat.nroAsientosDisponible }} asientos
+                        </span>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="w-full p-2">
+                        <div class="border-t border-gray-300 pt-2 flex flex-wrap text-xs text-gray-600">
+                        <div class="mr-4 flex items-center">
+                            <i class="fad fa-bus-alt text-gray-400 mr-1"></i>
+                            <span *ngIf="dat.nropisos == 1">{{ dat.nropisos }} Piso</span>
+                            <span *ngIf="dat.nropisos == 2">{{ dat.nropisos }} Pisos</span>
+                        </div>
+                        <div class="mr-4 flex items-center">
+                            <i class="fad fa-clock text-gray-400 mr-1"></i>
+                            {{ dat.duracionViaje }}h
+                        </div>
+                        <div class="mr-4 flex items-center">
+                            <i class="fad fa-dot-circle text-gray-400 mr-1"></i>
+                            {{ dat.nroescala }} Escalas
+                        </div>
+                        <div class="mr-4 flex items-center">
+                            <img
+                            src="./assets/img/iconos/seat.png"
+                            alt=""
+                            class="w-4 h-4 mr-1"
+                            />
+                            <span *ngIf="dat.servAsiento1 != ''">{{ dat.servAsiento1 }}</span>
+                            <span *ngIf="dat.nropisos == 2"> | {{ dat.servAsiento2 }}</span>
+                        </div>
+                        <div
+                            class="ml-auto text-gray-500 cursor-pointer"
+                            style="font-size: 12px;"
+                        >
+                            Itinerario: {{ dat.iditinerario }} &nbsp;&nbsp; Ruta:
+                            {{ dat.idruta }}
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+        </div>
     </div>
 </div>
 
 <div id="kt_app_content" class="app-content flex-column-fluid">
-    <div id="div_vista_liquidacion_ayer" style="display: none; margin-left: 1.8%;">
+    <!--<div id="div_vista_liquidacion_ayer" style="display: none; margin-left: 1.8%;">
         <p class="text-gray-500 pt-2 fw-semibold fs-6">Tiene una liquidación del día anterior, salga del sistema y vuelva a iniciar sesión.</p>
     </div>
     <div id="div_vista_no_liquidacion" style="display: none; margin-left: 1.8%;">
         <p class="text-gray-500 pt-2 fw-semibold fs-6">La caja está cerrada.</p>
-    </div>
-    <div #div_vista_itinerario id="div_vista_itinerario" class="app-container container-fluid">
-        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
-        <div id="div_progressbar" class="row" style="border-color: #c5c5c5;">
+    </div>-->
+    <div id="div_vista_itinerario" class="app-container container-fluid">
+        <!--<div id="div_progressbar" class="row" style="border-color: #c5c5c5;">
             <div class="col-xxl-8 col-10">
                 <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
                     <div class="card-body pt-5 pb-5">
@@ -56,18 +220,16 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
+        </div>-->
         
-        <!------------------------------------------------------- LISTA DE ITINERARIOS IDA ------------------------------------------------------->
         <div id="div_seleccion_itinerario" class="row g-5 gx-xl-10 mb-5">
-            <div class="col-xxl-8 col-10">
+            <!--<div class="col-xxl-8 col-10">
                 <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
                     <div class="card-body pt-5 pb-5">
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <label class="form-label">ORIGEN*</label>
-                                <select aria-label="Select a date format" data-hide-search="true" data-control="select2" class="form-select mb-2" [(ngModel)]="codLocalidadIda" (change)="onChangeOrigen()">
+                                <select data-control="select2" class="form-select mb-2" [(ngModel)]="codLocalidadIda" (change)="onChangeOrigen()">
                                     <option value="0" selected>SELECCIONAR</option>
                                     <option *ngFor="let ltLoc of ltLocalidadOrigen" value="{{ltLoc.id}}">{{ltLoc.denominacion}}</option>
                                 </select>
@@ -95,7 +257,8 @@
                 <button class="btn btn-sm btn-success" (click)="buscar_itinerarios()">
                     <i class="ki-outline ki-magnifier fs-6 me-1"></i> BUSCAR ITINERARIOS
                 </button>
-            </div>
+            </div>-->
+
             <div id="div_listar_itinerarios_ida" class="col-xxl-8 col-10">
                 <div *ngFor="let dat of listadoItinerariosIda" style="margin-bottom: 12px;">
                     <div class="card card-itinerario" *ngIf="dat.precioMinimo != 0">
@@ -116,7 +279,7 @@
                                             <span class="dat_hora_embar">{{dat.horaEmbarque}} h</span>
                                         </div>
                                         <div class="col-2" style="text-align: center;">
-                                            <i class="fal fa-long-arrow-right icon_flecha"></i>
+                                            <i class="fal fa-long-arrow-right text-4xl icon_flecha"></i>
                                         </div>
                                         <div class="col-5" style="display: flex; flex-direction: column; text-align: center;">
                                             <span class="dat_llegada_desem">Desembarque</span>  
@@ -187,7 +350,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_not_tickets_ida" tabindex="-1" role="dialog" aria-labelledby="modal_not_ticketsIdaLabel" aria-hidden="true">
+<!--<div class="modal fade" id="modal_not_tickets_ida" tabindex="-1" role="dialog" aria-labelledby="modal_not_ticketsIdaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-body row" style="padding: 0rem !important;">
@@ -196,7 +359,7 @@
                 <font style="color: #a0a0a0; font-weight: bold; font-size: 12px;">Elija otra fecha de Ida para que pueda comprar tus pasajes.</font>
             </div>
             <div class="col-3 text-center" style="background-color: rgb(211, 211, 211); padding-top: 2rem; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                <i class="fad fa-times" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>  <!-- (click)="funcionesService.ocultar_modal('modal_not_tickets_ida')" -->
+                <i class="fad fa-times" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>
             </div>
         </div>
       </div>
@@ -212,9 +375,9 @@
                 <font style="color: #a0a0a0; font-weight: bold; font-size: 12px;">Elija otra fecha de retorno para que pueda comprar tus pasajes.</font>
             </div>
             <div class="col-3 text-center" style="background-color: rgb(211, 211, 211); padding-top: 2rem; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                <i class="fad fa-times" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>      <!-- (click)="funcionesService.ocultar_modal('modal_not_tickets_vuelta')" -->
+                <i class="fad fa-times" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>
             </div>
         </div>
       </div>
     </div>
-</div>
+</div>-->

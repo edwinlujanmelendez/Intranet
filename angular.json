@@ -32,10 +32,10 @@
             "styles": [
               "src/styles.css",
               "src/assets/css/floating-labels.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/intl-tel-input/build/css/intlTelInput.css",
               "node_modules/jquery-toast-plugin/dist/jquery.toast.min.css",
-              "src/assets/css/dataTables.dataTables.min.css"
+              "src/assets/css/dataTables.dataTables.min.css",
+              "src/assets/css/select2.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

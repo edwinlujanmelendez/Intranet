@@ -1,170 +1,114 @@
-<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
-        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-        <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Menú Principal</h1>
-        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-            <li class="breadcrumb-item text-muted">
-                <font class="text-muted">Operaciones</font>
-            </li>
-            <li class="breadcrumb-item">
-                <span class="bullet bg-gray-500 w-5px h-2px"></span>
-            </li>
-            <li class="breadcrumb-item text-muted">Promociones</li>
-        </ul>
-        </div>
-        
-        <!--<div class="d-flex align-items-center gap-2 gap-lg-3">
-            <div class="m-0">
-                <button class="btn btn-sm btn-flex btn-secondary fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                    <i class="ki-outline ki-magnifier fs-6 text-muted me-1"></i> Buscar
-                </button>
-            </div>
-            <button class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Botón</button>
-        </div>-->
-        
+<div class="mt-3 mb-1 pl-7">
+    <div class="flex flex-col justify-center flex-wrap">
+        <span class="text-gray-900 dark:text-gray-100 font-bold text-lg my-0">Menú Principal</span>
+        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium pt-1">Operaciones - Promociones</p>
     </div>
 </div>
 
-<div id="kt_app_content" class="app-content flex-column-fluid">
-    <div id="div_vista_no_liquidacion" style="display: none; margin-left: 1.8%;">
-        <p class="text-gray-500 pt-2 fw-semibold fs-6">La caja está cerrada.</p>
-    </div>
-    <div id="div_vista_promociones" class="app-container container-fluid">
-        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
-        <div id="div_cabecera" class="row" style="border-color: #c5c5c5;">
-            <div class="col-xxl-11 col-12">
-                <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
-                    <div class="card-body pt-5 pb-5">
-                        <div class="row">
-                            <div class="col-xxl-5 col-5">
-                                <div class="row">
-                                    <label class="col-sm-4 col-form-label" style="font-size: 12px; text-align: right;">Sistema:</label>
-                                    <div class="col-sm-8">
-                                        <select id="select_seleccionar_sistema" class="form-select form-select-sm" aria-label=".form-select-sm example" (change)="change_select_seleccionar_sistema()">
-                                            <option value="0" selected>Todos</option>
-                                            <option value="1">Ecommerce</option>
-                                            <option value="2">AutoServicio</option>
-                                            <option value="3">Intranet</option>
-                                            <option value="4">Sispas</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-6 col-6 text-center">
-                                <button type="button" class="btn btn-sm btn-success" (click)="nuevoCupon()"><i class="fad fa-plus-circle"></i> Nuevo Cupón</button>
-                                &nbsp;
-                                <button type="button" class="btn btn-sm btn-info"><i class="fad fa-layer-group"></i> Grupo Cupones</button>
-                                <!--&nbsp;
-                                <button type="button" class="btn btn-sm btn-primary"><i class="fad fa-file-chart-line"></i> Reportes</button>-->
-                            </div>
-                            <!--<div class="col-md-1 text-center" style="display: flex; align-items: center;">
-                                <div style="border-left: 1px solid #ccc; margin: 0 auto;">&nbsp;</div>
-                            </div>
-                            <div class="col-md-1 text-center" style="display: flex; align-items: center;">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault1" id="rdbActivos" checked> &nbsp;
-                                <label class="form-check-label" for="rdbActivos"> ACTIVOS </label>
-                            </div>
-                            <div class="col-md-1 text-center" style="display: flex; align-items: center;">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault1" id="rdbInactivos"> &nbsp;
-                                <label class="form-check-label" for="rdbInactivos"> INACTIVOS </label>
-                            </div>
-                            <div class="col-md-1 text-center" style="display: flex; align-items: center;">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault1" id="rdbTodos"> &nbsp;
-                                <label class="form-check-label" for="rdbTodos"> TODOS </label>
-                            </div>-->
+<div id="div_vista_promociones" class="w-full px-4 mx-auto pt-3">
+    <div class="flex justify-left">
+        <div class="w-full md:w-10/12 xxl:w-8/12">
+            <div class="border border-gray-300 rounded-lg shadow-sm mb-2 bg-white">
+                <div class="p-4 pb-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div class="flex items-center hidden">
+                            <label class="w-1/3 text-right text-xs font-medium text-gray-700 mr-2">Sistema:</label>
+                            <select id="select_seleccionar_sistema" class="w-2/3 border border-gray-300 rounded-md text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-orange-500" (change)="change_select_seleccionar_sistema()">
+                                <option value="0" selected>Todos</option>
+                                <option value="1">Ecommerce</option>
+                                <option value="2">AutoServicio</option>
+                                <option value="3">Intranet</option>
+                                <option value="4">Sispas</option>
+                            </select>    
+                        </div>
+
+                        <div class="flex items-center">
+                            <button type="button" class="inline-flex items-center gap-2 rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700 transition" (click)="nuevoCupon()">
+                                <i class="fad fa-plus-circle"></i>
+                                Nuevo Cupón
+                            </button>
+
+                            <button type="button" class="inline-flex items-center gap-2 rounded-md bg-orange-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-sky-700 transition ml-2 hidden">
+                                <i class="fad fa-layer-group"></i>
+                                Grupo Cupones
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
-        
-        <!------------------------------------------------------- LISTA DE ITINERARIOS IDA ------------------------------------------------------->
-        <div id="div_body" class="row" style="border-color: #c5c5c5;">
-            <div class="col-xxl-11 col-12">
-                <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
-                    <div class="card-body py-3">
-                        <div class="table-responsive">
-                            <table id="tabla_promociones" class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
-                                <thead>
-                                    <tr class="fw-bold text-muted fs-8">
-                                        <th class="min-w-130px">Nombre</th>
-                                        <th class="min-w-130px text-center">Sistema</th>
-                                        <!--<th class="min-w-130px text-center">Tipo</th>-->
-                                        <th class="min-w-150px">Fecha de Viaje</th>
-                                        <th class="min-w-120px">Fecha de Compra</th>
-                                        <th class="min-w-120px">Servicios</th>
-                                        <th class="min-w-120px">Grupo Cupones</th>
-                                        <th class="min-w-120px text-center">Descuento</th>
-                                        <th class="min-w-100px text-center">Estado</th>
-                                        <th class="min-w-100px text-center">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let DatosListaPromocionesCupones of lstDatosListaPromocionesCupones; index as i;" >
-                                        <td>
-                                            <!--<a href="#" target="_blank" class="text-gray-900 fw-bold text-hover-primary fs-7">{{DatosListaPromocionesCupones.nombre}} &nbsp;
-                                            <i class="fad fa-tag" *ngIf="DatosListaPromocionesCupones.tipo_promocion == 1" title="Cupón"></i>
-                                            <i class="fad fa-calendar-day" *ngIf="DatosListaPromocionesCupones.tipo_promocion == 2" title="Días Cyber"></i></a>-->
-                                            <font class="text-gray-900 fw-bold text-hover-primary fs-8">{{DatosListaPromocionesCupones.nombre}} &nbsp;
-                                            <i class="fad fa-tag" *ngIf="DatosListaPromocionesCupones.tipo_promocion == 1" title="Cupón"></i>
-                                            <i class="fad fa-calendar-day" *ngIf="DatosListaPromocionesCupones.tipo_promocion == 2" title="Días Cyber"></i></font>
-                                        </td>
-                                        <td class="text-center">
-                                            <span *ngIf="DatosListaPromocionesCupones.tipo_sistema == 1" class="text-gray-900 fw-bold text-hover-primary fs-8">Ecommerce</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.tipo_sistema == 2" class="text-gray-900 fw-bold text-hover-primary fs-8">AutoServicio</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.tipo_sistema == 3" class="text-gray-900 fw-bold text-hover-primary fs-8">Intranet</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.tipo_sistema == 4" class="text-gray-900 fw-bold text-hover-primary fs-8">Sispas</span>
-                                        </td>
-                                        <!--<td class="text-center">
-                                            <span *ngIf="DatosListaPromocionesCupones.tipo_promocion == 1" class="text-gray-900 fw-bold text-hover-primary fs-7">Cupón</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.tipo_promocion == 2" class="text-gray-900 fw-bold text-hover-primary fs-7">Cyber</span>
-                                        </td>-->
-                                        <td>
-                                            <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-8">INICIO: <font class="fw-semibold">{{DatosListaPromocionesCupones.compra_inicio}}</font></span>
-                                            <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-8">FIN: <font class="fw-semibold">{{DatosListaPromocionesCupones.compra_fin}}</font></span>
-                                        </td>
-                                        <td>
-                                            <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-8">INICIO: <font class="fw-semibold">{{DatosListaPromocionesCupones.fecha_inicio}}</font></span>
-                                            <span class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-8">FIN: <font class="fw-semibold">{{DatosListaPromocionesCupones.fecha_fin}}</font></span>
-                                        </td>
-                                        <td>
-                                            <span *ngIf="DatosListaPromocionesCupones.servicios.includes(codigosEconomico.trim())" style="border: 1px solid #ccc; border-radius: 7px; padding: 3px; font-size: 11px; margin: 2px; margin-bottom: 5px;">Económico</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.servicios.includes(codigosEjecutivoVip.trim())" style="border: 1px solid #ccc; border-radius: 7px; padding: 3px; font-size: 11px; margin: 2px;">EjecutivoVip</span><br>
-                                            <span *ngIf="DatosListaPromocionesCupones.servicios.includes(codigosPresidencial.trim())" style="border: 1px solid #ccc; border-radius: 7px; padding: 3px; font-size: 11px; margin: 2px;">Presidencial</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.servicios.includes(codigosPremier.trim())" style="border: 1px solid #ccc; border-radius: 7px; padding: 3px; font-size: 11px; margin: 2px;">Premier</span>
-                                        </td>
-                                        <td class="text-gray-900 text-hover-primary fs-8">
-                                            {{DatosListaPromocionesCupones.nombreGrupo_cupon}}
-                                        </td>
-                                        <td class="text-gray-900 fw-bold text-hover-primary fs-8 text-center">
-                                            {{DatosListaPromocionesCupones.porcentaje_desc}}%
-                                        </td>
-                                        <td class="text-center">
-                                            <span *ngIf="DatosListaPromocionesCupones.estado == 0" class="badge badge-light-danger fs-8">Inactivo</span>
-                                            <span *ngIf="DatosListaPromocionesCupones.estado == 1" class="badge badge-light-success fs-8">Activo</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <font class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" title="Editar" (click)="editarPromocionCupon(DatosListaPromocionesCupones);">
-                                                <i class="ki-duotone ki-pencil fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                </i>
-                                            </font>
-                                            <font class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" title="Eliminar" (click)="eliminarPromocionCupon(DatosListaPromocionesCupones);">
-                                                <i class="ki-duotone ki-trash fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                    <span class="path3"></span>
-                                                    <span class="path4"></span>
-                                                    <span class="path5"></span>
-                                                </i>
-                                            </font>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+    </div>
+
+    <div class="flex justify-left">
+        <div class="w-full">
+            <div class="border border-gray-300 rounded-lg shadow-sm mb-2 bg-white">
+                <div class="p-3">
+                    <div *ngIf="lstDatosListaPromocionesCupones.length == 0" class="relative mx-auto text-center text-gray-400">
+                        No hay registros disponibles para mostrar. <br>
+                    </div>
+
+                    <div class="w-full overflow-x-auto">
+                        <table *ngIf="lstDatosListaPromocionesCupones.length > 0" id="tabla_promociones" class="min-w-full border-collapse">
+                            <thead class="bg-gray-100">
+                                <tr class="text-gray-500 uppercase font-semibold tracking-wider">
+                                    <th class="text-xss">NOMBRE</th>
+                                    <th class="text-xss text-center">SISTEMA</th>
+                                    <th class="text-xss">FECHA DE VIAJE</th>
+                                    <th class="text-xss">FECHA DE COMPRA</th>
+                                    <th class="text-xss">SERVICIOS</th>
+                                    <th class="text-xss">GRUPO DE CUPONES</th>
+                                    <th class="text-xss text-center">DESCUENTO</th>
+                                    <th class="text-xss text-center">ESTADO</th>
+                                    <th class="text-xss text-center">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr *ngFor="let dat of lstDatosListaPromocionesCupones; index as i;" [ngClass]="{'bg-yellow-100': dat.delay_correo === 1}">
+                                    <td class="text-xss">
+                                        <span class="text-gray-900 font-bold hover:text-orange-600 text-xs">
+                                            {{dat.nombre}} &nbsp;
+                                            <i class="fad fa-tag" *ngIf="dat.tipo_promocion == 1" title="Cupón"></i>
+                                            <i class="fad fa-calendar-day" *ngIf="dat.tipo_promocion == 2" title="Días Cyber"></i>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span *ngIf="dat.tipo_sistema == 1" class="text-gray-900 font-bold hover:text-orange-600 text-sm">Ecommerce</span>
+                                        <span *ngIf="dat.tipo_sistema == 2" class="text-gray-900 font-bold hover:text-orange-600 text-sm">AutoServicio</span>
+                                        <span *ngIf="dat.tipo_sistema == 3" class="text-gray-900 font-bold hover:text-orange-600 text-sm">Intranet</span>
+                                        <span *ngIf="dat.tipo_sistema == 4" class="text-gray-900 font-bold hover:text-orange-600 text-sm">Sispas</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-gray-900 font-bold hover:text-orange-600 block mb-1 text-xs">INICIO: <span class="font-semibold">{{dat.compra_inicio}}</span></span>
+                                        <span class="text-gray-900 font-bold hover:text-orange-600 block mb-1 text-xs">FIN: <span class="font-semibold">{{dat.compra_fin}}</span></span>
+                                    </td>
+                                    <td>
+                                        <span class="text-gray-900 font-bold hover:text-orange-600 block mb-1 text-xs">INICIO: <span class="font-semibold">{{dat.fecha_inicio}}</span></span>
+                                        <span class="text-gray-900 font-bold hover:text-orange-600 block mb-1 text-xs">FIN: <span class="font-semibold">{{dat.fecha_fin}}</span></span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="dat.servicios.includes(codigosEconomico.trim())" class="border border-gray-300 rounded-md px-2 py-0.5 text-xss m-[2px] mb-[5px]">Económico</span>
+                                        <span *ngIf="dat.servicios.includes(codigosEjecutivoVip.trim())" class="border border-gray-300 rounded-md px-2 py-0.5 text-xss m-[2px]">EjecutivoVip</span><br>
+                                        <span *ngIf="dat.servicios.includes(codigosPresidencial.trim())" class="border border-gray-300 rounded-md px-2 py-0.5 text-xss m-[2px]">Presidencial</span>
+                                        <span *ngIf="dat.servicios.includes(codigosPremier.trim())" class="border border-gray-300 rounded-md px-2 py-0.5 text-xss m-[2px]">Premier</span>
+                                    </td>
+                                    <td class="text-gray-900 hover:text-orange-600 text-xs">{{dat.nombreGrupo_cupon}}</td>
+                                    <td class="text-gray-900 font-bold hover:text-orange-600 text-xs text-center">{{dat.porcentaje_desc}}%</td>
+                                    <td class="text-center">
+                                        <span *ngIf="dat.estado == 0" class="inline-block rounded-full bg-red-100 text-red-700 text-xs font-medium px-2 py-0.5">Inactivo</span>
+                                        <span *ngIf="dat.estado == 1" class="inline-block rounded-full bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5">Activo</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <button title="Editar" (click)="editarPromocionCupon(dat)" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-gray-100 text-gray-700 hover:bg-yellow-100 hover:text-yellow-600 transition mr-1">
+                                            <i class="fas fa-pencil-alt text-sm"></i>
+                                        </button>
+
+                                        <button title="Eliminar" (click)="eliminarPromocionCupon(dat)" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-600 transition">
+                                            <i class="fas fa-trash-alt text-sm"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -172,184 +116,154 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_create_editar_cupon" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mw-900px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>{{nameModal}}</h2>
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                    <i class="ki-duotone ki-cross fs-1">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                    </i>
-                </div>
-            </div>
-            <div class="modal-body py-lg-10 px-lg-10">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <label class="col-sm-5 required fs-6 fw-semibold mb-2" style="display: flex; align-items: center;">Nombre del Cupón</label>
-                            <div class="col-sm-7" style="display: flex; align-items: center;">
-                                <input id="code_promocion" type="hidden" value="">
-                                <input id="estado_promocion" type="hidden" value="">
-                                <input id="nombre_promocion" type="text" class="form-control form-control-sm form-control-solid" placeholder="Nombre de Cupón"/>
-                            </div>
-                        </div>
+<div *ngIf="ArrayMostrarModal['modal_create_editar_cupon']" id="modal_create_editar_cupon" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('modal_create_editar_cupon')">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+    <div class="relative bg-white w-full max-w-5xl rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+        <div class="flex items-center justify-between border-b border-gray-300 px-5 pt-3 pb-2">
+            <h6 class="font-bold text-gray-800 text-base">
+                {{nameModal}} <br />
+            </h6>
+            <i class="fa fa-times text-xl cursor-pointer" (click)="cerrarModal('modal_create_editar_cupon')"></i>
+        </div>
+
+        <div class="px-6 py-4 text-sm text-gray-700">
+            <form class="space-y-3">
+                <div class="flex pt-2">
+                    <div class="w-1/2 flex">
+                        <label for="nombre_promocion" class="w-2/5 text-sm font-semibold flex items-center justify-center">Nombre del Cupón <span class="text-red-500 ml-1">*</span></label>
+                        <span class="w-3/5">
+                            <input id="code_promocion" type="hidden" value="">
+                            <input id="estado_promocion" type="hidden" value="">
+                            <input id="nombre_promocion" type="text" placeholder="Nombre de Cupón" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                        </span>
                     </div>
-                    <div class="col-md-3" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="rdbCupon" checked> &nbsp;
-                        <label class="form-check-label" for="rdbCupon"> CUPÓN </label>
-                    </div>
-                    <div class="col-md-3" style="display: flex; align-items: center;">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="rdbCyber"> &nbsp;
-                        <label class="form-check-label" for="rdbCyber"> DÍAS CYBER </label>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <label class="col-sm-5 fs-6 fw-semibold mb-2" style="display: flex; align-items: center;">Fecha de Compra Inicio</label>
-                            <div class="col-sm-7" style="display: flex; align-items: center;">
-                                <input id="fecha_cupon_inicio" type="date" class="form-control form-control-sm form-control-solid"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <label class="col-sm-5 fs-6 fw-semibold mb-2" style="display: flex; align-items: center;">Fecha de Compra Fin</label>
-                            <div class="col-sm-7" style="display: flex; align-items: center;">
-                                <input id="fecha_cupon_fin" type="date" class="form-control form-control-sm form-control-solid"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <label class="col-sm-5 fs-6 fw-semibold mb-2" style="display: flex; align-items: center;">Fecha de Viaje Inicio</label>
-                            <div class="col-sm-7" style="display: flex; align-items: center;">
-                                <input id="fecha_compra_inicio" type="date" class="form-control form-control-sm form-control-solid"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <label class="col-sm-5 fs-6 fw-semibold mb-2" style="display: flex; align-items: center;">Fecha de Viaje Fin</label>
-                            <div class="col-sm-7" style="display: flex; align-items: center;">
-                                <input id="fecha_compra_fin" type="date" class="form-control form-control-sm form-control-solid"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row"><hr style="border: 1px solid #ced4da;"></div>
-                <br>
-                <div class="row">
-                    <div class="col-2 text-center fs-6 fw-semibold mb-2">SERVICIOS</div>
-                    <div class="col-10 text-center">
-                        <input class="form-check-input" type="checkbox" id="chkEconomico">&nbsp;
-                        <label class="form-check-label" for="chkEconomico">
-                            ECONÓMICO
+                    <div class="w-1/2 flex pr-6">
+                        <label class="w-3/6 flex items-center justify-center">
+                            <input class="h-4 w-4 text-orange-600 border-gray-300 focus:ring-orange-500" type="radio" name="tipoPromocion" id="rdbCupon" checked>
+                            <label for="rdbCupon" class="ml-2 text-sm text-gray-700">CUPÓN</label>
                         </label>
-                        &nbsp;
-                        <input class="form-check-input" type="checkbox" id="chkEjecutivo">&nbsp;
-                        <label class="form-check-label" for="chkEjecutivo">
-                            EJECUTIVO VIP
-                        </label>
-                        &nbsp;
-                        <input class="form-check-input" type="checkbox" id="chkPresidencial">&nbsp;
-                        <label class="form-check-label" for="chkPresidencial">
-                            PRESIDENCIAL
-                        </label>
-                        &nbsp;
-                        <input class="form-check-input" type="checkbox" id="chkPremier">&nbsp;
-                        <label class="form-check-label" for="chkPremier">
-                            PREMIER
-                        </label>
-                        &nbsp;
+                        <span class="w-3/6 flex items-center justify-center">
+                            <input class="h-4 w-4 text-orange-600 border-gray-300 focus:ring-orange-500" type="radio" name="tipoPromocion" id="rdbCyber">
+                            <label for="rdbCyber" class="ml-2 text-sm text-gray-700">DÍAS CYBER</label>
+                        </span>
                     </div>
                 </div>
-                <br>
-                <div class="row"><hr style="border: 1px solid #ced4da;"></div>
-                <br>
-                <div class="row">
-                    <div class="col-sm-3" style="display: flex; align-items: end; justify-content: center;">
-                        <label class="fs-6 fw-semibold mb-2">Porcentaje Descuento</label>
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label for="fecha_cupon_inicio" class="w-2/5 text-sm font-semibold flex items-center justify-center">Fecha de Compra Inicio</label>
+                        <span class="w-3/5">
+                            <input id="fecha_cupon_inicio" type="date" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                        </span>
                     </div>
-                    <div class="col-sm-2" style="display: flex; align-items: end; justify-content: center;">
-                        <div class="input-group input-group-sm" style="flex-wrap: nowrap;">
-                            <input type="number" id="porcentaje_descuento" class="form-control form-control-sm" placeholder="" min="1">
-                            <span id="inputGroup-sizing-sm" class="input-group-text">%</span>
+                    <div class="w-1/2 flex pr-6">
+                        <label for="fecha_cupon_fin" class="w-2/5 text-sm font-semibold flex items-center justify-center">Fecha de Compra Fin</label>
+                        <span class="w-3/5">
+                            <input id="fecha_cupon_fin" type="date" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                        </span>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="w-1/2 flex">
+                        <label for="fecha_compra_inicio" class="w-2/5 text-sm font-semibold flex items-center justify-center">Fecha de Viaje Inicio</label>
+                        <span class="w-3/5">
+                            <input id="fecha_compra_inicio" type="date" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                        </span>
+                    </div>
+                    <div class="w-1/2 flex pr-6">
+                        <label for="fecha_compra_fin" class="w-2/5 text-sm font-semibold flex items-center justify-center">Fecha de Viaje Fin</label>
+                        <span class="w-3/5">
+                            <input id="fecha_compra_fin" type="date" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                        </span>
+                    </div>
+                </div>
+                <div class="flex pt-2 pb-2"><hr class="w-full border-t border-gray-300"></div>
+                <div class="flex">
+                    <label class="w-4/12 text-sm font-semibold flex items-center justify-center">SERVICIOS</label>
+                    <div class="w-8/12 pr-6">
+                        <div class="flex flex-wrap items-center gap-6">
+                        <label for="chkEconomico" class="flex items-center space-x-2">
+                            <input id="chkEconomico" type="checkbox" class="h-4 w-4 border-gray-300 rounded">
+                            <span class="text-gray-700">ECONÓMICO</span>
+                        </label>
+
+                        <label for="chkEjecutivo" class="flex items-center space-x-2">
+                            <input id="chkEjecutivo" type="checkbox" class="h-4 w-4 border-gray-300 rounded">
+                            <span class="text-gray-700">EJECUTIVO VIP</span>
+                        </label>
+
+                        <label for="chkPresidencial" class="flex items-center space-x-2">
+                            <input id="chkPresidencial" type="checkbox" class="h-4 w-4 border-gray-300 rounded">
+                            <span class="text-gray-700">PRESIDENCIAL</span>
+                        </label>
+
+                        <label for="chkPremier" class="flex items-center space-x-2">
+                            <input id="chkPremier" type="checkbox" class="h-4 w-4 border-gray-300 rounded">
+                            <span class="text-gray-700">PREMIER</span>
+                        </label>
                         </div>
                     </div>
-                    <div class="col-sm-3" style="display: flex; align-items: end; justify-content: center;">
-                        <label class="fs-6 fw-semibold mb-2">Stock de Pasajeros</label>
-                    </div>
-                    <div class="col-sm-2" style="display: flex; align-items: end; justify-content: center;">
-                        <input type="number" id="stock_pasajeros" class="form-control form-control-sm form-control-solid" style="width: 50%; text-align: center;" min="1" max="10" placeholder=""/>
-                    </div>
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-sm-3" style="display: flex; align-items: end; justify-content: center;">
-                        <label class="fs-6 fw-semibold mb-2">Grupo Cupones</label>
+                <div class="flex"><hr class="w-full border-t border-gray-300"></div>
+                <div class="flex">
+                    <label class="w-4/12 text-sm font-semibold flex items-center justify-left pl-20">Porcentaje Descuento</label>
+                    <div class="w-2/12 flex flex-nowrap items-center">
+                        <input type="number" id="porcentaje_descuento" min="1" placeholder="" class="w-20 px-2 py-1 text-sm border border-gray-300 rounded-l-md focus:outline-none">
+                        <span id="inputGroup-sizing-sm" class="px-3 py-1 text-sm bg-gray-100 border border-l-0 border-gray-300 rounded-r-md">%</span>
                     </div>
-                    <div class="col-sm-5" style="display: flex; align-items: end; justify-content: center;">
-                        <select id="select_grupo_cupones" class="form-select form-select-sm" (change)="change_select_grupo_cupones()">
+                    <label class="w-3/12 text-sm font-semibold flex items-center justify-left">Stock de Pasajeros</label>
+                    <input type="number" id="stock_pasajeros" min="1" max="10" placeholder="" class="w-1/12 text-center text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                </div>
+                <div class="flex">
+                    <label class="w-4/12 text-sm font-semibold flex items-center justify-left pl-20">Grupo Cupones</label>
+                    <div class="w-5/12">
+                        <select id="select_grupo_cupones" (change)="change_select_grupo_cupones()" class="w-9/12 px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <option value="0" selected>Seleccionar</option>
-                            <option *ngFor="let DatosGrupoCupones of ltGrupoCupones; index as i;" value="{{DatosGrupoCupones.grupocupones_id}}">{{DatosGrupoCupones.nombre}}</option>
+                            <option *ngFor="let DatosGrupoCupones of ltGrupoCupones; index as i;" [value]="DatosGrupoCupones.grupocupones_id">{{DatosGrupoCupones.nombre}}</option>
                         </select>
                     </div>
-                    <div class="col-sm-2" style="display: flex; align-items: end; justify-content: center;">
-                        <input type="text" id="stock_grupo_cupones" class="form-control form-control-sm" style="width: 50%; text-align: center;" placeholder="" disabled/>
-                    </div>
+                    <input type="text" id="stock_grupo_cupones" class="w-1/12 text-center text-sm border border-gray-300 rounded-md bg-gray-100 text-gray-500 cursor-not-allowed" disabled />
                 </div>
-                <br>
-                <div class="row">
-                    <div class="col-sm-3" style="display: flex; align-items: end; justify-content: center;">
-                        <label class="fs-6 fw-semibold mb-2">Sistema</label>
-                    </div>
-                    <div class="col-sm-5" style="display: flex; align-items: end; justify-content: center;">
-                        <select id="select_sistemas" class="form-select form-select-sm">
-                            <!--<option value="0" selected>Seleccionar</option>-->
+                <div class="flex">
+                    <label class="w-4/12 text-sm font-semibold flex items-center justify-left pl-20">Sistema</label>
+                    <div class="w-5/12">
+                        <select id="select_sistemas" class="w-9/12 px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <option value="1" selected>Ecommerce</option>
-                            <!--<option value="2">AutoServicio</option>
-                            <option value="3">Intranet</option>
-                            <option value="4">Sispas</option>-->
                         </select>
                     </div>
                 </div>
-                <br>
-                <div class="row"><hr style="border: 1px solid #ced4da;"></div>
-                <br>
-                <div class="row">
-                    <div class="col-12" style="margin-bottom: 15px;">
-                        <div style="justify-content: center; display: flex;">
-                            <button id="btn_todas_rutas" class="btn btn-color-gray-600 btn-active btn-active-secondary px-6 py-3 me-2 active" (click)="todas_rutas()">Todas las rutas, menos excepciones</button>
-                            <button id="btn_rutas_aceptadas" class="btn btn-color-gray-600 btn-active btn-active-secondary px-6 py-3" (click)="rutas_aceptadas()">Rutas exactas</button>
-                        </div>
-                    </div>
-                    <div id="div_rutas_excluidas" class="col-12 mb-8">
-                        <label class="fs-6 fw-semibold mb-2">Rutas Excluidas</label><br>
-                        <select id="rutas_prohibidas" class="js-example-basic-multiple" multiple="multiple" style="z-index: 1057 !important;">
-                            <option *ngFor="let lrutas of ltRutas" value="{{lrutas.id}}">{{lrutas.denominacion}}</option>
-                        </select>
-                    </div>
-                    <div id="div_rutas_aceptadas" class="col-12 mb-8" style="display: none;">
-                        <label class="fs-6 fw-semibold mb-2">Rutas Exactas</label>
-                        <select id="rutas_aceptadas" class="js-example-basic-multiple" multiple="multiple" style="z-index: 1057 !important;">
-                            <option *ngFor="let lrutas of ltRutas" value="{{lrutas.id}}">{{lrutas.denominacion}}</option>
-                        </select>
-                    </div>
+                <div class="flex pt-2 pb-2"><hr class="w-full border-t border-gray-300"></div>
+                <div class="flex justify-center">
+                    <button id="btn_todas_rutas" (click)="todas_rutas()" class="px-3 py-2 mr-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-400">
+                        Todas las rutas, menos excepciones
+                    </button>
+                    <button id="btn_rutas_aceptadas" (click)="rutas_aceptadas()" class="px-3 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-400">
+                        Rutas exactas
+                    </button>
                 </div>
-                <br>
-                <div style="text-align: right;">
-                    <button type="reset" id="kt_modal_new_target_cancel" class="btn btn-success me-3" (click)="guardarPromocion()">Guardar</button>
-                    <button type="reset" id="kt_modal_new_target_cancel" class="btn btn-light me-3">Cancelar</button>       <!-- (click)="this.funcionesService.ocultar_modal('modal_create_editar_cupon')" -->
+                    
+                <div id="div_rutas_excluidas">
+                    <label for="rutas_prohibidas" class="block text-sm font-semibold mb-2">Rutas Excluidas</label>
+                    <select id="rutas_prohibidas" multiple="multiple" class="js-example-basic-multiple rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                        <option *ngFor="let lrutas of ltRutas" [value]="lrutas.id">
+                            {{ lrutas.denominacion }}
+                        </option>
+                    </select>
                 </div>
-            </div>
+                <div id="div_rutas_aceptadas" style="display: none;">
+                    <label for="rutas_aceptadas" class="block text-sm font-semibold mb-2">Rutas Exactas</label>
+                    <select id="rutas_aceptadas" multiple="multiple" class="js-example-basic-multiple rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                        <option *ngFor="let lrutas of ltRutas" [value]="lrutas.id">
+                            {{ lrutas.denominacion }}
+                        </option>
+                    </select>
+                </div>
+                <div class="flex pt-2 pb-2 justify-end">
+                    <button (click)="guardarPromocion()" class="px-4 py-2 mr-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Guardar</button>
+
+                    <button (click)="cerrarModal('modal_create_editar_cupon')" class="px-4 py-2 mr-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
