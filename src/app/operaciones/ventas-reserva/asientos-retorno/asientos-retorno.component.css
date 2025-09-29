@@ -37,17 +37,19 @@
     justify-content: center; 
     -webkit-box-align: center; 
     align-items: center; 
-    width: 3.5rem; 
+    width: 3.5rem;
     border-radius: 0.5rem; 
-    border-width: 5px; 
-    background: rgb(255, 255, 255); 
-    color: rgb(77, 77, 77);     /*rgb(0, 80, 151)*/
+    /*border-width: 5px; */
+    padding: 4px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+
+    /*background: rgb(255, 255, 255); 
+    color: rgb(77, 77, 77);
     box-shadow: rgb(0 0 0 / 30%) 0px 1px 3px; 
     transform: none; 
     transition: all 0.2s ease 0s;
-    cursor: pointer;
-
-    margin: 6px;
+    margin: 6px;*/
 }
 .casilla_asiento_imbatible{
     position: relative; 
@@ -108,9 +110,28 @@
     color: rgb(140, 140, 140);
     background-color: white;
 }
+.casilla_asiento_seleccionado{
+    position: relative; 
+    display: flex; 
+    -webkit-box-pack: center; 
+    justify-content: center; 
+    -webkit-box-align: center; 
+    align-items: center; 
+    width: 3.5rem;
+    border-radius: 0.5rem; 
+    /*border-width: 5px; */
+    padding: 4px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
 .casilla_asiento_seleccionado .casilla_asiento_num_asiento{
-    background-color: white;
-    color: #ff6719; 
+    background-color: #ff6719;
+    color: white; 
+}
+.casilla_asiento_seleccionado .precio_asiento{
+    background-color: #ff6719;
+    color: white; 
+    border-radius: 4px;
 }
 .casilla_asiento_seleccionado_imbatible .casilla_asiento_num_asiento_imbatible{
     background-color: white;
@@ -120,26 +141,6 @@
     background-color: white;
     color: #ff6719; 
 }
-
-.casilla_asiento_seleccionado{
-    position: relative; 
-    display: flex; 
-    -webkit-box-pack: center; 
-    justify-content: center; 
-    -webkit-box-align: center; 
-    align-items: center; 
-    width: 3.5rem; 
-    border-radius: 0.5rem; 
-    border-width: 5px; 
-    background: rgb(255, 103, 25);  /*rgb(239, 151, 35)*/   /*rgb(249 196 52)*/
-    color: #ffffff; 
-    box-shadow: rgb(0 0 0 / 30%) 0px 1px 3px; 
-    transform: none; 
-    transition: all 0.2s ease 0s;
-    cursor: pointer;
-    margin: 6px;
-}
-
 .casilla_asiento_seleccionado_imbatible{
     position: relative; 
     display: flex; 
@@ -190,6 +191,7 @@
     border-width: 5px; 
     transform: none; 
     transition: all 0.2s ease 0s;
+    background-color: #e7e5e9;
 }
 
 .numero_asiento{
@@ -213,6 +215,7 @@
 .precio_asiento{
     font-size: 0.72rem; 
     font-weight: 700;
+    color: #4b5563;
 }
 
 .espacio_en_blanco{

@@ -1,671 +1,539 @@
-<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
-    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
-        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-        <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">Menú Principal</h1>
-        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-            <li class="breadcrumb-item text-muted">
-                <font class="text-muted">Operaciones</font>
-            </li>
-            <li class="breadcrumb-item">
-                <span class="bullet bg-gray-500 w-5px h-2px"></span>
-            </li>
-            <li class="breadcrumb-item text-muted">Venta y Reserva de pasajes</li>
-        </ul>
+<div class="mt-3 mb-1 pl-7">
+    <div class="flex flex-col justify-center flex-wrap">
+        <span class="text-gray-900 dark:text-gray-100 font-bold text-lg my-0">Menú Principal</span>
+        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium pt-1">Operaciones - Venta y Reserva de Pasajes</p>
+    </div>
+</div>
+
+<div class="w-full mb-2">
+    <div class="flex">
+        <div id="div_progressbar" class="w-full md:w-10/12 xxl:w-8/12 px-4 pt-2">
+            <div class="border border-gray-300 rounded-lg shadow-sm bg-white">
+                <div class="p-4 pb-3 space-y-2">
+                    <div class="flex">
+                        <span class="text-xs text-gray-500 mr-1">Paso {{num_paso}} de {{paso_final}}:</span>
+                        <span class="text-xs text-orange-500 font-bold mr-1">{{detalle_paso}}</span>
+                        <span *ngIf="detalle_paso2 != ''" class="text-xs text-gray-600 font-bold mr-1"> - {{detalle_paso2}}</span>
+                    </div>
+                    <div class="w-full">
+                        <div class="bg-gray-100 rounded h-4">
+                            <div class="bg-orange-500 text-xs font-bold text-white text-center rounded" [ngStyle]="{ width: porcen_bar + '%' }">{{porcen_bar}}%</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-600 font-bold">{{sub_titulo}}</div>
+                </div>
+            </div>
         </div>
-        
-        <!--<div class="d-flex align-items-center gap-2 gap-lg-3">
-            <div class="m-0">
-                <button class="btn btn-sm btn-flex btn-secondary fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                    <i class="ki-outline ki-magnifier fs-6 text-muted me-1"></i> Buscar
+
+        <div id="btn_atras" class="w-full md:w-2/12 xxl:w-4/12 px-4 pt-2 inline-flex items-center">
+            <button (click)="btn_atras()" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gray-600 rounded-lg hover:bg-gray-700">
+                <i class="fad fa-chevron-left"></i> ATRÁS
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="div_datos_pasajeros" class="flex flex-wrap space-x-2 pt-2">
+    <div class="w-full md:w-1/4 px-4 pt-2">
+        <div class="border border-[#969696] rounded-lg shadow-sm">
+            <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center">
+                <div>
+                    <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Ida - {{servicioIda}}</p>
+                    <p>
+                        <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</span>
+                        &nbsp;<i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i>&nbsp;
+                        <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</span>
+                    </p>
+                    <p>
+                        <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
+                        <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaIda}}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="ruta_ida_vuelta_selec border-t border-dashed border-gray-500 px-4 py-3 rounded-b-md">
+                <div class="flex">
+                    <div class="w-5/12 text-center">
+                        <span class="rut_ida_vuelta_select_hora_embar_ida_vuelta">{{horaEmbarqueIda}} h</span>
+                    </div>
+                    <div class="w-7/12 rut_ida_vuelta_select_salida_embar_ida_vuelta">
+                        <div><em>Embarque</em></div>
+                        <div><em>{{agenciaEmbarqueIda}}</em></div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="ida_vuelta == 2" class="ruta_ida_vuelta_no_selec rounded-b-lg p-4 text-center">
+                <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Retorno</p>
+                <p>
+                    <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</span>
+                    &nbsp;<i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i>&nbsp;
+                    <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</span>
+                </p>
+                <p>
+                    <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
+                    <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaVuelta}}</span>
+                </p>
+            </div>
+        </div>
+
+        <br>
+
+        <div id="div_lista_promociones_ventas" class="bg-white shadow rounded-2xl border border-gray-300 mb-10">
+            <div *ngIf="promocionesVentasRuc.length > 0" class="px-6 pt-5">
+                <span class="flex flex-col items-start">
+                    <span class="text-lg font-bold text-gray-900">Promociones con RUC</span>
+                    <span class="text-sm font-semibold text-gray-500 pt-2">Descuentos Aplicables</span>
+                </span>
+            </div>
+
+            <div *ngIf="promocionesVentasRuc.length > 0" class="px-4 py-4">
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full">
+                        <tbody>
+                            <tr *ngFor="let dat of promocionesVentasRuc" class="border-b border-gray-200 last:border-0">
+                                <td>
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 flex items-center justify-center text-gray-600 mr-1"><i class="fad fa-badge-percent text-2xl"></i></div>
+                                        <div class="flex flex-col justify-start"><span class="text-xs font-bold text-gray-800">{{dat.c_denominacion}}</span></div>
+                                    </div>
+                                </td>
+                                <td class="text-center w-8">
+                                    <i class="fad fa-plus-square text-green-600 text-2xl cursor-pointer" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                                    <i class="fad fa-times-circle text-red-600 text-2xl cursor-pointer hidden" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <hr *ngIf="promocionesVentasRuc.length > 0" class="border-t border-dashed border-gray-500">
+
+            <div class="px-6 pt-5">
+                <h3 class="flex flex-col items-start">
+                    <span class="text-lg font-bold text-gray-900">Promociones</span>
+                    <span class="text-sm font-semibold text-gray-500 pt-2">Descuentos Aplicables</span>
+                </h3>
+            </div>
+
+            <div class="px-4 py-4">
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full">
+                        <tbody>
+                            <tr *ngFor="let dat of promocionesVentas" class="border-b border-gray-200 last:border-0">
+                                <td>
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 flex items-center justify-center text-gray-600 mr-1"><i class="fad fa-badge-percent text-2xl"></i></div>
+                                        <div class="flex flex-col justify-start"><span class="text-xs font-bold text-gray-800">{{dat.c_denominacion}}</span></div>
+                                    </div>
+                                </td>
+                                <td class="text-center w-8">
+                                    <i class="fad fa-plus-square text-green-600 text-2xl cursor-pointer" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                                    <i class="fad fa-times-circle text-red-600 text-2xl cursor-pointer hidden" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full xl:w-2/4 px-4 pt-2 pb-2">
+        <div *ngFor="let pasajero_asiento of pasajero_asientos; index as i;" class="w-full p-4 mb-2 border border-gray-300 rounded-lg">
+            <div class="flex flex-wrap">
+                <div class="xxl:w-7/12 xl:w-8/12 w-full">
+                    <div class="flex flex-wrap">
+                        <div class="w-full text-gray-600 font-bold text-lg mb-1.5">
+                            Datos del pasajero {{i+1}} 
+                            <span class="text-gray-500 text-sm font-bold">- <input type="text" id="relacion_edad_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="palabra_adulto_adolescente ml-2 w-1/5 text-gray-500 text-sm font-bold bg-transparent outline-none" value="Adulto" readonly></span>
+                        </div>
+                        <div class="w-1/2 mb-1 pr-1">
+                            <select id="selectTipDoc_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="changeSelect($event)" class="datos_pasajero block w-full rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                <option *ngFor="let tip_doc of tipos_documentos" value="{{tip_doc.idTipDoc}}" [selected]="tip_doc.idTipDoc == 1">
+                                    {{tip_doc.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="w-1/2 mb-1 pr-1">
+                            <input type="number" (blur)="searchNameDocumento($event)" (keypress)="maxLengthDocumento($event)" (keyup)="deleteBlankDataDocumento($event)" id="txtdocumento_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="datos_pasajero block w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="N° Documento">
+                        </div>
+                        <div class="w-1/2 mb-1 pr-1">
+                            <input type="hidden" id="txtidpasajero_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}">
+                            <input type="hidden" id="txtflagws_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}">
+                            <input type="text" id="txtnombres_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="datos_pasajero block w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-700 bg-gray-100" placeholder="Nombres" readonly>
+                        </div>
+                        <div class="w-1/2 mb-1 pr-1">
+                            <input type="text" id="txtapellidos_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="datos_pasajero block w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-700 bg-gray-100" placeholder="Apellidos" readonly>
+                        </div>
+                        <div class="w-1/2 mb-1 pr-1" title="Fecha de Nacimiento">
+                            <input type="date" id="fecha_nacimiento_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" value="{{date_actual}}" min="1900-01-01" max="{{date_actual}}" (blur)="aceptar_fecha_nacimiento(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)" class="datos_pasajero block w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Fecha de Nacimiento">
+                        </div>
+                        <input type="hidden" id="edad_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}">
+                        <div class="w-1/2 flex items-center justify-center text-sm mb-1">
+                            <label class="flex items-center mr-4 cursor-pointer">
+                                <input type="radio" name="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" id="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}_1" value="1" class="mr-1 text-blue-600">
+                                <span class="datos_pasajero">Femenino</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" id="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}_2" value="2" class="mr-1 text-blue-600">
+                                <span class="datos_pasajero">Masculino</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="xxl:w-5/12 xl:w-4/12 w-full border-l border-gray-200 pl-2">
+                    <div class="flex flex-wrap">
+                        <div *ngIf="pasajero_asiento.porcentaje_descuento_ida != 0 || pasajero_asiento.porcentaje_descuento_vuelta != 0" class="w-full flex">
+                            <div *ngIf="pasajero_asiento.porcentaje_descuento_ida != 0" class="p-2">
+                                <span class="relative block py-2 px-3 rounded-md bg-blue-100 text-xs font-bold text-gray-700 cursor-pointer">
+                                    <span *ngIf="tipoDescuentoPromocionVenta == 'S'">S/. </span>
+                                    {{pasajero_asiento.porcentaje_descuento_ida}}
+                                    <span *ngIf="tipoDescuentoPromocionVenta == 'P'">%</span> ida &nbsp; 
+                                    <i class="fad fa-times-circle text-red-600 text-sm" title="Quitar Promoción" (click)="quitar_descuento_unitario(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta, pasajero_asiento.porcentaje_descuento_ida, 'ida')"></i>
+                                    <span class="absolute bottom-0 left-0 w-full h-1 bg-blue-500"></span>
+                                </span>
+                            </div>
+                            <div *ngIf="pasajero_asiento.porcentaje_descuento_vuelta != 0" class="p-2">
+                                <span class="relative block py-2 px-3 rounded-md bg-blue-100 text-xs font-bold text-gray-700 cursor-pointer">
+                                    <span *ngIf="tipoDescuentoPromocionVenta == 'S'">S/. </span>
+                                    {{pasajero_asiento.porcentaje_descuento_vuelta}}
+                                    <span *ngIf="tipoDescuentoPromocionVenta == 'P'">%</span> vuelta &nbsp; 
+                                    <i class="fad fa-times-circle text-red-600 text-sm" title="Quitar Promoción" (click)="quitar_descuento_unitario(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta, pasajero_asiento.porcentaje_descuento_vuelta, 'vuelta')"></i>
+                                    <span class="absolute bottom-0 left-0 w-full h-1 bg-blue-500"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="w-full text-sm mb-1">
+                            <span class="text-orange-600 font-bold">Asiento de Ida: </span>
+                            <span class="text-gray-500 font-bold">{{pasajero_asiento.asiento_ida}}</span>
+                        </div>
+
+                        <div *ngIf="pasajero_asiento.asiento_vuelta != ''" class="w-full text-sm mb-1">
+                            <span class="text-orange-600 font-bold">Asiento de Vuelta: </span>
+                            <span class="text-gray-500 font-bold">{{pasajero_asiento.asiento_vuelta}}</span>
+                        </div>
+
+                        <div id="pregunta1_detalle_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="w-8/12 datos_infante mb-3 hidden">
+                            <span class="font-bold text-sm text-gray-500">¿Viajo con un bebé?</span>&nbsp;
+                            <i id="info_circle" class="fad fa-info-circle cursor-pointer text-gray-500" title="Si viajas con un bebé (menor de 5 años), es importante &#13;que lo registres durante la compra de tu pasaje. &#13;&#13;*Recuerda que los menores de edad, a partir de los 5 años,&#13; deben ocupar un asiento y pagar por Boleto de viaje."></i>
+                        </div>
+
+                        <div id="pregunta2_detalle_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="w-4/12 datos_infante mb-3 hidden">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input #sw1 type="checkbox" class="sr-only" id="flexSwitchCheckInfante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="change_detalle_infante($event, pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
+                                <div class="relative w-8 h-5 bg-gray-300 rounded-full flex items-center p-[2px] transition-colors duration-200" [class.bg-orange-600]="sw1.checked">
+                                    <div class="w-4 h-4 bg-white rounded-full shadow transition-all duration-200" [class.ml-auto]="sw1.checked"></div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div id="pregunta1_detalle_adolescente_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="w-8/12 datos_infante mb-3 hidden">
+                            <span class="font-bold text-sm text-gray-500">¿Quieres vincular con un Apoderado?</span>
+                        </div>
+
+                        <div id="pregunta2_detalle_adolescente_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="w-4/12 datos_infante mb-3 hidden">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input #sw2 type="checkbox" class="sr-only" id="flexSwitchCheckInfante2_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="change_detalle_infante_apoderado($event, pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
+                                <div class="relative w-8 h-5 bg-gray-300 rounded-full flex items-center p-[2px] transition-colors duration-200" [class.bg-orange-600]="sw2.checked">
+                                    <div class="w-4 h-4 bg-white rounded-full shadow transition-all duration-200" [class.ml-auto]="sw2.checked"></div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div id="datos_detalle_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="w-full datos_infante mb-1 hidden">
+                            <span class="text-gray-500 font-bold text-sm">Datos Infante:</span>&nbsp;
+                            <span id="btn_verdatos_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante hidden">
+                                <i class="fad fa-user"></i>&nbsp;
+                                <input type="text" id="dni_datos_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="text-sm font-bold text-[#4e4d50b5] bg-transparent border-none w-1/5 ml-2" readonly>
+                            </span>
+                            <span id="btn_agregar_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante cursor-pointer text-sm" title="Agregar Infante" (click)="abrirModalDatosInfante(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
+                                <i class="fas fa-plus"></i> Agregar Infante
+                            </span>
+                            <span id="btn_editar_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante ml-1 hidden cursor-pointer" title="Editar Datos del Infante" (click)="editarDatosInfante(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
+                                <i class="fas fa-edit text-[#e59400]"></i>
+                            </span>
+                            <span id="btn_eliminar_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante ml-1 hidden cursor-pointer" title="Eliminar Infante" (click)="eliminarDatosInfante(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
+                                <i class="fas fa-times-circle text-red-600"></i>
+                            </span>
+                        </div>
+
+                        <div id="dni_apoderado2_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="w-full datos_infante mb-1 hidden">
+                            <span class="text-gray-600 font-bold text-sm" id="fontPalabraApoderado2">DNI Apoderado:</span>&nbsp;
+                            <span>
+                                <input id="TipDocApoderado1_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" type="text" (blur)="searchDocumentoApoderado($event)" (keyup.enter)="searchDocumentoApoderado($event)" class="hidden w-2/4 text-gray-500 border border-gray-300 rounded-md px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                <select id="TipDocApoderado2_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="searchDocumentoApoderado($event)" class="hidden w-1/3 border border-gray-300 rounded-md px-2 py-1 text-sm text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                    <option *ngFor="let ltDocument of listaArrayAdultosSeleccion" value="{{ltDocument}}">
+                                        {{ltDocument}}
+                                    </option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full mt-3 mb-5">
+            <div class="flex flex-wrap mb-2">
+                <div class="md:w-3/12 w-1/2 text-gray-600 font-bold text-lg">Datos de Contacto</div>
+            </div>
+            <div class="flex flex-wrap">
+                <div class="w-full mb-1">
+                    <div class="text-center rounded bg-gray-200 p-2 text-sm text-gray-500 mb-1">
+                        Sus boletos y el recibo se enviarán a la dirección del correo electrónico a continuación.
+                    </div>
+                </div>
+                <div class="xxl:w-8/12 w-8/12 mb-1">
+                    <input id="emailDatosContacto" type="email" class="block w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Correo electrónico">
+                </div>
+                <div class="xxl:w-4/12 w-4/12 mb-1 pl-3">
+                    <input id="numeroDatosContacto" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry: 'PE'}" name="numeroDatosContacto" type="tel" (keyup)="reemplazar_caracteres($event)" (keypress)="limit_num_input($event)" class="block w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Número de teléfono o celular">
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full mt-3 mb-5">
+            <div class="grid grid-cols-12 items-center gap-2">
+                <div class="col-span-2">
+                    <div class="text-gray-600 font-bold text-base">¿Desea factura?</div>
+                </div>
+                <div class="col-span-6 flex justify-start">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input #sw3 type="checkbox" class="sr-only" id="chkSolicitaFactura" (change)="change_detalle_factura($event)">
+                        <div class="relative w-8 h-5 bg-gray-300 rounded-full flex items-center p-[2px] transition-colors duration-200" [class.bg-orange-600]="sw3.checked">
+                            <div class="w-4 h-4 bg-white rounded-full shadow transition-all duration-200" [class.ml-auto]="sw3.checked"></div>
+                        </div>
+                    </label>
+                </div>
+                <div id="detalle_factura" class="col-span-6 hidden">
+                    <div class="mb-2">
+                        <input id="idclienteSolicitaFactura" type="text" class="hidden">
+                        <input id="flagSolicitaFactura" type="text" class="hidden">
+                        <input id="rucSolicitaFactura" type="text" maxlength="11" placeholder="Ruc" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500" (blur)="eliminarDatosRuc($event)" (keyup.enter)="searchDatosRuc($event)" (keydown)="handleKeyDownRuc($event)" (paste)="handlePasteRuc($event)">
+                    </div>
+                    <div class="mb-2">
+                        <input id="razonSolicitaFactura" type="text" placeholder="Razón" readonly class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm bg-gray-100">
+                    </div>
+                    <div class="mb-2">
+                        <input id="direccionSolicitaFactura" type="text" placeholder="Dirección" readonly class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm bg-gray-100">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full mt-3 mb-5">
+            <div class="w-full mt-2.5">
+                <div class="mb-2.5">
+                    <div class="text-gray-600 font-bold text-base col-span-3 md:col-span-6">Medio de Pago</div>
+                </div>
+                <div class="mb-1">
+                    <div class="text-center rounded bg-gray-200 p-4 text-sm text-gray-500 mb-1">
+                        <div class="mb-1">
+                            <label for="chktermcond_1" class="flex items-start text-xs text-[#545454] cursor-pointer">
+                                <input id="chktermcond_1" type="checkbox" value="" class="mt-0.5 mr-2 h-4 w-4 rounded border border-white">
+                                <span class="text-gray-500">
+                                    <span class="terminos_condiciones">*</span>
+                                    <span class="terminos_condiciones">
+                                        He cumplido con el proceso de venta de acuerdo a los procesos estipulados publicados aquí
+                                        <i class="fad fa-file-alt text-gray-600 cursor-pointer ml-1" title="ver Términos y Condiciones" (click)="abrirModal('modalTerminosCondiciones')"></i>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="asientos_precios1" class="w-full mb-1">
+                <div class="rounded p-3 text-sm mb-1">
+                    <div class="flex flex-col items-center">
+                        <div *ngIf="precio_pasajeros_asientos_ida != 0" class="w-full lg:w-8/12 bg-white text-gray-500 border border-gray-400 mb-2">
+                            <div class="mt-4 mb-3">
+                                <div class="flex flex-wrap">
+                                    <div class="w-1/2 pl-4">
+                                        <div class="text-gray-600 font-bold text-[15px]">Ida</div>
+                                        <div class="text-xs">Pasajeros: <span class="text-gray-600 font-bold text-xs">{{cant_pasajeros_asientos_ida}}</span></div>
+                                        <div class="text-xs">Asiento(s): <span class="text-gray-600 font-bold text-xs">{{list_pasajeros_asientos_ida}}</span></div>
+                                    </div>
+                                    <div class="w-1/2 text-center mt-2.5">
+                                        <span class="text-gray-600 font-bold text-xl">s/ {{precio_pasajeros_asientos_ida.toFixed(2)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="cant_pasajeros_asientos_vuelta != 0" class="w-full lg:w-8/12 bg-white text-gray-500 border border-gray-400 mb-2">
+                            <div class="mt-4 mb-3">
+                                <div *ngIf="precio_pasajeros_asientos_vuelta != 0" class="flex flex-wrap">
+                                    <div class="w-1/2 pl-4">
+                                        <div class="text-gray-600 font-bold text-[15px]">Retorno</div>
+                                        <div class="text-xs">Pasajeros: <span class="text-gray-600 font-bold text-xs">{{cant_pasajeros_asientos_vuelta}}</span></div>
+                                        <div class="text-xs">Asiento(s): <span class="text-gray-600 font-bold text-xs">{{list_pasajeros_asientos_vuelta}}</span></div>
+                                    </div>
+                                    <div class="w-1/2 text-center mt-2.5">
+                                        <span class="text-gray-600 font-bold text-xl">s/ {{precio_pasajeros_asientos_vuelta.toFixed(2)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="flagPromocionVentas == 0" id="precio_total_normal" class="w-full lg:w-8/12 bg-gray-200 text-gray-700 border border-gray-400 mb-2">
+                            <div class="mt-3.5 mb-3 flex flex-wrap">
+                                <div class="w-1/2 mt-2.5 pl-4">
+                                    <span class="font-bold text-[14.5px]">N° de pasajes: {{cant_pasajeros_asientos_ida+cant_pasajeros_asientos_vuelta}}</span>
+                                </div>
+                                <div class="w-1/2 text-center">
+                                    <div class="text-xs italic">Precio Total</div>
+                                    <span class="font-bold text-2xl">s/ {{precio_total_pasajeros_asientos.toFixed(2)}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="flagPromocionVentas == 1" id="precio_total_promocionVenta" class="w-full lg:w-8/12 bg-gray-200 text-gray-700 border border-gray-400 mb-2">
+                            <div class="mt-3.5 mb-3 flex flex-wrap">
+                                <div class="w-1/3 pl-4 pt-3">
+                                    <span class="font-bold text-[14.5px]">N° de pasajes: {{cant_pasajeros_asientos_ida+cant_pasajeros_asientos_vuelta}}</span>
+                                </div>
+                                <div class="w-2/3 text-right pr-4">
+                                    <div>
+                                        <span class="txt_total_1" title="Descuento Aplicado">
+                                            <span *ngIf="tipoDescuentoPromocionVenta == 'S'">S/. </span>
+                                            -{{porcentajeDescuentoPromocionVenta}}
+                                            <span *ngIf="tipoDescuentoPromocionVenta == 'P'">%</span>
+                                        </span>
+                                        <span class="txt_total_2">
+                                            <span class="txt_total_3">s/ {{precio_total_pasajeros_asientos_original.toFixed(2)}}</span>
+                                        </span>
+                                        <span class="txt_total_7">(Original)</span>
+                                    </div>
+                                    <div class="mt-0">
+                                        <span class="txt_total_4"><em>Precio Total </em> <span class="txt_total_5">(Promoción)</span></span>
+                                        <span class="txt_total_6">s/ {{precio_total_pasajeros_asientos.toFixed(2)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full text-center mb-5">
+                <button id="btn_continuar_pago" type="button" class="px-5 py-2 bg-orange-500 text-white font-medium rounded hover:bg-orange-600 transition" (click)="ConfirmarCompra()">
+                    <i class="fad fa-money-check text-white mr-1"></i> CONFIRMAR COMPRA
                 </button>
             </div>
-            <button class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Botón</button>
-        </div>-->
-        
-    </div>
-</div>
-
-<div id="kt_app_content" class="app-content flex-column-fluid">
-    <div id="kt_app_content_container" class="app-container container-fluid">
-        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
-        <div id="div_progressbar" class="row" style="border-color: #c5c5c5;">
-            <div class="col-xxl-8 col-10">
-                <div class="card card-flush mb-5" style="border-color: #c5c5c5;">
-                    <div class="card-body pt-5 pb-5">
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <font style="color: #ada9a4; font-size: 13px;">Paso {{num_paso}} de {{paso_final}}: </font> 
-                                <font style="color: #ff6719; font-size: 13px; font-weight: bold;">{{detalle_paso}}</font>
-                                <font *ngIf="detalle_paso2 != ''" style="color: #696969; font-size: 12px; font-weight: bold;"> - {{detalle_paso2}}</font>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="progress progress1" style="background-color:#ffe5d7;">
-                                    <div class="progress-bar w-{{porcen_bar}}" role="progressbar" [attr.aria-valuenow]="porcen_bar" aria-valuemin="0" aria-valuemax="100" style="background-color: #ff6719;"></div>
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <font style="color: #73737a; font-size: 11px; font-weight: bold;">{{sub_titulo}}</font>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="btn_atras" class="col-md-2 gx-xl-10 mb-5" style="align-content: center;">
-                <button class="btn btn-sm btn-secondary" (click)="btn_atras()">
-                    <i class="fad fa-chevron-left"></i> ATRÁS
-                </button>
-            </div>
-        </div>
-        <!------------------------------------------------------- PROGRESS BAR ------------------------------------------------------->
-
-        <div id="div_datos_pasajeros" class="row g-5 gx-xl-10 mb-5">
-            <div class="col-3">
-                <div class="card" style="border-color: #ccc">
-                    <div class="card-body container_ruta_ida_vuelta_selec" style="border-top-left-radius: 7px; border-top-right-radius: 7px; background-color: white !important;">
-                        <div style="text-align: center;">
-                            <font class="rut_ida_vuelta_select_ida_vuelta">Ida - {{servicioIda}}</font><br>
-                            <font class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</font> &nbsp;
-                            <i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i> &nbsp;
-                            <font class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</font>
-                            <br>
-                            <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
-                            <font class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaIda}}</font>
-                        </div>
-                    </div>
-                    <div class="card-body container_ruta_ida_vuelta_selec" style="border-top: 1px dashed #7e7e7e; padding-top: 10px; padding-bottom: 10px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; background-color: white !important;">
-                        <div class="row">
-                            <div class="col-5" style="text-align: center;">
-                                <font class="rut_ida_vuelta_select_hora_embar_ida_vuelta">{{horaEmbarqueIda}} h</font>
-                            </div>
-                            <div class="col-7 rut_ida_vuelta_select_salida_embar_ida_vuelta">
-                                <div><em>Embarque</em></div>
-                                <div><em>{{agenciaEmbarqueIda}}</em></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="ida_vuelta == 2" class="card-body container_ruta_ida_vuelta_selec" style="border-top: 1px solid #ccc;">
-                        <div style="text-align: center;">
-                            <font class="rut_ida_vuelta_no_select_ida_vuelta">Retorno - {{servicioVuelta}}</font><br>
-                            <font class="rut_ida_vuelta_no_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</font> &nbsp;
-                            <i class="fad fa-long-arrow-right rut_ida_vuelta_no_select_icon"></i> &nbsp;
-                            <font class="rut_ida_vuelta_no_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</font>
-                            <br>
-                            <i class="fal fa-calendar-check rut_ida_vuelta_no_select_icon2"></i>&nbsp;
-                            <font class="rut_ida_vuelta_no_select_fecha_ida_vuelta">{{nombreFechaVuelta}}</font>
-                        </div>
-                    </div>
-                    <div *ngIf="ida_vuelta == 2" class="card-body container_ruta_ida_vuelta_selec" style="border-top: 1px dashed #a5a5a7; padding-top: 10px; padding-bottom: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-                        <div class="row">
-                            <div class="col-5" style="text-align: center;">
-                                <font class="rut_ida_vuelta_no_select_hora_embar_ida_vuelta">{{horaEmbarqueVuelta}} h</font>
-                            </div>
-                            <div class="col-7 rut_ida_vuelta_no_select_salida_embar_ida_vuelta">
-                                <div><em>Embarque</em></div>
-                                <div><em>{{agenciaEmbarqueVuelta}}</em></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-
-                <div id="div_lista_promociones_ventas" class="card card-flush mb-xxl-10" style="border-color: #ccc;">
-                    <div *ngIf="promocionesVentasRuc.length > 0" class="card-header pt-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bold text-gray-900">Promociones con RUC</span>
-                            <span class="text-gray-500 pt-2 fw-semibold fs-7">Descuentos Aplicables</span>
-                        </h3>
-                    </div>
-                    
-                    <div *ngIf="promocionesVentasRuc.length > 0" class="card-body" style="padding: 1rem 1rem;">
-                        <div class="table-responsive">
-                            <table class="table align-middle gs-0 gy-4" style="margin-bottom: 0rem;">
-                                <tbody>
-                                    <tr *ngFor="let dat of promocionesVentasRuc">
-                                        <td style="padding-left: 14px;">
-                                            <div class="d-flex align-items-center">
-                                                <div class="symbol symbol-50px me-5">
-                                                    <i class="fad fa-badge-percent" style="font-size: 1.8rem;"></i>
-                                                </div>
-                                                <div class="d-flex justify-content-start flex-column">
-                                                    <span class="text-gray-900 fw-bold mb-1 fs-7" style="color: #363636 !important;">{{dat.c_denominacion}}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <i class="fad fa-plus-square" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" style="color: #22a722; font-size: 1.8rem; cursor: pointer;" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i> 
-                                            <i class="fad fa-times-circle" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" style="display: none; color: #e90c0c; font-size: 1.8rem; cursor: pointer;" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <hr *ngIf="promocionesVentasRuc.length > 0" style="border: 1px dashed #747474;">
-
-                    <div class="card-header pt-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bold text-gray-900">Promociones</span>
-                            <span class="text-gray-500 pt-2 fw-semibold fs-7">Descuentos Aplicables</span>
-                        </h3>
-                    </div>
-                    
-                    <div class="card-body" style="padding: 1rem 1rem;">
-                        <div class="table-responsive">
-                            <table class="table align-middle gs-0 gy-4">
-                                <tbody>
-                                    <tr *ngFor="let dat of promocionesVentas">
-                                        <td style="padding-left: 14px;">
-                                            <div class="d-flex align-items-center">
-                                                <div class="symbol symbol-50px me-5">
-                                                    <i class="fad fa-badge-percent" style="font-size: 1.8rem;"></i>
-                                                </div>
-                                                <div class="d-flex justify-content-start flex-column">
-                                                    <span class="text-gray-900 fw-bold mb-1 fs-7" style="color: #363636 !important;">{{dat.c_denominacion}}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <i class="fad fa-plus-square" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" style="color: #22a722; font-size: 1.8rem; cursor: pointer;" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i> 
-                                            <i class="fad fa-times-circle" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" style="display: none; color: #e90c0c; font-size: 1.8rem; cursor: pointer;" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xxl-7 col-8">
-                <div *ngFor="let pasajero_asiento of pasajero_asientos; index as i;" class="col-12" style="padding: 10px; margin-bottom: 5px; border: 1px solid #ccc; padding: 16px; border-radius: 7px;">
-                    <div class="row">
-                        <div class="col-xxl-7 col-xl-8">
-                            <div class="row">
-                                <div class="col-12" style="color: #4E4D50; font-weight: bold; font-size: 16px; margin-bottom: 4px;">
-                                    Datos del pasajero {{i+1}} <font style="color: #4e4d50b5; font-size: 13px; font-weight: bold;">- 
-                                    <input type="text" id="relacion_edad_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="palabra_adulto_adolescente" value="Adulto" style="border: none; margin: 6px; width: 18%; color: #4e4d50b5; font-size: 13px; font-weight: bold;" readonly></font>
-                                </div>
-                                <div class="col-6" style="margin-bottom: 4px;">
-                                    <select class="custom-select form-select form-select-sm datos_pasajero" id="selectTipDoc_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="changeSelect($event)">
-                                        <option *ngFor="let tip_doc of tipos_documentos" value="{{tip_doc.idTipDoc}}" [selected]="tip_doc.idTipDoc == 1">{{tip_doc.nombre}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-6" style="margin-bottom: 4px;">
-                                    <input type="number" (blur)="searchNameDocumento($event)" (keypress)="maxLengthDocumento($event)" (keyup)="deleteBlankDataDocumento($event)" id="txtdocumento_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="form-control form-control-sm datos_pasajero" placeholder="N° Documento">
-                                </div>
-                                <div class="col-6" style="margin-bottom: 4px;">
-                                    <input type="text" id="txtidpasajero_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" style="display: none;">
-                                    <input type="text" id="txtflagws_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" style="display: none;">
-                                    <input type="text" id="txtnombres_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="form-control form-control-sm datos_pasajero" placeholder="Nombres" readonly>
-                                </div>
-                                <div class="col-6" style="margin-bottom: 4px;">
-                                    <input type="text" id="txtapellidos_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="form-control form-control-sm datos_pasajero" placeholder="Apellidos" readonly>
-                                </div>
-                                <div class="col-6" style="margin-bottom: 4px;" title="Fecha de Nacimiento">
-                                    <input type="date" id="fecha_nacimiento_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" value="{{date_actual}}" min="1900-01-01" max="{{date_actual}}" (blur)="aceptar_fecha_nacimiento(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)" class="form-control form-control-sm datos_pasajero" maxlength="3" placeholder="Fecha de Nacimiento">
-                                </div>
-                                <input type="hidden" id="edad_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="form-control form-control-sm" maxlength="3" placeholder="Edad" readonly>
-                                <div class="col-6 text-center" style="font-size: 0.90rem; margin-bottom: 4px; display: flex; align-items: center;">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" id="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}_1" value="1">
-                                        <label class="form-check-label datos_pasajero" for="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}_1">Femenino</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" id="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}_2" value="2">
-                                        <label class="form-check-label datos_pasajero" for="inlineRadio_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}_2">Masculino</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-5 col-xl-4 datos_infate_border">
-                            <br>
-                            <div class="row">
-                                <!------------------------------------------------- ASIENTO IDA Y VUELTA ------------------------------------------------->
-                                <div *ngIf="pasajero_asiento.porcentaje_descuento_ida != 0 || pasajero_asiento.porcentaje_descuento_vuelta != 0 " class="col-12" style="display: flex;">
-                                    <div *ngIf="pasajero_asiento.porcentaje_descuento_ida != 0">
-                                        <div class="card-body">
-                                            <ul class="nav nav-pills nav-pills-custom mb-1">
-                                                <li class="nav-item mb-1 me-1 me-lg-1" style="cursor: pointer;">
-                                                    <span class="nav-link d-flex justify-content-between flex-column flex-center overflow-hidden py-3 active" data-bs-toggle="pill">
-                                                        <span class="nav-text text-gray-700 fw-bold lh-2" style="font-size: 12px !important;">
-                                                            <span *ngIf="tipoDescuentoPromocionVenta == 'S'">S/. </span> 
-                                                            {{pasajero_asiento.porcentaje_descuento_ida}}
-                                                            <span *ngIf="tipoDescuentoPromocionVenta == 'P'">%</span> ida &nbsp; 
-                                                            <i class="fad fa-times-circle" style="color: #e90c0c; font-size: 14.5px;" title="Quitar Promoción" (click)="quitar_descuento_unitario(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta, pasajero_asiento.porcentaje_descuento_ida, 'ida')"></i>
-                                                        </span>
-                                                        <span class="bullet-custom position-absolute bottom-0 w-100 h-4px" style="background-color: #578dcf !important;"></span>
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div *ngIf="pasajero_asiento.porcentaje_descuento_vuelta != 0">
-                                        <div class="card-body">
-                                            <ul class="nav nav-pills nav-pills-custom mb-1">
-                                                <li class="nav-item mb-1 me-1 me-lg-1" style="cursor: pointer;">
-                                                    <span class="nav-link d-flex justify-content-between flex-column flex-center overflow-hidden py-3 active" data-bs-toggle="pill">
-                                                        <span class="nav-text text-gray-700 fw-bold lh-2" style="font-size: 12px !important;">
-                                                            <span *ngIf="tipoDescuentoPromocionVenta == 'S'">S/. </span> 
-                                                            {{pasajero_asiento.porcentaje_descuento_vuelta}}
-                                                            <span *ngIf="tipoDescuentoPromocionVenta == 'P'">%</span> vuelta &nbsp; 
-
-                                                            <i class="fad fa-times-circle" style="color: #e90c0c; font-size: 14.5px;" title="Quitar Promoción" (click)="quitar_descuento_unitario(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta, pasajero_asiento.porcentaje_descuento_vuelta, 'vuelta')"></i>
-                                                        </span>
-                                                        <span class="bullet-custom position-absolute bottom-0 w-100 h-4px" style="background-color: #578dcf !important;"></span>
-                                                    </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 datos_infante" style="margin-bottom: 4px;">
-                                    <font style="color: #EC6726; font-weight: bold;">Asiento de Ida: </font>&nbsp;
-                                    <font style="color: #4e4d50b5; font-weight: bold;">{{pasajero_asiento.asiento_ida}}</font>
-                                </div>
-                                <div *ngIf="pasajero_asiento.asiento_vuelta != ''" class="col-12 datos_infante" style="margin-bottom: 4px;">
-                                    <font style="color: #EC6726; font-weight: bold;">Asiento de Vuelta: </font>&nbsp;
-                                    <font style="color: #4e4d50b5; font-weight: bold;">{{pasajero_asiento.asiento_vuelta}}</font>
-                                </div>
-                                <div id="pregunta1_detalle_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="col-8 datos_infante" style="margin-bottom: 11px; display: none;">
-                                    <font style="color: #4e4d50b5; font-weight: bold;">¿Viajo con un bebé?</font> &nbsp; <i id="info_circle" class="fad fa-info-circle" title="Si viajas con un beb&eacute; (menor de 5 años), es importante &#13;que lo registres durante la compra de tu pasaje. &#13;&#13;*Recuerda que los menores de edad, a partir de los 5 años,&#13; deben ocupar un asiento y pagar por Boleto de viaje." style="cursor: pointer;"></i>&nbsp;
-                                </div>
-                                <!------------------------------------------------- DATOS INFANTE ------------------------------------------------->
-                                <div id="pregunta2_detalle_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="col-4 datos_infante" style="margin-bottom: 11px; display: none;">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckInfante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="change_detalle_infante($event, pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
-                                    </div>
-                                </div>
-                                <div id="pregunta1_detalle_adolescente_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="col-6 datos_infante" style="margin-bottom: 11px; display: none;">
-                                    <font style="color: #4e4d50b5; font-weight: bold;">¿Quieres vincular con un Apoderado?</font>&nbsp;
-                                </div>
-                                <div id="pregunta2_detalle_adolescente_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="col-6 datos_infante" style="margin-bottom: 11px; display: none;">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckInfante2_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" (change)="change_detalle_infante_apoderado($event, pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
-                                    </div>
-                                </div>
-                                <div id="datos_detalle_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="col-12 datos_infante" style="margin-bottom: 4px; display: none;">
-                                    <font style="color: #4e4d50b5; font-weight: bold;">Datos Infante: </font>&nbsp;
-                                    <span id="btn_verdatos_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante" style="display: none;">
-                                        <i class="fad fa-user"></i>&nbsp;
-                                        <input type="text" id="dni_datos_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="dni_datos" value="" style="font-size: 13px; border: none; margin: 6px; width: 20%; color: #4e4d50b5; font-weight: bold;" readonly>
-                                    </span>
-                                    <span id="btn_agregar_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante" style="margin-left: 3px; cursor: pointer;" title="Agregar Infante" (click)="abrirModalDatosInfante(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
-                                        <i class="fas fa-plus"></i> Agregar Infante
-                                    </span>
-                                    <span id="btn_editar_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante" style="margin-left: 3px; display: none; cursor: pointer;" title="Editar Datos del Infante" (click)="editarDatosInfante(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
-                                        <i class="fas fa-edit" style="color: #e59400;"></i>
-                                    </span>
-                                    <span id="btn_eliminar_infante_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="border_button_infante" style="margin-left: 3px; display: none; cursor: pointer;" title="Eliminar Infante" (click)="eliminarDatosInfante(pasajero_asiento.asiento_ida+'_'+pasajero_asiento.asiento_vuelta)">
-                                        <i class="fas fa-times-circle" style="color: #e30000;"></i>
-                                    </span>
-                                </div>
-                                <div id="dni_apoderado2_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="col-12 datos_infante" style="margin-bottom: 4px; display: none;">
-                                    <font id="fontPalabraApoderado2" style="color: #4e4d50b5; font-weight: bold;">DNI Apoderado: </font>&nbsp;
-                                    <span>
-                                        <input id="TipDocApoderado1_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="form-control form-control-sm" type="text" value="" style="display: none; width: 25%; color: #4e4d50d4;" (blur)="searchDocumentoApoderado($event)" (keyup.enter)="searchDocumentoApoderado($event)">
-
-                                        <select id="TipDocApoderado2_{{pasajero_asiento.asiento_ida}}_{{pasajero_asiento.asiento_vuelta}}" class="custom-select form-select form-select-sm" style="display: none; width: 30%;" (change)="searchDocumentoApoderado($event)">
-                                            <option *ngFor="let ltDocument of listaArrayAdultosSeleccion" value="{{ltDocument}}">{{ltDocument}}</option>
-                                        </select>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12" style="margin-top: 10px; margin-bottom: 20px;">
-                    <div class="row" style="margin-bottom: 9px;">
-                        <div class="col-md-3 col-6" style="color: #4E4D50; font-weight: bold; font-size: 16px;">Datos de Contacto</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12" style="margin-bottom: 4px;">
-                            <div class="text-center" style="border-radius: 4px; background-color: #e5e5e5; padding: 10px; font-size: 14px; color: #838383; margin-bottom: 4px;">
-                                Sus boletos y el recibo se enviarán a la dirección del correo electrónico a continuación.
-                            </div>
-                        </div>
-                        <div class="col-xxl-8 col-8" style="margin-bottom: 4px;">
-                            <input id="emailDatosContacto" type="email" class="form-control form-control-sm" placeholder="Correo electrónico">
-                        </div>
-                        <div class="col-xxl-4 col-4" style="margin-bottom: 4px;">
-                            <input id="numeroDatosContacto" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry: 'PE'}" name="numeroDatosContacto" type="tel" (keyup)="reemplazar_caracteres($event)" (keypress)="limit_num_input($event)" class="form-control form-control-sm" placeholder="Número de teléfono o celular">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12" style="margin-top: 10px;">
-                    <div class="row">
-                        <!--<div class="col-12 col-xl-6" style="margin-bottom: 4px;">
-                            <div class="row">
-                                <div class="col-10">
-                                    <div style="color: #4E4D50; font-weight: bold; font-size: 16px; margin-bottom: 8px;">¿Tiene cupón de descuento?</div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" (change)="change_detalle_cupon($event)">
-                                    </div>
-                                </div>
-                                <div id="detalle_cupon" style="display: none;">
-                                    <div style="margin-bottom: 6px;">
-                                        <input type="text" id="nameCupon" class="form-control form-control-sm" placeholder="Ingrese cupón de descuento">
-                                    </div>
-                                    <div style="margin-bottom: 4px;">
-                                        <button type="button" class="btn" id="btn_aplicar_cupon" style="background-color: #ff6719; color: white;" (click)="ConsultarCupon()">Aplicar</button>&nbsp;
-                                        <button type="button" class="btn" id="btn_elimiar_cupon" style="background-color: #ea0808; color: white; display: none;" (click)="EliminarCuponAplicado()">Eliminar Cupón "{{nameCupon}}"&nbsp; <i class="fad fa-times-circle"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-                        <div class="col-12 col-xl-6" style="margin-bottom: 4px;">
-                            <div class="row">
-                                <div class="col-10">
-                                    <div style="color: #4E4D50; font-weight: bold; font-size: 16px; margin-bottom: 8px;">¿Desea factura?</div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="form-check form-switch">
-                                        <input id="chkSolicitaFactura" class="form-check-input" type="checkbox" role="switch" (change)="change_detalle_factura($event)">
-                                    </div>
-                                </div>
-                                <div id="detalle_factura" style="display: none;">
-                                    <div style="margin-bottom: 4px;">
-                                        <input id="idclienteSolicitaFactura" type="text" style="display: none;">
-                                        <input id="flagSolicitaFactura" type="text" style="display: none;">
-                                        <input id="rucSolicitaFactura" type="text" class="form-control form-control-sm" maxlength="11" placeholder="Ruc" (blur)="eliminarDatosRuc($event)" (keyup.enter)="searchDatosRuc($event)" (keydown)="handleKeyDownRuc($event)" (paste)="handlePasteRuc($event)">
-                                        <!-- (blur)="searchDatosRuc($event)" (keypress)="this.funcionesService.limit_num_ruc($event)" (keyup)="deleteBlankDataRuc($event)" onkeydown="return /[0-9,a]/i.test(event.key)" -->
-                                    </div>
-                                    <div style="margin-bottom: 4px;">
-                                        <input id="razonSolicitaFactura" type="text" class="form-control form-control-sm" placeholder="Razón" readonly>
-                                    </div>
-                                    <div style="margin-bottom: 4px;">
-                                        <input id="direccionSolicitaFactura" type="text" class="form-control form-control-sm" placeholder="Dirección" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12" style="margin-top: 10px;">
-                    <div class="row" style="margin-bottom: 9px;">
-                        <div class="col-md-3 col-6" style="color: #4E4D50; font-weight: bold; font-size: 16px;">Medio de Pago</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12" style="margin-bottom: 4px;">
-                            <div class="text-center" style="border-radius: 4px; background-color: #e5e5e5; padding: 18px; font-size: 14px; color: #838383; margin-bottom: 4px;">
-                                <div style="margin-bottom: 4px;">
-                                    <div class="form-check" style="text-align: left; font-size: 12px; color: #545454;">
-                                        <input class="form-check-input" type="checkbox" value="" id="chktermcond_1" style="border: 1.5px solid white;">
-                                        <label class="form-check-label" for="chktermcond_1" style="color: #838383;">
-                                            <font class="terminos_condiciones">*</font> 
-                                            <font class="terminos_condiciones">
-                                                He cumplido con el proceso de venta de acuerdo a los procesos estipulados publicados aquí 
-                                                <i class="fad fa-file-alt" style="cursor: pointer; color: #ff6719;" title="ver Términos y Condiciones"></i>     <!-- (click)="funcionesService.mostrar_modal('modalTerminosCondiciones')" -->
-                                            </font>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="asientos_precios1" class="col-12" style="margin-bottom: 3px;">
-                    <div style="border-radius: 4px; padding: 12px; font-size: 14px; margin-bottom: 4px;">
-                        <div class="row" style="display: flex; justify-content: center;">
-                            <div class="col-lg-8 col-12" style="background-color: #ffffff; color: #838383; border: 1px solid gray; margin-bottom: 10px;">
-                                <div class="row" style="margin-top: 17px; margin-bottom: 13px;">
-                                    <div *ngIf="precio_pasajeros_asientos_ida != 0" class="col">
-                                        <div class="row">
-                                            <div class="col-6 col-sm-6" style="padding-left: 4%;">
-                                                <font style="color: #4E4D50; font-weight: bold; font-size: 15px;">Ida</font><br>
-                                                <font style="font-size: 12px;">Pasajeros: </font> <font style="color: #4E4D50; font-weight: bold; font-size: 12px;">{{cant_pasajeros_asientos_ida}}</font><br>
-                                                <font style="font-size: 12px;">Asiento(s): </font> <font style="color: #4E4D50; font-weight: bold; font-size: 12px;">{{list_pasajeros_asientos_ida}}</font>
-                                            </div>
-                                            <div class="col-6 col-sm-6 text-center" style="margin-top: 10px;">
-                                                <font style="color: #4E4D50; font-weight: bold; font-size: 22px;">s/ {{precio_pasajeros_asientos_ida.toFixed(2)}}</font>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="cant_pasajeros_asientos_vuelta != 0" class="col-lg-8 col-12" style="background-color: #ffffff; color: #838383; border: 1px solid gray; margin-bottom: 10px;">
-                                <div class="row" style="margin-top: 17px; margin-bottom: 13px;">
-                                    <div *ngIf="precio_pasajeros_asientos_vuelta != 0" class="col">
-                                        <div class="row">
-                                            <div class="col-6 col-sm-6" style="padding-left: 4%;">
-                                                <font style="color: #4E4D50; font-weight: bold; font-size: 15px;">Retorno</font><br>
-                                                <font style="font-size: 12px;">Pasajeros: </font> <font style="color: #4E4D50; font-weight: bold; font-size: 12px;">{{cant_pasajeros_asientos_vuelta}}</font><br>
-                                                <font style="font-size: 12px;">Asiento(s): </font> <font style="color: #4E4D50; font-weight: bold; font-size: 12px;">{{list_pasajeros_asientos_vuelta}}</font>
-                                            </div>
-                                            <div class="col-6 col-sm-6 text-center" style="margin-top: 10px;">
-                                                <font style="color: #4E4D50; font-weight: bold; font-size: 22px;">s/ {{precio_pasajeros_asientos_vuelta.toFixed(2)}}</font>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="flagPromocionVentas == 0" id="precio_total_normal" class="col-lg-8 col-12" style="background-color: #4d4d4d; color: #f0f0f0; margin-bottom: 10px;">
-                                <div class="row" style="margin-top: 14px; margin-bottom: 13px;">
-                                    <div class="col-6 col-sm-6" style="margin-top: 10px; padding-left: 4%;">
-                                        <font style="font-weight: bold; font-size: 14.5px;">N° de pasajes: {{cant_pasajeros_asientos_ida+cant_pasajeros_asientos_vuelta}}</font><br>
-                                    </div>
-                                    <div class="col-6 col-sm-6 text-center">
-                                        <div style="font-size: 13px;"><em>Precio Total</em></div>
-                                        <font style="font-weight: bold; font-size: 23px;">s/ {{precio_total_pasajeros_asientos.toFixed(2)}}</font>
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="flagPromocionVentas == 1" id="precio_total_promocionVenta" class="col-lg-8 col-12" style="background-color: #4d4d4d; color: #f0f0f0; margin-bottom: 10px;">
-                                <div class="row" style="margin-top: 14px; margin-bottom: 13px;">
-                                    <div class="col-4 col-sm-4 txt_total_8">
-                                        <span style="font-weight: bold; font-size: 14.5px;">N° de pasajes: {{cant_pasajeros_asientos_ida+cant_pasajeros_asientos_vuelta}}</span><br>
-                                    </div>
-                                    <div class="col-8 col-sm-8 text-center">
-                                        <div style="text-align: right; margin-right: 9%;">
-                                            <span class="txt_total_1" title="Descuento Aplicado">
-                                                <span *ngIf="tipoDescuentoPromocionVenta == 'S'">S/. </span> 
-                                                -{{porcentajeDescuentoPromocionVenta}}
-                                                <span *ngIf="tipoDescuentoPromocionVenta == 'P'">%</span>
-                                            </span>
-                                            <span class="txt_total_2" ><span class="txt_total_3">s/ {{precio_total_pasajeros_asientos_original.toFixed(2)}}</span></span>&nbsp;<font class="txt_total_7">(Original)</font>
-                                        </div>
-                                        <div style="margin-top: 0px; text-align: right; margin-right: 9%;">
-                                            <font class="txt_total_4" ><em>Precio Total </em> <font class="txt_total_5" >(Promoción)</font></font>&nbsp;
-                                            <font class="txt_total_6" >s/ {{precio_total_pasajeros_asientos.toFixed(2)}}</font>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-                <div class="col-12" style="text-align: center; margin-bottom: 20px;">
-                    <button type="button" class="btn" id="btn_continuar_pago" style="background-color: #ff6719; color: white;" (click)="ConfirmarCompra()"><i class="fad fa-money-check" style="color: white;"></i> CONFIRMAR COMPRA</button>
-                </div>
-            </div>
-
-            <!--<div class="col-md-3">
-                <div class="card mb-5 mb-xl-8">
-                    <div class="card-header border-0 pt-5">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label fw-bold fs-3 mb-1">Promociones</span>
-                            <span class="text-muted mt-1 fw-semibold fs-7">Stock de Promociones</span>
-                        </h3>
-                    </div>
-                    <div class="card-body py-3">
-                        <div class="table-responsive">
-                            <table class="table align-middle gs-0 gy-4">
-                                <thead>
-                                    <tr class="fw-bold text-muted bg-light">
-                                        <th class="ps-4 min-w-160px rounded-start">Promoción</th>
-                                        <th class="min-w-160px">Stock</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="symbol symbol-50px me-5">
-                                                    <img src="../../../../assets/metronic/assets/media/stock/600x400/img-26.jpg" class="" alt="" />
-                                                </div>
-                                                <div class="d-flex justify-content-start flex-column">
-                                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary mb-1 fs-6">Sant Extreanet Solution</a>
-                                                    <span class="text-muted fw-semibold text-muted d-block fs-7">HTML, JS, ReactJS</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">$2,790</a>
-                                            <span class="text-muted fw-semibold text-muted d-block fs-7">Paid</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_mensajealerta" tabindex="-1" role="dialog" aria-labelledby="modal_mensajealertaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-body row" style="padding: 0rem !important;">
-            <div class="col-9" style="background-color: white; padding: 1rem; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
-                <font style="color: #4E4D50; font-weight: bold; font-size: 22px;">{{tituloMensajeAlerta}}</font><br>
-                <font style="color: #a0a0a0; font-weight: bold; font-size: 17px;">{{textoMensajeAlerta}}</font>
-            </div>
-            <div class="col-3 text-center" style="background-color: rgb(211, 211, 211); padding: 1rem; font-size: 43px; color: #ff6719; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                <i class="fad fa-times" style="cursor: pointer;"></i>       <!-- (click)="funcionesService.ocultar_modal('modal_mensajealerta')" -->
+<div *ngIf="ArrayMostrarModal['modal_mensajealerta']" id="modal_mensajealerta" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('modal_mensajealerta')">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative bg-white w-full max-w-xl rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+        <div class="px-6 py-4 text-sm text-gray-700">
+            <div class="grid grid-cols-12">
+                <div class="col-span-9 bg-white p-4 rounded-tl-lg rounded-bl-lg">
+                    <p class="text-gray-800 font-bold text-xl">{{tituloMensajeAlerta}}</p>
+                    <p class="text-gray-400 font-bold text-lg">{{textoMensajeAlerta}}</p>
+                </div>
+
+                <div class="col-span-3 text-center bg-gray-300 p-4 text-4xl text-orange-500 rounded-tr-lg rounded-br-lg">
+                    <i class="fad fa-times cursor-pointer" (click)="cerrarModal('modal_mensajealerta')"></i>
+                </div>
             </div>
         </div>
-      </div>
     </div>
 </div>
 
-<div class="modal fade" id="modalAgregarInfante" tabindex="1" role="dialog" aria-labelledby="modalAgregarInfanteTitle" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" style="font-weight: bold;">Datos del pasajero <font style="color: #737373; font-size: 14px;">Infante</font></h5>
-            <i class="fa fa-times" style="font-size: 20px; cursor: pointer;"></i>       <!-- (click)="funcionesService.ocultar_modal('modalAgregarInfante');" -->
+<div *ngIf="ArrayMostrarModal['modalAgregarInfante']" id="modalAgregarInfante" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('modalAgregarInfante')">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+    <div class="relative bg-white w-full max-w-xl rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+        <div class="flex items-center justify-between border-b border-gray-300 px-5 pt-3 pb-2">
+            <span class="font-bold text-gray-800 text-base">
+                Datos del Pasajero - Infante <br />
+            </span>
+            <i class="fa fa-times text-xl cursor-pointer" (click)="cerrarModal('modalAgregarInfante')"></i>
         </div>
-        <div class="modal-body" style="color: #383838 !important;">
-            <form>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col">
-                        <label>Vínculo del Menor:</label>
+
+        <div class="px-6 py-4 text-sm text-gray-700">
+            <form class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Vínculo del Menor:</label>
                     </div>
-                    <div class="col">
-                        <select id="selectTipVinculo" class="custom-select form-select form-select-sm" (change)="changeSelect($event)">
+                    <div>
+                        <select id="selectTipVinculo" class="w-full rounded-md border border-gray-300 bg-white px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" (change)="changeSelect($event)">
                             <option value="Padre">PADRE - HIJO</option>
                             <option value="Apoderado">APODERADO</option>
                         </select>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col">
-                        <select id="selectTipDocInfante" class="custom-select form-select form-select-sm" (change)="changeSelect($event)">
-                            <option *ngFor="let tip_doc of tipos_documentos" value="{{tip_doc.idTipDoc}}" [selected]="tip_doc.idTipDoc == 1">{{tip_doc.nombre}}</option>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <select id="selectTipDocInfante" class="w-full rounded-md border border-gray-300 bg-white px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" (change)="changeSelect($event)">
+                            <option *ngFor="let tip_doc of tipos_documentos" value="{{tip_doc.idTipDoc}}" [selected]="tip_doc.idTipDoc == 1">
+                                {{tip_doc.nombre}}
+                            </option>
                         </select>
                     </div>
-                    <div class="col">
+                    <div>
                         <input type="hidden" id="idapoderadoInfante" value="">
                         <input type="hidden" id="idpasajeroInfante" value="">
                         <input type="hidden" id="flagwsInfante" value="">
-                        <input type="text" id="txtdocumentoInfante" (blur)="searchNameDocumentoInfante($event)" (keyup)="deleteBlankDataDocumentoInfante($event)" (keypress)="maxLengthDocumentoInfante($event)" class="form-control form-control-sm" placeholder="N° Documento">
+                        <input type="text" id="txtdocumentoInfante" (blur)="searchNameDocumentoInfante($event)" (keyup)="deleteBlankDataDocumentoInfante($event)" (keypress)="maxLengthDocumentoInfante($event)" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="N° Documento">
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col">
-                        <input type="text" id="txtnombresInfante" class="form-control form-control-sm" placeholder="Nombres">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <input type="text" id="txtnombresInfante" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Nombres">
                     </div>
-                    <div class="col">
-                        <input type="text" id="txtapellidosInfante" class="form-control form-control-sm" placeholder="Apellidos">
+                    <div>
+                        <input type="text" id="txtapellidosInfante" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Apellidos">
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 9px;">
-                    <div class="col">
-                        <input type="date" id="fecha_nacimiento_infante" value="{{date_actual}}" min="1900-01-01" max="{{date_actual}}" (blur)="verificar_edad_infante()" class="form-control form-control-sm" maxlength="3" placeholder="Fecha de Nacimiento">
+                <div class="grid grid-cols-2 gap-2 items-center">
+                    <div>
+                        <input type="date" id="fecha_nacimiento_infante" value="{{date_actual}}" min="1900-01-01" max="{{date_actual}}" (blur)="verificar_edad_infante()" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Fecha de Nacimiento">
                     </div>
-                    <div class="col" style="font-size: 15px;">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioFemeninoInfante" id="inlineRadio_infante_1" value="1">
-                            <label class="form-check-label" for="inlineRadio_infante_1">Femenino</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioFemeninoInfante" id="inlineRadio_infante_2" value="2">
-                            <label class="form-check-label" for="inlineRadio_infante_2">Masculino</label>
-                        </div>
+                    <div class="flex items-center justify-center space-x-4 text-sm">
+                        <label class="inline-flex items-center">
+                            <input class="text-blue-600 border-gray-300 focus:ring-blue-500" type="radio" name="inlineRadioFemeninoInfante" id="inlineRadio_infante_1" value="1">
+                            <span class="ml-1">Femenino</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input class="text-blue-600 border-gray-300 focus:ring-blue-500" type="radio" name="inlineRadioFemeninoInfante" id="inlineRadio_infante_2" value="2">
+                            <span class="ml-1">Masculino</span>
+                        </label>
                     </div>
+                </div>
+                <div class="flex pt-2 pb-2 justify-end">
+                    <button (click)="guardarDatosInfante()" class="px-4 py-2 mr-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Guardar</button>
+                    <button (click)="cerrarModal('modalAgregarInfante')" class="px-4 py-2 mr-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">Cancelar</button>
                 </div>
             </form>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn" style="background-color: #ff6719; color: white;" (click)="guardarDatosInfante()">Guardar</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>        <!-- (click)="funcionesService.ocultar_modal('modalAgregarInfante');" -->
-        </div>
-      </div>
     </div>
 </div>
 
-<!--<div class="modal fade" id="modalListaPromocionesVentas" tabindex="1" role="dialog" aria-labelledby="modalListaPromocionesVentasTitle" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-      <div class="modal-content">
-        <div class="modal-body" style="color: #383838 !important; padding: 4px 4px;">
-            <div class="table-responsive">
-                <table class="table align-middle gs-0 gy-4">
-                    <thead>
-                        <tr class="fw-bold text-muted bg-light">
-                            <th class="ps-4 min-w-160px rounded-start">Nombre de la Promoción</th>
-                            <th class="min-w-160px" style="text-align: center;">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let dat of promocionesVentas">
-                            <td style="padding-left: 14px;">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-50px me-5">
-                                        <i class="fad fa-badge-percent" style="font-size: 2rem;"></i>
-                                    </div>
-                                    <div class="d-flex justify-content-start flex-column">
-                                        <font class="text-gray-900 fw-bold mb-1 fs-6" style="color: #363636 !important;">{{dat.denominacion}}</font>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="text-align: center;">
-                                <i class="fad fa-plus-square" id="icon_aplicar_promocionesventas2_{{dat.id}}" style="color: #22a722; font-size: 2rem; cursor: pointer;" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i> 
-                                <i class="fad fa-times-circle" id="icon_cerrar_promocionesventas2_{{dat.id}}" style="display: none; color: #e90c0c; font-size: 2rem; cursor: pointer;" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-      </div>
-    </div>
-</div>-->
+<div *ngIf="ArrayMostrarModal['modalTerminosCondiciones']" id="modalTerminosCondiciones" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('modalTerminosCondiciones')">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
-<div class="modal fade" id="modalTerminosCondiciones" tabindex="1" role="dialog" aria-labelledby="modalTerminosCondicionesTitle" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content" style="    border-color: #ec6726 !important;">
-        <div class="modal-body" style="padding: 0.45rem !important; height: 539px; overflow-y: auto;">
-            <div style="text-align: right; padding-right: 2px;">
-                <i class="fa fa-times" style="font-size: 20px; cursor: pointer;"></i>       <!-- (click)="funcionesService.ocultar_modal('modalTerminosCondiciones');" -->
-            </div>
-            <div class="text-center" style="margin-bottom: 17px; font-weight: 600; font-size: 20px;">
-                Clausulas Generales de Contratación del Servicio de Viaje
-            </div>
-            <div style="color: #383838 !important;">
-                <p style="text-align: left; font-size: 13.4px; margin-left: 6px;">
-                    La adquisición de un boleto de viaje en Movil Bus, implica el total conocimiento y aceptación de las condiciones que especificamos a continuación:  <br>
-                </p>
-                <p style="text-align: left; font-size: 12.8px; margin-left: 15px; margin-right: 15px;">
+    <div class="relative bg-white w-full max-w-3xl rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+        <div class="flex items-center justify-between border-b border-gray-300 px-5 pt-3 pb-2">
+            <span class="font-bold text-gray-800 text-base">
+                Clausulas Generales de Contratación del Servicio de Viaje <br />
+            </span>
+            <i class="fa fa-times text-xl cursor-pointer" (click)="cerrarModal('modalTerminosCondiciones')"></i>
+        </div>
+
+        <div class="px-6 py-4 text-sm text-gray-700">
+            <div class="text-gray-500 overflow-y-auto" style="position: relative; height: 50rem;">
+                <p class="text-left text-sm ml-1.5">La adquisición de un boleto de viaje en Movil Bus, implica el total conocimiento y aceptación de las condiciones que especificamos a continuación: <br></p>
+                <p class="text-left text-xs ml-4 mr-4">
                     1. El Boleto de Viaje es personal y transferible, conforme a ley, siendo el único comprobante 
                     válido para a viajar, en la fecha y hora impresa.   <br><br>
                     2. El Pasajero es responsable de verificar los datos consignados en el Boleto de Viaje, al 
@@ -763,22 +631,23 @@
                 </p>
             </div>
         </div>
-      </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_alert_menor" tabindex="-1" role="dialog" aria-labelledby="modal_alert_menorLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-body row" style="padding: 0rem !important;">
-            <div class="col-9" style="background-color: white; padding: 1rem; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
-                <font style="color: #4E4D50; font-weight: bold; font-size: 16px;">Se seleccionó un menor de edad</font><br>
-                <font style="color: #a0a0a0; font-weight: bold; font-size: 12px;">Tener en cuenta que se debe tener una carta notarial.</font>
-            </div>
-            <div class="col-3 text-center" style="background-color: rgb(211, 211, 211); padding-top: 1rem; border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
-                <i class="fad fa-exclamation-circle" style="cursor: pointer; font-size: 43px; color: #ff6719;"></i>     <!-- (click)="funcionesService.ocultar_modal('modal_alert_menor')" -->
+<div *ngIf="ArrayMostrarModal['modal_alert_menor']" id="modal_alert_menor" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('modal_alert_menor')">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative bg-white w-full max-w-xl rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+        <div class="px-6 py-4 text-sm text-gray-700">
+            <div class="grid grid-cols-12">
+                <div class="col-span-9 bg-white p-4 rounded-tl-lg rounded-bl-lg">
+                    <p class="text-gray-800 font-bold text-xl">Se seleccionó un menor de edad</p>
+                    <p class="text-gray-400 font-bold text-lg">Tener en cuenta que se debe tener una carta notarial.</p>
+                </div>
+
+                <div class="col-span-3 text-center bg-gray-300 p-4 text-4xl text-orange-500 rounded-tr-lg rounded-br-lg">
+                    <i class="fad fa-times cursor-pointer" (click)="cerrarModal('modal_alert_menor')"></i>
+                </div>
             </div>
         </div>
-      </div>
     </div>
 </div>

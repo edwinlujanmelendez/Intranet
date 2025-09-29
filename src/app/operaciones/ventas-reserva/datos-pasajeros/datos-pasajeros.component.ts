@@ -131,6 +131,8 @@ export class DatosPasajerosComponent implements OnInit {
 
   max_length_ruc: number = 0;
 
+  ArrayMostrarModal: any = [];
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
     var dia = "";
@@ -1337,6 +1339,7 @@ export class DatosPasajerosComponent implements OnInit {
 
       //POPUP ALERT MENOR
       //this.mostrar_modal("modal_alert_menor");
+      this.abrirModal('modal_alert_menor');
 
       if(this.pasajero_asientos.length == 1){
         $('#TipDocApoderado1_'+asiento_ida_vuelta).css('display', 'inline');
@@ -1573,7 +1576,7 @@ export class DatosPasajerosComponent implements OnInit {
     this.tituloMensajeAlerta = titulo;
     this.textoMensajeAlerta = mensaje;
 
-    //this.funcionesService.mostrar_modal("modal_mensajealerta");
+    this.abrirModal('modal_mensajealerta');
   }
 
   arrayAdultosSeleccion(){
@@ -1612,27 +1615,32 @@ export class DatosPasajerosComponent implements OnInit {
   }
 
   abrirModalDatosInfante(id: string){
-    $("#idapoderadoInfante").val(id);
-    $("#txtdocumentoInfante").val("");
-    $("#txtnombresInfante").val("");
-    $("#txtapellidosInfante").val("");
-    $("#fecha_nacimiento_infante").val(this.date_actual);
-    //this.funcionesService.mostrar_modal('modalAgregarInfante');
+    this.abrirModal('modalAgregarInfante');
+
+    setTimeout(() => {
+      $("#idapoderadoInfante").val(id);
+      $("#txtdocumentoInfante").val("");
+      $("#txtnombresInfante").val("");
+      $("#txtapellidosInfante").val("");
+      $("#fecha_nacimiento_infante").val(this.date_actual);
+    }, 100);
   }
 
   editarDatosInfante(id: string){
-    //this.funcionesService.mostrar_modal('modalAgregarInfante');
+    this.abrirModal('modalAgregarInfante');
 
-    for(var a=0; a<this.lista_infante_detalle.length; a++){
-      if(this.lista_infante_detalle[a]['id'] == id){
-        $("#selectTipDocInfante").val(this.lista_infante_detalle[a]['selectTipDocInfante']);
-        $("#idapoderadoInfante").val(this.lista_infante_detalle[a]['id']);
-        $("#txtdocumentoInfante").val(this.lista_infante_detalle[a]['txtdocumentoInfante']);
-        $("#txtnombresInfante").val(this.lista_infante_detalle[a]['txtnombresInfante']);
-        $("#txtapellidosInfante").val(this.lista_infante_detalle[a]['txtapellidosInfante']);
-        $("#fecha_nacimiento_infante").val(this.funcionesService.convert_format_fecha_guion(this.lista_infante_detalle[a]['fecha_nacimiento_infante']));
+    setTimeout(() => {
+      for(var a=0; a<this.lista_infante_detalle.length; a++){
+        if(this.lista_infante_detalle[a]['id'] == id){
+          $("#selectTipDocInfante").val(this.lista_infante_detalle[a]['selectTipDocInfante']);
+          $("#idapoderadoInfante").val(this.lista_infante_detalle[a]['id']);
+          $("#txtdocumentoInfante").val(this.lista_infante_detalle[a]['txtdocumentoInfante']);
+          $("#txtnombresInfante").val(this.lista_infante_detalle[a]['txtnombresInfante']);
+          $("#txtapellidosInfante").val(this.lista_infante_detalle[a]['txtapellidosInfante']);
+          $("#fecha_nacimiento_infante").val(this.funcionesService.convert_format_fecha_guion(this.lista_infante_detalle[a]['fecha_nacimiento_infante']));
+        }
       }
-    }
+    }, 100);
   }
 
   eliminarDatosInfante(id: string){
@@ -1912,7 +1920,7 @@ export class DatosPasajerosComponent implements OnInit {
         if(!String(text_documento).includes(" ")){
           $(".loader").fadeIn("slow");
           this.taskService.getNameDocumento(Number(id_tipo_doc), String(text_documento)).subscribe(response => {
-            //console.log(response);
+            console.log(response);
 
             if(response != null){
               $('#'+txtidpasajero).val(String(response['idpasajero']));
@@ -2016,6 +2024,7 @@ export class DatosPasajerosComponent implements OnInit {
 
   guardarDatosInfante(){
     var id = $("#idapoderadoInfante").val();
+
     this.verificar_edad_infante();
 
     if(this.errorDatosInfante == 0){
@@ -2043,15 +2052,16 @@ export class DatosPasajerosComponent implements OnInit {
           generoInfante = 1;
         }else if($('#'+rd_radio_1).is(":checked") == false && $('#'+rd_radio_2).is(":checked") == true){
           generoInfante = 2;
+        }else{
+          this.funcionesService.notificacion_mensaje("Error", "No puede haber campos vacíos.");
+          return false;
         }
 
-        //this.funcionesService.ocultar_modal('modalAgregarInfante');
-
-        $('#btn_agregar_infante_'+id).css('display', 'none');
-        $('#btn_verdatos_infante_'+id).css('display', 'inline');
-        $('#btn_editar_infante_'+id).css('display', 'inline');
-        $('#btn_eliminar_infante_'+id).css('display', 'inline');
-
+        $('#btn_agregar_infante_' + id).addClass('hidden');
+        $('#btn_verdatos_infante_' + id).removeClass('hidden').addClass('inline');
+        $('#btn_editar_infante_' + id).removeClass('hidden').addClass('inline');
+        $('#btn_eliminar_infante_' + id).removeClass('hidden').addClass('inline');
+        
         this.datos_infante_detalle = {
           "id": id,
           "selectTipDocInfante": Number($("#selectTipDocInfante").val()),
@@ -2098,6 +2108,11 @@ export class DatosPasajerosComponent implements OnInit {
         }else if($("#selectTipVinculo").val() == "Apoderado"){
           $("font#fontPalabraApoderado2").html("DNI Apoderado:");
         }
+
+        setTimeout(() => {
+          console.log(this.lista_infante_detalle);
+          this.cerrarModal('modalAgregarInfante');
+        }, 100);
       }else{
         this.funcionesService.notificacion_mensaje("Error", "No puede haber campos vacíos.");
       }
@@ -2120,5 +2135,15 @@ export class DatosPasajerosComponent implements OnInit {
       this.sharedService.enviarRegresarDatosAsientosVuelta(this.DatosPasajeros);
       this.router.navigate(['operaciones/ventas-reserva/asientos-retorno']);
     }
+  }
+
+  abrirModal(nombreModal: string) {
+    this.ArrayMostrarModal[nombreModal] = true;
+    document.body.classList.add('overflow-x-hidden');
+  }
+
+  cerrarModal(nombreModal: string) {
+    this.ArrayMostrarModal[nombreModal] = false;
+    document.body.classList.remove('overflow-x-hidden');
   }
 }

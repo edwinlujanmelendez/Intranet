@@ -420,14 +420,12 @@ export class PromocionesComponent implements OnInit {
   abrirModal(nombreModal: string) {
     this.ejecutarSelect2();
 
-    
     this.ArrayMostrarModal[nombreModal] = true;
     document.body.classList.add('overflow-x-hidden');
   }
 
   cerrarModal(nombreModal: string) {
-      this.ArrayMostrarModal[nombreModal] = false;
-      document.body.classList.remove('overflow-x-hidden');
+    this.ArrayMostrarModal[nombreModal] = false;
+    document.body.classList.remove('overflow-x-hidden');
   }
-
 }
