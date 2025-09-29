@@ -96,8 +96,7 @@ export class ItinerarioComponent implements OnInit {
       // TODO: VERIFICAR LIQUIDACIÓN
       let StorageUsuario = JSON.parse(localStorage.getItem('StorageUsuario') || '{}');
       let StorageUsuarioHardware = JSON.parse(localStorage.getItem('StorageUsuarioHardware') || '{}');
-      this.taskService.getVerificarCajaAbierta(StorageUsuario['usuario_id'], StorageUsuarioHardware['agencia_id']).subscribe(responseVerificarCajaAbierta=> {
-        //console.log(responseVerificarCajaAbierta);
+      /*this.taskService.getVerificarCajaAbierta(StorageUsuario['usuario_id'], StorageUsuarioHardware['agencia_id']).subscribe(responseVerificarCajaAbierta=> {
         if(responseVerificarCajaAbierta != null){                 // TODO: BIEN!!
           if(responseVerificarCajaAbierta['d_fecliq'] == this.date_actual){
             $('#div_vista_itinerario').css('display', 'inline-block');
@@ -114,7 +113,7 @@ export class ItinerarioComponent implements OnInit {
           $('#div_vista_no_liquidacion').css('display', 'inline-block');
           localStorage.setItem("StorageLiquidacion", JSON.stringify({}));
         }
-      });
+      });*/
 
       $(".loader").fadeOut("slow");
     }, 250);

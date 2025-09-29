@@ -5,7 +5,6 @@
     </div>
 </div>
 
-
 <div id="div_vista_liquidacion_ayer" class="hidden ml-2">
     <p class="text-gray-500 pt-2 font-semibold text-base">
         Tiene una liquidación del día anterior, salga del sistema y vuelva a iniciar sesión.
@@ -19,10 +18,10 @@
 </div>
 
 <div id="div_vista_itinerario" class="w-full mb-2">
-    <div id="div_progressbar">
-        <div class="w-full md:w-10/12 xxl:w-8/12 px-4 pt-3">
+    <div class="flex">
+        <div id="div_progressbar" class="w-full md:w-10/12 xxl:w-8/12 px-4 pt-2">
             <div class="border border-gray-300 rounded-lg shadow-sm bg-white">
-                <div class="p-4 pb-2 space-y-2">
+                <div class="p-4 pb-3 space-y-2">
                     <div class="flex">
                         <span class="text-xs text-gray-500 mr-1">Paso {{num_paso}} de {{paso_final}}:</span>
                         <span class="text-xs text-orange-500 font-bold mr-1">{{detalle_paso}}</span>
@@ -86,106 +85,76 @@
             <div *ngFor="let dat of listadoItinerariosIda" class="mb-3">
                 <div *ngIf="dat.precioMinimo != 0" class="rounded-lg border border-gray-300 shadow-sm bg-white overflow-hidden">
                     <div class="flex flex-wrap">
-                        <div class="w-8/12 lg:w-9/12 p-3">
+                        <div class="w-8/12 lg:w-9/12 pt-2 pl-4">
                             <div>
-                                <div class="text-sm font-semibold text-gray-500 text-base italic">Servicio</div>
-                                <div class="flex flex-wrap items-center font-semibold text-gray-700 text-lg">
+                                <div class="font-semibold text-gray-500 italic text-lg" style="margin-bottom: -5px;">Servicio</div>
+                                <div class="flex flex-wrap items-center font-semibold text-gray-800 text-xl">
                                     <span>{{ dat.servicio }}</span>
                                     <span *ngIf="dat.c_descripcion != null" class="ml-2 text-gray-500">{{ dat.c_descripcion }}</span>
                                 </div>
                                 <div class="border-b border-gray-300 my-2"></div>
                             </div>
 
-                            <div class="flex justify-between text-center mt-3">
+                            <div class="flex justify-between text-center">
                                 <div class="flex flex-col w-5/12">
-                                    <span class="text-xs text-gray-500 italic">Embarque</span>
-                                    <span class="text-sm font-semibold">{{ dat.horaEmbarque }} h</span>
+                                    <span class="text-base italic">Embarque</span>
+                                    <span class="text-lg font-bold text-orange-500">{{ dat.horaEmbarque }} h</span>
                                 </div>
-                                <div class="w-2/12 flex items-center justify-center"><i class="fal fa-long-arrow-right text-4xl text-gray-500"></i></div>
+                                <div class="w-2/12 flex items-center justify-center"><i class="fal fa-long-arrow-right text-5xl text-gray-500"></i></div>
                                 <div class="flex flex-col w-5/12">
-                                    <span class="text-xs text-gray-500 italic">Desembarque</span>
-                                    <span class="text-sm font-semibold">{{ dat.horaDesembarque }} h</span>
+                                    <span class="text-base text-gray-500 italic">Desembarque</span>
+                                    <span class="text-lg font-bold text-gray-500">{{ dat.horaDesembarque }} h</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="w-4/12 lg:w-3/12 bg-gray-200 cursor-pointer p-3 text-center" (click)="seleccionar_itinerario_ida(dat)">
-                            <div class="text-gray-700 pb-2">
+                        <div class="w-4/12 lg:w-3/12 bg-gray-200 p-3 pt-5 text-center rounded-bl-lg">
+                            <div class="text-gray-700">
                                 <div class="flex">
-                                    <div class="w-4/12 text-right text-xs text-gray-500">
-                                        desde <br />
-                                        <span class="text-sm font-bold">S/</span>
-                                    </div>
+                                    <div class="w-4/12 text-right text-xs text-gray-500">desde <br /><span class="text-sm font-bold">S/</span></div>
                                     <div class="w-8/12 text-left">
-                                        <span class="text-xl font-bold text-gray-800">{{ dat.precioMinimo }}</span>
-                                        <span *ngIf="verificar_punto(dat.precioMinimo) == 2" class="text-sm">.00</span>
+                                        <span class="text-5xl font-bold text-gray-700">{{ dat.precioMinimo }}</span>
+                                        <span *ngIf="verificar_punto(dat.precioMinimo) == 2" class="text-lg">.00</span>
                                     </div>
                                 </div>
-                                <div class="mt-2 text-sm font-semibold text-orange-600">
-                                    SELECCIONAR
+                                <div class="mt-3">
+                                    <span class="inline-flex items-center justify-center text-base font-semibold text-white rounded bg-orange-500 px-4 cursor-pointer" (click)="seleccionar_itinerario_ida(dat)">SELECCIONAR</span>
                                 </div>
-                                <div class="mt-2">
-                                    <span *ngIf="dat.promocionFlag == 90" class="px-2 py-1 text-xs font-semibold bg-orange-100 text-orange-700 rounded" title="Esta ruta cuenta con una promoción">Cyber WOW</span>
+                                <div *ngIf="dat.promocionFlag == 90" class="mt-2">
+                                    <span class="px-2 py-1 text-xs font-semibold bg-orange-100 text-orange-700 rounded" title="Esta ruta cuenta con una promoción">Cyber WOW</span>
                                 </div>
                             </div>
                         </div>
+                        <div class="w-8/12 lg:w-9/12 px-3" [ngClass]="{ 'mt-2': dat.promocionFlag == 90 }">
+                            <div class="flex justify-between text-center text-sm">
+                                <span class="w-5/12">{{ dat.direccionEmbarque }}</span>
+                                <span class="w-2/12">&nbsp;</span>
+                                <span class="w-5/12 text-gray-600">{{ dat.direccionDesembarque }}</span>
+                            </div>
+                        </div>
+                        <div class="w-full pr-2 text-right">
+                            <span class="text-sm font-semibold text-orange-500">Solo quedan {{ dat.nroAsientosDisponible }} asientos</span>
+                        </div>
 
-                    <!-- Dirección -->
-                    <div
-                        class="w-8/12 lg:w-9/12 px-3 py-2"
-                        [ngClass]="{ 'mt-2': dat.promocionFlag == 90 }"
-                    >
-                        <div class="flex justify-between text-center text-sm text-gray-600">
-                        <span class="w-5/12">{{ dat.direccionEmbarque }}</span>
-                        <span class="w-2/12">&nbsp;</span>
-                        <span class="w-5/12">{{ dat.direccionDesembarque }}</span>
+                        <div class="w-full p-2">
+                            <div class="border-t border-gray-300 pt-2 flex flex-wrap text-xs text-gray-600">
+                                <div class="mr-4 flex items-center">
+                                    <i class="fad fa-bus-alt text-gray-400 mr-1"></i>
+                                    <span *ngIf="dat.nropisos == 1">{{ dat.nropisos }} Piso</span>
+                                    <span *ngIf="dat.nropisos == 2">{{ dat.nropisos }} Pisos</span>
+                                </div>
+                                <div class="mr-4 flex items-center"><i class="fad fa-clock text-gray-400 mr-1"></i> {{ dat.duracionViaje }}h</div>
+                                <div class="mr-4 flex items-center"><i class="fad fa-dot-circle text-gray-400 mr-1"></i> {{ dat.nroescala }} Escalas</div>
+                                <div class="mr-4 flex items-center">
+                                    <img src="./assets/img/iconos/seat.png" alt="" class="w-4 h-4 mr-1"/>
+                                    <span *ngIf="dat.servAsiento1 != ''">{{ dat.servAsiento1 }}</span>
+                                    <span *ngIf="dat.nropisos == 2"> | {{ dat.servAsiento2 }}</span>
+                                </div>
+                                <div class="ml-auto text-gray-500" style="font-size: 12px;">Itinerario: {{ dat.iditinerario }} &nbsp;&nbsp; Ruta: {{ dat.idruta }}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="w-4/12 lg:w-2/12">&nbsp;</div>
-
-                    <!-- Asientos disponibles -->
-                    <div class="w-full pr-2 text-right">
-                        <span class="text-sm font-semibold text-orange-500">
-                        Solo quedan {{ dat.nroAsientosDisponible }} asientos
-                        </span>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="w-full p-2">
-                        <div class="border-t border-gray-300 pt-2 flex flex-wrap text-xs text-gray-600">
-                        <div class="mr-4 flex items-center">
-                            <i class="fad fa-bus-alt text-gray-400 mr-1"></i>
-                            <span *ngIf="dat.nropisos == 1">{{ dat.nropisos }} Piso</span>
-                            <span *ngIf="dat.nropisos == 2">{{ dat.nropisos }} Pisos</span>
-                        </div>
-                        <div class="mr-4 flex items-center">
-                            <i class="fad fa-clock text-gray-400 mr-1"></i>
-                            {{ dat.duracionViaje }}h
-                        </div>
-                        <div class="mr-4 flex items-center">
-                            <i class="fad fa-dot-circle text-gray-400 mr-1"></i>
-                            {{ dat.nroescala }} Escalas
-                        </div>
-                        <div class="mr-4 flex items-center">
-                            <img
-                            src="./assets/img/iconos/seat.png"
-                            alt=""
-                            class="w-4 h-4 mr-1"
-                            />
-                            <span *ngIf="dat.servAsiento1 != ''">{{ dat.servAsiento1 }}</span>
-                            <span *ngIf="dat.nropisos == 2"> | {{ dat.servAsiento2 }}</span>
-                        </div>
-                        <div
-                            class="ml-auto text-gray-500 cursor-pointer"
-                            style="font-size: 12px;"
-                        >
-                            Itinerario: {{ dat.iditinerario }} &nbsp;&nbsp; Ruta:
-                            {{ dat.idruta }}
-                        </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -259,7 +228,7 @@
                 </button>
             </div>-->
 
-            <div id="div_listar_itinerarios_ida" class="col-xxl-8 col-10">
+            <!--<div id="div_listar_itinerarios_ida" class="col-xxl-8 col-10">
                 <div *ngFor="let dat of listadoItinerariosIda" style="margin-bottom: 12px;">
                     <div class="card card-itinerario" *ngIf="dat.precioMinimo != 0">
                         <div class="row g-0">
@@ -345,7 +314,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
