@@ -366,9 +366,9 @@
                         <span class="w-3/5 text-orange-600">{{ modal_observaciones }}</span>
                     </div>
 
-                    <div *ngIf="modal_email_pasajero != null && modal_tipo_movimiento == 'RESERVA'" class="w-1/2 flex items-center">
+                    <div *ngIf="modal_email_pasajero != null && modal_tipo_movimiento == 'RESERVA'" class="w-1/2 flex items-center space-x-2">
                         <input [(ngModel)]="modal_email_pasajero" class="border border-purple-600 rounded px-2 py-1 flex-1 text-sm"/>
-                        <button type="button" (click)="enviar_url_pago()" class="inline-flex items-center gap-1 rounded bg-purple-600 text-white px-3 py-1 text-xs font-semibold hover:bg-purple-700" title="Enviar URL de Pago Link">
+                        <button type="button" (click)="enviar_url_pago()" class="inline-flex items-center gap-1 rounded bg-purple-600 text-white px-2 py-1.5 text-xs font-semibold hover:bg-purple-700" title="Enviar URL de Pago Link">
                             <i class="fad fa-envelope"></i> ENVIAR URL
                         </button>
                     </div>

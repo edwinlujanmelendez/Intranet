@@ -143,8 +143,9 @@ export class ReporteFrotcomComponent implements OnInit {
     $(".loader").fadeIn("slow");
 
     const header = ['ITINERARIO', 'ORIGEN', 'DESTINO', 'EMBARQUE 1', 'HORARIO SALIDA', 'EMBARQUE 2', 'HORARIO SALIDA', 
-                    'ESCALA COMERCIAL 1', 'HORARIO SALIDA', 'ESCALA COMERCIAL 2', 'HORARIO SALIDA', 'ESCALA COMERCIAL 3', 'HORARIO SALIDA', 'ESCALA COMERCIAL 4', 'HORARIO SALIDA', 'ESCALA COMERCIAL 5', 'HORARIO SALIDA', 
-                    'DESEMBARQUE 1', 'HORA LLEGADA', 'DESEMBARQUE 2', 'HORA LLEGADA', 'DESEMBARQUE 3', 'HORA LLEGADA', 'DESEMBARQUE 4', 'HORA LLEGADA', 'DESEMBARQUE 5', 'HORA LLEGADA'];
+                    'ESCALA COMERCIAL 1', 'HORARIO SALIDA', 'ESCALA COMERCIAL 2', 'HORARIO SALIDA', 'ESCALA COMERCIAL 3', 'HORARIO SALIDA', 'ESCALA COMERCIAL 4', 'HORARIO SALIDA', 'ESCALA COMERCIAL 5', 'HORARIO SALIDA',
+                    'ESCALA COMERCIAL 6', 'HORARIO SALIDA', 'ESCALA COMERCIAL 7', 'HORARIO SALIDA', 'ESCALA COMERCIAL 8', 'HORARIO SALIDA', 'DESEMBARQUE 1', 'HORA LLEGADA', 'DESEMBARQUE 2', 'HORA LLEGADA', 
+                    'DESEMBARQUE 3', 'HORA LLEGADA', 'DESEMBARQUE 4', 'HORA LLEGADA', 'DESEMBARQUE 5', 'HORA LLEGADA', 'DESEMBARQUE 6', 'HORA LLEGADA', 'DESEMBARQUE 7', 'HORA LLEGADA', 'DESEMBARQUE 8', 'HORA LLEGADA'];
     
     const body: string[][] = [];
 
@@ -167,6 +168,12 @@ export class ReporteFrotcomComponent implements OnInit {
         `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_4_hora']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_5_nombre']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_5_hora']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_6_nombre']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_6_hora']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_7_nombre']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_7_hora']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_8_nombre']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['escala_comercial_8_hora']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['desembarque_1_nombre']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['desembarque_1_hora']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['desembarque_2_nombre']}`,
@@ -176,7 +183,13 @@ export class ReporteFrotcomComponent implements OnInit {
         `${this.ListReporteSeguimientoFrotcom[i]['desembarque_4_nombre']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['desembarque_4_hora']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['desembarque_5_nombre']}`,
-        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_5_hora']}`
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_5_hora']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_6_nombre']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_6_hora']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_7_nombre']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_7_hora']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_8_nombre']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['desembarque_8_hora']}`
       ]);
     }
     

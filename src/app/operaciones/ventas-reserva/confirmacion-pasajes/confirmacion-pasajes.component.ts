@@ -135,7 +135,8 @@ export class ConfirmacionPasajesComponent implements OnInit {
   mostrarPagoEfectivo(ConfirmacionPasajes: any){
     // ? El botón de PagoEfectivo solo estará habilitado para compras mayores e iguales a 86 soles.
     if(Number(ConfirmacionPasajes['montoTotal']) >= 86){
-      $('#div_pago_efectivo').css('display', 'inline');
+      //$('#div_pago_efectivo').css('display', 'inline');
+      $('#div_pago_efectivo').removeClass('hidden').addClass('inline');
 
       var cont = 0;
       for(var a=0; a<ConfirmacionPasajes['ventaPasajeros'].length; a++){
@@ -155,12 +156,15 @@ export class ConfirmacionPasajesComponent implements OnInit {
       }
 
       if(cont == 0){
-        $('#div_pago_efectivo').css('display', 'inline');
+        //$('#div_pago_efectivo').css('display', 'inline');
+        $('#div_pago_efectivo').removeClass('hidden').addClass('inline');
       }else{
-        $('#div_pago_efectivo').css('display', 'none');
+        //$('#div_pago_efectivo').css('display', 'none');
+        $('#div_pago_efectivo').removeClass('inline').addClass('hidden');
       }
     }else{
-      $('#div_pago_efectivo').css('display', 'none');
+      //$('#div_pago_efectivo').css('display', 'none');
+      $('#div_pago_efectivo').removeClass('inline').addClass('hidden');
     }
   }
 
@@ -299,22 +303,32 @@ export class ConfirmacionPasajesComponent implements OnInit {
   confirmacionPasajes(TipForPago: number){
     if(TipForPago == 4){            // TODO: TARJETA PAGO LINK
       setTimeout(() => {
-        $('#div_pago_tarjetas').css('display', 'none');
-        $('#div_pago_efectivo').css('display', 'none');
-        $('#card_pagolink').css('display', 'block');
-        $('#btn_atras').css('display', 'none');
-        $('#btn_nueva_venta').css('display', 'inline');
+        //$('#div_pago_tarjetas').css('display', 'none');
+        //$('#div_pago_efectivo').css('display', 'none');
+        $('#div_pago_tarjetas').removeClass('inline').addClass('hidden');
+        $('#div_pago_efectivo').removeClass('inline').addClass('hidden');
+        //$('#card_pagolink').css('display', 'block');
+        $('#card_pagolink').removeClass('hidden').addClass('block');
+        //$('#btn_atras').css('display', 'none');
+        $('#btn_atras').removeClass('inline').addClass('hidden');
+        //$('#btn_nueva_venta').css('display', 'inline');
+        $('#btn_nueva_venta').removeClass('hidden').addClass('inline');
         this.titulo_confirmar_pasaje = "Venta Confirmada";
         $('#texto_observaciones').prop('disabled', true);
         $(".loader").fadeOut("slow");
       }, 2000);
     }else if(TipForPago == 11){     // TODO: PAGOEFECTIVO
       setTimeout(() => {
-        $('#div_pago_tarjetas').css('display', 'none');
-        $('#div_pago_efectivo').css('display', 'none');
-        $('#card_pagoefectivo').css('display', 'block');
-        $('#btn_atras').css('display', 'none');
-        $('#btn_nueva_venta').css('display', 'inline');
+        //$('#div_pago_tarjetas').css('display', 'none');
+        //$('#div_pago_efectivo').css('display', 'none');
+        //$('#card_pagoefectivo').css('display', 'block');
+        $('#div_pago_tarjetas').removeClass('inline').addClass('hidden');
+        $('#div_pago_efectivo').removeClass('inline').addClass('hidden');
+        $('#card_pagoefectivo').removeClass('hidden').addClass('block');
+        //$('#btn_atras').css('display', 'none');
+        $('#btn_atras').removeClass('inline').addClass('hidden');
+        //$('#btn_nueva_venta').css('display', 'inline');
+        $('#btn_nueva_venta').removeClass('hidden').addClass('inline');
         this.titulo_confirmar_pasaje = "Venta Confirmada";
         $('#texto_observaciones').prop('disabled', true);
         $(".loader").fadeOut("slow");
@@ -326,8 +340,10 @@ export class ConfirmacionPasajesComponent implements OnInit {
     $('#card_pagolink').css('background-color', '#17C653');
     $('#texto_card_pagolink0').css('color', 'white');
     $('#texto_card_pagolink').css('color', 'white');
-    $('#icono1_card_pagolink').css('display', 'none');
-    $('#icono2_card_pagolink').css('display', 'inline');
+    //$('#icono1_card_pagolink').css('display', 'none');
+    $('#icono1_card_pagolink').removeClass('inline').addClass('hidden');
+    //$('#icono2_card_pagolink').css('display', 'inline');
+    $('#icono2_card_pagolink').removeClass('hidden').addClass('inline');
 
     var $temp = $("<input>");
     $("body").append($temp);
@@ -339,8 +355,10 @@ export class ConfirmacionPasajesComponent implements OnInit {
       $('#card_pagolink').css('background-color', 'white');
       $('#texto_card_pagolink0').css('color', '#1B84FF');
       $('#texto_card_pagolink').css('color', '#1B84FF');
-      $('#icono1_card_pagolink').css('display', 'inline');
-      $('#icono2_card_pagolink').css('display', 'none');
+      //$('#icono1_card_pagolink').css('display', 'inline');
+      $('#icono1_card_pagolink').removeClass('hidden').addClass('inline');
+      //$('#icono2_card_pagolink').css('display', 'none');
+      $('#icono2_card_pagolink').removeClass('inline').addClass('hidden');
     }, 8000);
   }
 
@@ -348,8 +366,10 @@ export class ConfirmacionPasajesComponent implements OnInit {
     $('#card_pagoefectivo').css('background-color', '#fecc00');
     $('#texto_card_pagoefectivo0').css('color', '#000000');
     $('#texto_card_pagoefectivo').css('color', '#000000');
-    $('#icono1_card_pagoefectivo').css('display', 'none');
-    $('#icono2_card_pagoefectivo').css('display', 'inline');
+    //$('#icono1_card_pagoefectivo').css('display', 'none');
+    $('#icono1_card_pagoefectivo').removeClass('inline').addClass('hidden');
+    //$('#icono2_card_pagoefectivo').css('display', 'inline');
+    $('#icono2_card_pagoefectivo').removeClass('hidden').addClass('inline');
 
     var $temp = $("<input>");
     $("body").append($temp);
@@ -361,8 +381,10 @@ export class ConfirmacionPasajesComponent implements OnInit {
       $('#card_pagoefectivo').css('background-color', 'white');
       $('#texto_card_pagoefectivo0').css('color', '#ff6719');
       $('#texto_card_pagoefectivo').css('color', '#ff6719');
-      $('#icono1_card_pagoefectivo').css('display', 'inline');
-      $('#icono2_card_pagoefectivo').css('display', 'none');
+      //$('#icono1_card_pagoefectivo').css('display', 'inline');
+      $('#icono1_card_pagoefectivo').removeClass('hidden').addClass('inline');
+      //$('#icono2_card_pagoefectivo').css('display', 'none');
+      $('#icono2_card_pagoefectivo').removeClass('inline').addClass('hidden');
     }, 8000);
   }
 
