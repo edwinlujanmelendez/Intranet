@@ -30,7 +30,7 @@ export class TaskService {
 
   LIMITE_CANTIDAD_ASIENTOS: number = 20;              // LIMITE CANTIDAD ASIENTOS POR BUS
 
-  VERSION_INTRANET: number = 2.3;         // CAMBIOS DE DISEÑO
+  VERSION_INTRANET: number = 2.3;                     // CAMBIOS DE DISEÑO
 
   constructor(private http: HttpClient, private authService: AuthService){ }
 

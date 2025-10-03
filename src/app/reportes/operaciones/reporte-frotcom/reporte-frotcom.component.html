@@ -63,6 +63,7 @@
                 <thead class="bg-gray-100">
                     <tr class="text-gray-500 font-semibold text-xss uppercase">
                         <th class="min-w-[120px] whitespace-nowrap text-center">ITINERARIO</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-center">SERVICIO</th>
                         <th class="min-w-[120px] whitespace-nowrap text-center">ORIGEN</th>
                         <th class="min-w-[120px] whitespace-nowrap text-center">DESTINO</th>
                         <th class="min-w-[120px] whitespace-nowrap text-center">EMBARQUE 1</th>
@@ -105,9 +106,10 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr *ngFor="let dat of ListReporteSeguimientoFrotcom; index as i;">
-                    <td class="min-w-[120px] whitespace-nowrap text-center text-xss font-semibold text-[#4B5675]">{{dat.itinerario_id}}</td>
-                    <td class="min-w-[120px] whitespace-nowrap text-center text-xss font-semibold text-[#4B5675]">{{dat.origen}}</td>
-                    <td class="min-w-[120px] whitespace-nowrap text-center text-xss font-semibold text-[#4B5675]">{{dat.destino}}</td>
+                    <td class="min-w-[120px] whitespace-nowrap text-xss font-semibold text-[#4B5675]" style="text-align: center;">{{dat.itinerario_id}}</td>
+                    <td class="min-w-[120px] whitespace-nowrap text-xss font-semibold text-[#4B5675]">{{dat.servicio}}</td>
+                    <td class="min-w-[120px] whitespace-nowrap text-xss font-semibold text-[#4B5675]" style="text-align: center;">{{dat.origen}}</td>
+                    <td class="min-w-[120px] whitespace-nowrap text-xss font-semibold text-[#4B5675]" style="text-align: center;">{{dat.destino}}</td>
                     <td class="min-w-[120px] whitespace-nowrap text-center text-xss font-semibold text-[#4B5675]">{{dat.embarque_1_nombre}}</td>
                     <td class="min-w-[120px] whitespace-nowrap text-center text-xss font-semibold text-[#4B5675]">{{dat.embarque_1_hora}}</td>
                     <td class="min-w-[120px] whitespace-nowrap text-center text-xss font-semibold text-[#4B5675]">{{dat.embarque_2_nombre}}</td>

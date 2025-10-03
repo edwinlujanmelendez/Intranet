@@ -142,7 +142,7 @@ export class ReporteFrotcomComponent implements OnInit {
   tableToExcel(): void {
     $(".loader").fadeIn("slow");
 
-    const header = ['ITINERARIO', 'ORIGEN', 'DESTINO', 'EMBARQUE 1', 'HORARIO SALIDA', 'EMBARQUE 2', 'HORARIO SALIDA', 
+    const header = ['ITINERARIO', 'SERVICIO', 'ORIGEN', 'DESTINO', 'EMBARQUE 1', 'HORARIO SALIDA', 'EMBARQUE 2', 'HORARIO SALIDA', 
                     'ESCALA COMERCIAL 1', 'HORARIO SALIDA', 'ESCALA COMERCIAL 2', 'HORARIO SALIDA', 'ESCALA COMERCIAL 3', 'HORARIO SALIDA', 'ESCALA COMERCIAL 4', 'HORARIO SALIDA', 'ESCALA COMERCIAL 5', 'HORARIO SALIDA',
                     'ESCALA COMERCIAL 6', 'HORARIO SALIDA', 'ESCALA COMERCIAL 7', 'HORARIO SALIDA', 'ESCALA COMERCIAL 8', 'HORARIO SALIDA', 'DESEMBARQUE 1', 'HORA LLEGADA', 'DESEMBARQUE 2', 'HORA LLEGADA', 
                     'DESEMBARQUE 3', 'HORA LLEGADA', 'DESEMBARQUE 4', 'HORA LLEGADA', 'DESEMBARQUE 5', 'HORA LLEGADA', 'DESEMBARQUE 6', 'HORA LLEGADA', 'DESEMBARQUE 7', 'HORA LLEGADA', 'DESEMBARQUE 8', 'HORA LLEGADA'];
@@ -152,6 +152,7 @@ export class ReporteFrotcomComponent implements OnInit {
     for (let i = 0; i < this.ListReporteSeguimientoFrotcom.length; i++) {
       body.push([
         `${this.ListReporteSeguimientoFrotcom[i]['itinerario_id']}`,
+        `${this.ListReporteSeguimientoFrotcom[i]['servicio']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['origen']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['destino']}`,
         `${this.ListReporteSeguimientoFrotcom[i]['embarque_1_nombre']}`,
