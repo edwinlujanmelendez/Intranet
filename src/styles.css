@@ -22,13 +22,12 @@ details[open] .icon-despegable {
 }
 
 
-
+/*
 .ruta_ida_vuelta_selec{
     background-color: #e5e5e5; 
-    /*padding: 26px;*/
 }
 .ruta_ida_vuelta_selec .rut_ida_vuelta_select_ida_vuelta{
-    color: #ff6719; font-size: 16px; /*font-weight: bold;*/
+    color: #ff6719; font-size: 16px;
 }
 .ruta_ida_vuelta_selec .rut_ida_vuelta_select_ciudad_ida_vuelta{
     color: #4E4D50; font-weight: bold; font-size: 17px;
@@ -51,11 +50,10 @@ details[open] .icon-despegable {
 
 
 .ruta_ida_vuelta_no_selec{
-    background-color: #ffffff; 
-    /*padding: 26px;*/
+    background-color: #ffffff;
 }
 .ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_ida_vuelta{
-    color: #a5a5a7; font-size: 16px; /*font-weight: bold;*/
+    color: #a5a5a7; font-size: 16px;
 }
 .ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_ciudad_ida_vuelta{
     color: #a5a5a7; font-weight: bold; font-size: 17px;
@@ -79,10 +77,9 @@ details[open] .icon-despegable {
 
 .ruta_ida_vuelta_term{
     background-color: #ffffff;
-    /*padding: 26px;*/
 }
 .ruta_ida_vuelta_term .rut_ida_vuelta_select_ida_vuelta{
-    color: #ff6719; font-size: 16px; /*font-weight: bold;*/
+    color: #ff6719; font-size: 16px;
 }
 .ruta_ida_vuelta_term .rut_ida_vuelta_select_ciudad_ida_vuelta{
     color: #4E4D50; font-weight: bold; font-size: 17px;
@@ -101,7 +98,7 @@ details[open] .icon-despegable {
 }
 .ruta_ida_vuelta_term .rut_ida_vuelta_select_salida_embar_ida_vuelta{
     font-size: 9px; color: #4e4d50; font-weight: bold;
-}
+}*/
 
 /*#tabla_reportes th, 
 #tabla_reportes td {

@@ -17,6 +17,13 @@ export class VersionesComponent implements OnInit {
   ngOnInit(): void {
     const data: HistorialCambio[] = [
       {
+        version: '2.4',
+        fecha_hora_publicacion: '19:00:00 PM del 06/10/2025',
+        descripcion: [
+          'Se aplicó la tecnología Lazy Loading para todas las rutas de la Intranet, mejorando significativamente la velocidad del sistema.'
+        ]
+      },
+      {
         version: '2.3',
         fecha_hora_publicacion: '19:00:00 PM del 30/09/2025',
         descripcion: [

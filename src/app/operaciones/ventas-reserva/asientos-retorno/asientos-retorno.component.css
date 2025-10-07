@@ -338,3 +338,80 @@
 @media only screen and (max-width: 500px) {
     
 }
+
+.ruta_ida_vuelta_selec{
+    background-color: #e5e5e5; 
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_ida_vuelta{
+    color: #ff6719; font-size: 16px;
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_ciudad_ida_vuelta{
+    color: #4E4D50; font-weight: bold; font-size: 17px;
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_icon{
+    font-size: 20px; color: #ff6719;
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_icon2{
+    font-size: 15px; color: #686868;
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_fecha_ida_vuelta{
+    color: #4E4D50; font-size: 13px;
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_hora_embar_ida_vuelta{
+    color: #4E4D50; font-weight: bold; font-size: 16px;
+}
+.ruta_ida_vuelta_selec .rut_ida_vuelta_select_salida_embar_ida_vuelta{
+    font-size: 9px; color: #4e4d50; font-weight: bold;
+}
+
+
+.ruta_ida_vuelta_no_selec{
+    background-color: #ffffff;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_ida_vuelta{
+    color: #a5a5a7; font-size: 16px;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_ciudad_ida_vuelta{
+    color: #a5a5a7; font-weight: bold; font-size: 17px;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_icon{
+    font-size: 20px; color: #a5a5a7;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_icon2{
+    font-size: 15px; color: #686868;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_fecha_ida_vuelta{
+    color: #ada9a4; font-size: 13px;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_hora_embar_ida_vuelta{
+    color: #a5a5a7; font-weight: bold; font-size: 16px;
+}
+.ruta_ida_vuelta_no_selec .rut_ida_vuelta_select_salida_embar_ida_vuelta{
+    font-size: 9px; color: #a5a5a7; font-weight: bold;
+}
+
+
+.ruta_ida_vuelta_term{
+    background-color: #ffffff;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_ida_vuelta{
+    color: #ff6719; font-size: 16px;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_ciudad_ida_vuelta{
+    color: #4E4D50; font-weight: bold; font-size: 17px;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_icon{
+    font-size: 20px; color: #ff6719;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_icon2{
+    font-size: 15px; color: #686868;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_fecha_ida_vuelta{
+    color: #4e4d50; font-size: 13px;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_hora_embar_ida_vuelta{
+    color: #4E4D50; font-weight: bold; font-size: 17.5px;
+}
+.ruta_ida_vuelta_term .rut_ida_vuelta_select_salida_embar_ida_vuelta{
+    font-size: 9px; color: #4e4d50; font-weight: bold;
+}

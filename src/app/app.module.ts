@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/*import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -113,6 +113,54 @@ const routes: Routes = [
   ],
   providers: [],
   exports: [RouterModule],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }*/
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AppComponent } from './app.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { InitLayoutComponent } from './layouts/init-layout/init-layout.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InitLayoutComponent,
+    children: [
+      { path: '', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+      { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+      { path: 'modulo-ti', loadChildren: () => import('./modulo-ti/modulo-ti.module').then(m => m.ModuloTiModule) }
+    ]
+  },
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+      { path: 'simular-pagos', loadChildren: () => import('./ecommerce/ecommerce.module').then(m => m.EcommerceModule) },
+      { path: 'operaciones', loadChildren: () => import('./operaciones/operaciones.module').then(m => m.OperacionesModule) },
+      { path: 'reportes', loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule) }
+    ]
+  }
+];
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MainLayoutComponent,
+    InitLayoutComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    FormsModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes)
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
