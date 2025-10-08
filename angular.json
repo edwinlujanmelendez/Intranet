@@ -33,14 +33,11 @@
               "src/styles.css",
               "src/assets/css/floating-labels.css",
               "node_modules/intl-tel-input/build/css/intlTelInput.css",
-              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.css",
               "src/assets/css/dataTables.dataTables.min.css",
               "src/assets/css/select2.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js",
-              "node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
               "src/assets/js/insertJSFile.js",
               "src/assets/js/select2.min.js",
