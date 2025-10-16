@@ -44,11 +44,38 @@ export class ReporteFrotcomComponent implements OnInit {
   }
 
   ngAfterViewInit(){
+    const loadDataTables = async () => {
+      const jq = (window as any).$ || (window as any).jQuery;
+      if (!jq) {return;}
+
+      if (typeof jq.fn.DataTable === 'function') {return;}
+
+      const script = document.createElement('script');
+      script.src = 'assets/js/dataTables.min.js';
+      script.async = true;
+      script.onload = () => {
+        const globalJQ = (window as any).$ || (window as any).jQuery;
+        if (globalJQ && typeof globalJQ.fn.DataTable === 'function') {
+          //console.log('✅ DataTables inicializado correctamente.');
+        } else {
+          //console.error('❌ DataTables no se vinculó correctamente con jQuery.');
+        }
+      };
+      script.onerror = () => {
+        //console.error('❌ Error cargando DataTables desde assets/js/dataTables.min.js');
+      };
+      document.body.appendChild(script);
+    };
+
     this.taskService.getLocalidad().subscribe(responseLocalidad => {
       this.ltLocalidadOrigen = responseLocalidad;
     });
 
-    $("#tabla_reportes").DataTable();
+    setTimeout(() => {
+      (window as any).$ = (window as any).jQuery = (window as any).$ || (window as any).jQuery;
+      //console.log('✅ jQuery disponible:', !!(window as any).$);
+      loadDataTables();
+    }, 500);
   }
 
   formatDate(date: Date): string {
@@ -60,7 +87,7 @@ export class ReporteFrotcomComponent implements OnInit {
     this.date_actual = this.formatDate(today);
   }
 
-  // 📌 Evento cuando cambia la fecha de inicio
+  // Evento cuando cambia la fecha de inicio
   onFechaInicioChange() {
     if (this.date_fecha_inicio) {
       const inicio = new Date(this.date_fecha_inicio);
@@ -80,7 +107,7 @@ export class ReporteFrotcomComponent implements OnInit {
     }
   }
 
-  // 📌 Evento cuando cambia la fecha de fin
+  // Evento cuando cambia la fecha de fin
   onFechaFinChange() {
     if (this.date_fecha_fin) {
       const fin = new Date(this.date_fecha_fin);

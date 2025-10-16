@@ -64,7 +64,44 @@ export class PromocionesComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    
+    const loadDataTables = async () => {
+      const jq = (window as any).$ || (window as any).jQuery;
+      if (!jq) {return;}
+
+      if (typeof jq.fn.DataTable === 'function') {return;}
+
+      const script1 = document.createElement('script');
+      script1.src = 'assets/js/dataTables.min.js';
+      script1.async = true;
+      script1.onload = () => {
+        const globalJQ = (window as any).$ || (window as any).jQuery;
+        if (globalJQ && typeof globalJQ.fn.DataTable === 'function') {
+          //console.log('✅ DataTables inicializado correctamente.');
+        } else {
+          //console.error('❌ DataTables no se vinculó correctamente con jQuery.');
+        }
+      };
+      script1.onerror = () => {
+        //console.error('❌ Error cargando DataTables desde assets/js/dataTables.min.js');
+      };
+      document.body.appendChild(script1);
+
+      const script2 = document.createElement('script');
+      script2.src = 'assets/js/select2.min.js';
+      script2.async = true;
+      script2.onload = () => {
+        const globalJQ = (window as any).$ || (window as any).jQuery;
+        if (globalJQ && typeof globalJQ.fn.DataTable === 'function') {
+          //console.log('✅ Select2 inicializado correctamente.');
+        } else {
+          //console.error('❌ Select2 no se vinculó correctamente con jQuery.');
+        }
+      };
+      script2.onerror = () => {
+        //console.error('❌ Error cargando Select2 desde assets/js/select2.min.js');
+      };
+      document.body.appendChild(script2);
+    };
 
     /*this.taskService.getToken().subscribe(responseToken => {
       //console.log(responseToken);
@@ -72,10 +109,15 @@ export class PromocionesComponent implements OnInit {
     });*/
 
     setTimeout(() => {
-      this.cargarListaPromocionesCupones();
+      (window as any).$ = (window as any).jQuery = (window as any).$ || (window as any).jQuery;
+      //console.log('✅ jQuery disponible:', !!(window as any).$);
+      loadDataTables();
+      setTimeout(() => {
+        this.cargarListaPromocionesCupones();
 
-      this.cargarRutas();
-    }, 100);
+        this.cargarRutas();
+      }, 100);
+    }, 500);
   }
 
   ejecutarSelect2(){

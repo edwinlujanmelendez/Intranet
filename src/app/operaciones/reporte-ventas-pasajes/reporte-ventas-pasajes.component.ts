@@ -115,13 +115,39 @@ export class ReporteVentasPasajesComponent implements OnInit {
     this.changeSelectAgencia();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
+    const loadDataTables = async () => {
+      const jq = (window as any).$ || (window as any).jQuery;
+      if (!jq) {return;}
+
+      if (typeof jq.fn.DataTable === 'function') {return;}
+
+      const script = document.createElement('script');
+      script.src = 'assets/js/dataTables.min.js';
+      script.async = true;
+      script.onload = () => {
+        const globalJQ = (window as any).$ || (window as any).jQuery;
+        if (globalJQ && typeof globalJQ.fn.DataTable === 'function') {
+          //console.log('✅ DataTables inicializado correctamente.');
+        } else {
+          //console.error('❌ DataTables no se vinculó correctamente con jQuery.');
+        }
+      };
+      script.onerror = () => {
+        //console.error('❌ Error cargando DataTables desde assets/js/dataTables.min.js');
+      };
+      document.body.appendChild(script);
+    };
+
     this.taskService.getAgencias().subscribe(responsegetAgencias => {
-      //console.log(responsegetAgencias);
       this.ltAgencias = responsegetAgencias;
     });
 
-    $("#tabla_reportes").DataTable();
+    setTimeout(() => {
+      (window as any).$ = (window as any).jQuery = (window as any).$ || (window as any).jQuery;
+      //console.log('✅ jQuery disponible:', !!(window as any).$);
+      loadDataTables();
+    }, 500);
   }
 
   changeSelectAgencia(){
@@ -142,13 +168,16 @@ export class ReporteVentasPasajesComponent implements OnInit {
     this.cantidad_anulados = 0;
     this.ListReporteDetallado = [];
     var cantidad_pagos_pagolink: any = [];
+    //$("#tabla_reportes").DataTable().destroy();
+    //const $ = (window as any).$;
+    
     $("#tabla_reportes").DataTable().destroy();
 
     this.taskService.getReporteDetallado(this.agencia_id, this.codSelectUsuario, $("#fechaInicio").val(), $("#fechaFin").val()).subscribe(responsegetReporteDetallado => {
       //console.log(responsegetReporteDetallado);
       this.ListReporteDetallado = responsegetReporteDetallado;
 
-      setTimeout(() => {
+      /*setTimeout(() => {
         $("#tabla_reportes").DataTable({pageLength: 10,
           deferRender: true,
           scrollY: 400,
@@ -157,7 +186,20 @@ export class ReporteVentasPasajesComponent implements OnInit {
           "searching": true,
           order: [[6, "desc"]]
         });
-      }, 100);
+      }, 100);*/
+
+      setTimeout(() => {
+        $('#tabla_reportes').DataTable({
+          pageLength: 10,
+          deferRender: true,
+          scrollY: 400,
+          scrollCollapse: true,
+          scroller: true,
+          searching: true,
+          order: [[6, 'desc']]
+        });
+        $(".loader").fadeOut("slow");
+      }, 200);
 
       $(".loader").fadeOut("slow");
 

@@ -457,56 +457,60 @@ export class FuncionesService {
         return array_pisos_final;
     }
 
-    notificacion_mensaje(tipo: String, message: String){
-        if(tipo == "Success"){
-          $.toast({
-            heading: '<b>Éxito</b>',
-            text: "<b>"+message+"</b>",
-            icon: 'success',
-            loader: true,
-            loaderBg: '#9EC600',
-            showHideTransition: 'fade',        //fade,slide,plain
-            hideAfter: 7500,
-            allowToastClose: false,            //true,false
-            position: 'bottom-left' 
-          });
-        }else if(tipo == "Information"){
-          $.toast({
-            heading: '<b>Información</b>',
-            text: "<b>"+message+"</b>",
-            icon: 'info',
-            loader: true,
-            loaderBg: '#9EC600',
-            showHideTransition: 'fade',        //fade,slide,plain
-            hideAfter: 7500,
-            allowToastClose: false,            //true,false
-            position: 'bottom-left' 
-          });
-        }else if(tipo == "Warning"){
-          $.toast({
-            heading: '<b>Advertencia</b>',
-            text: "<b>"+message+"</b>",
-            icon: 'warning',
-            bgColor: '#d1952d',
-            loader: true,
-            loaderBg: '#9EC600',
-            showHideTransition: 'fade',        //fade,slide,plain
-            hideAfter: 7500,
-            allowToastClose: false,            //true,false
-            position: 'bottom-left' 
-          });
-        }else if(tipo == "Error"){
-          $.toast({
-            heading: '<b>Error</b>',
-            text: "<b>"+message+"</b>",
-            icon: 'error',
-            loader: true,
-            loaderBg: '#9EC600',
-            showHideTransition: 'fade',        //fade,slide,plain
-            hideAfter: 7500,
-            allowToastClose: false,            //true,false
-            position: 'bottom-left' 
-          });
-        }
-      }
+    notificacion_mensaje(tipo, message) {
+        const container = document.getElementById("toast-container");
+        if (!container) return;
+
+        const tipos = {
+            Success: {
+            title: "Éxito",
+            bg: "bg-green-600",
+            icon: "✅"
+            },
+            Information: {
+            title: "Información",
+            bg: "bg-blue-600",
+            icon: "ℹ️"
+            },
+            Warning: {
+            title: "Advertencia",
+            bg: "bg-yellow-500",
+            icon: "⚠️"
+            },
+            Error: {
+            title: "Error",
+            bg: "bg-red-600",
+            icon: "❌"
+            }
+        };
+
+        const t = tipos[tipo] || tipos.Information;
+
+        // Crear el toast
+        const toast = document.createElement("div");
+        toast.className = `${t.bg} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transform transition-all duration-500 translate-x-[-120%] opacity-0`;
+        toast.innerHTML = `
+            <span class="text-xl">${t.icon}</span>
+            <div class="flex flex-col">
+            <strong class="font-semibold">${t.title}</strong>
+            <span class="text-sm">${message}</span>
+            </div>
+        `;
+
+        // Añadirlo al contenedor
+        container.appendChild(toast);
+
+        // Animar entrada
+        setTimeout(() => {
+            toast.classList.remove("translate-x-[-120%]", "opacity-0");
+            toast.classList.add("translate-x-0", "opacity-100");
+        }, 50);
+
+        // Ocultar automáticamente después de 7.5s
+        setTimeout(() => {
+            toast.classList.remove("translate-x-0", "opacity-100");
+            toast.classList.add("translate-x-[-120%]", "opacity-0");
+            setTimeout(() => toast.remove(), 500);
+        }, 7500);
+    }
 }

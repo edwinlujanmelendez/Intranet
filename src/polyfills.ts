@@ -64,3 +64,10 @@
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+/***************************************************************************************************
+ * JQUERY GLOBAL FIX FOR SSR + LAZY LOAD
+ */
+import * as jquery from 'jquery';
+
+(window as any).$ = (window as any).jQuery = jquery;

@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SimularPagosComponent } from './simular-pagos/simular-pagos.component';
 
 const routes: Routes = [
-  { path: 'simular-pagos', component: SimularPagosComponent }
+  { path: '', component: SimularPagosComponent }    //simular-pagos
 ];
 
 @NgModule({
