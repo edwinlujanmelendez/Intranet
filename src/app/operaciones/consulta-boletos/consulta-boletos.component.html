@@ -31,14 +31,20 @@
                     <div id="div_buscando_pdf" class="flex items-center" style="display: none; width: auto;">
                         <i class="fad fa-spinner-third fa-spin text-red-500 text-xl mr-1" title="Buscando PDFs"></i>
                         <i class="fad fa-file-pdf text-red-500 text-base" title="Buscando PDFs"></i>
-                        <span class="text-red-500 text-sm">Buscando PDF...</span>
+                        <span class="text-red-500 text-sm"> Buscando PDF...</span>
+                    </div>
+
+                    <div id="div_buscando_resumen_ai" class="flex items-center" style="display: none; width: auto;">
+                        <i class="fad fa-spinner-third fa-spin text-emerald-600 text-xl mr-1" title="Buscando PDFs"></i>
+                        <i class="fas fa-robot text-emerald-600 text-base" title="Buscando PDFs"></i>
+                        <span class="text-emerald-600 text-sm"> Generando resumen mediante IA...</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="flex justify-left mt-10" *ngIf="nuevos_datos_agrupados.length == 0">
+    <div class="flex justify-left mt-10" *ngIf="nuevos_datos_agrupados.length == 0 && !isLoading">
         <div class="w-full xl:w-8/12 lg:w-10/12">
             <div class="w-3/4 relative mx-auto text-center text-gray-500 mt-[10%]">
                 No existe el boleto en la base de datos. <br>
@@ -46,8 +52,139 @@
         </div>
     </div>
 
-    <div class="flex justify-left mb-2" *ngIf="DatosPartidasUnicas.length > 0">
+    <!----------------------------------------------------------------- Skeleton Loading ----------------------------------------------------------------->
+    <div class="flex justify-left mb-2" *ngIf="isLoading">
         <div class="w-full xl:w-8/12 lg:w-10/12">
+            <div *ngFor="let _ of [1]" class="border border-gray-300 rounded shadow-md mb-4 p-4 animate-pulse">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+                    <div class="h-3 bg-gray-300 rounded w-1/3 mb-2 md:mb-0"></div>
+                    <div class="flex space-x-2">
+                        <div class="h-3 bg-gray-300 rounded w-20"></div>
+                        <div class="h-3 bg-gray-300 rounded w-16"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center text-center mb-4">
+                    <div class="flex-1">
+                        <div class="h-4 bg-gray-300 rounded w-3/4 mx-auto mb-1"></div>
+                        <div class="h-3 bg-gray-300 rounded w-1/2 mx-auto mb-1"></div>
+                        <div class="h-3 bg-gray-300 rounded w-2/3 mx-auto"></div>
+                    </div>
+
+                    <div class="flex-none px-4 py-2">
+                        <div class="h-10 w-10 bg-gray-300 rounded-full mx-auto"></div>
+                    </div>
+
+                    <div class="flex-1">
+                        <div class="h-4 bg-gray-300 rounded w-3/4 mx-auto mb-1"></div>
+                        <div class="h-3 bg-gray-300 rounded w-1/2 mx-auto mb-1"></div>
+                        <div class="h-3 bg-gray-300 rounded w-2/3 mx-auto"></div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="h-4 bg-gray-300 rounded"></th>
+                                <th class="h-4 bg-gray-300 rounded"></th>
+                                <th class="h-4 bg-gray-300 rounded"></th>
+                                <th class="h-4 bg-gray-300 rounded"></th>
+                                <th class="h-4 bg-gray-300 rounded"></th>
+                                <th class="h-4 bg-gray-300 rounded"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let _ of [1,2,3]" class="bg-white border border-gray-300">
+                                <td class="h-3 bg-gray-300 rounded my-1"></td>
+                                <td class="h-3 bg-gray-300 rounded my-1"></td>
+                                <td class="h-3 bg-gray-300 rounded my-1"></td>
+                                <td class="h-3 bg-gray-300 rounded my-1"></td>
+                                <td class="h-3 bg-gray-300 rounded my-1"></td>
+                                <td class="h-3 bg-gray-300 rounded my-1"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-left mb-2" *ngIf="isLoading">
+        <div class="w-full xl:w-8/12 lg:w-10/12">
+            <div *ngFor="let _ of [1]" class="grid grid-cols-12 gap-1 mb-2 animate-pulse">
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <!-- Espaciador blanco -->
+                <div class="h-4 bg-white-300 rounded col-span-3"></div>
+                <div class="h-4 bg-white-200 rounded col-span-9"></div>
+                <!-- Espaciador blanco -->
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <!-- Espaciador blanco -->
+                <div class="h-4 bg-white-300 rounded col-span-3"></div>
+                <div class="h-4 bg-white-200 rounded col-span-9"></div>
+                <!-- Espaciador blanco -->
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+                <div class="h-4 bg-gray-300 rounded col-span-3"></div>
+                <div class="h-4 bg-gray-200 rounded col-span-9"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 mb-3 pl-1" *ngIf="isLoading">
+        <div class="flex flex-col justify-center flex-wrap animate-pulse">
+            <div class="h-4 w-96 bg-gray-300 rounded mb-2"></div>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let _ of [1,2,3,4,5,6,7,8,9,10,11,12,13,14]" class="h-4 bg-gray-300 rounded border border-gray-400"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let _ of [1,2,3]" class="border">
+                            <td colspan="14" class="p-2">
+                                <div class="h-4 bg-gray-300 rounded mb-1 w-32"></div>
+                                <table class="w-full">
+                                    <tbody>
+                                        <tr *ngFor="let __ of [1,2]">
+                                            <td *ngFor="let ___ of [1,2,3,4,5,6,7,8,9,10,11,12,13,14]" class="h-3 bg-gray-200 rounded border border-gray-400 mb-1"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!----------------------------------------------------------------- Skeleton Loading ----------------------------------------------------------------->
+
+    <div class="flex justify-left mb-2" *ngIf="DatosPartidasUnicas.length > 0 && !isLoading">
+        <div id="table_vista_viajes" class="w-full xl:w-8/12 lg:w-10/12">
             <div *ngFor="let DatosLista of DatosPartidasUnicas" class="border border-gray-300 rounded shadow-md mb-4">
                 <div class="bg-white px-4 py-3">
                     <div class="flex flex-col md:flex-row justify-between items-center md:text-base text-gray-700">
@@ -353,7 +490,7 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody id="table_vista_detalles">
                 <tr *ngFor="let DatosMaestro of nuevos_datos_agrupados; index as i; last as ult" class="border">
                     <td *ngIf="DatosMaestro.datos_asociados.length > 0" colspan="14" [ngClass]="{'border-b-0': ult}" class="text-left p-0 border-x border-gray-400">
                         <div class="border-x border-gray-400 pl-2 text-sm font-bold text-gray-600">{{i+1}}° Venta</div>
@@ -390,7 +527,7 @@
                 <tr *ngIf="responsegetBuscarPasajes.length > 0" class="border">
                     <td colspan="14" class="text-left p-0 border-x border-gray-400">
                         <div class="border-x border-gray-400 pl-2 text-sm font-bold text-gray-600">
-                            Registros Asociados
+                            Registros No Asociados
                         </div>
                         <table class="w-full">
                             <tbody>
@@ -434,7 +571,7 @@
     </div>
 
     <div id="div_vista_transbordos" class="w-full hidden mt-[0.3%]">
-        <table *ngIf="DataMaestroDataTransbordos.length > 0" class="w-full border-collapse">
+        <table id="table_vista_transbordos" *ngIf="DataMaestroDataTransbordos.length > 0" class="w-full border-collapse">
             <tbody>
                 <tr *ngFor="let DataBoleto of DataMaestroDataTransbordos; index as i; last as ult;" class="border">
                     <td *ngIf="DataBoleto.datos_asociados_transbordos.length > 0" colspan="14" class="text-left p-0 border-l-0 border-r-0" [ngClass]="{'hidden_border_bottom': ult}">
@@ -494,6 +631,21 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="displayedTextAI.length > 0" class="mt-6 mb-4 pl-1">
+        <div class="flex flex-col justify-center flex-wrap">
+            <span class="text-gray-900 dark:text-gray-100 text-md my-0">
+                <i class="fas fa-robot text-emerald-600"></i> &nbsp; Aquí se muestra un pequeño resumen por medio de IA.
+            </span>
+        </div>
+    </div>
+
+    <div *ngIf="displayedTextAI.length > 0" id="div_mensaje_ai" class="w-full mt-[0.3%]">
+        <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm text-gray-800 whitespace-pre-wrap leading-relaxed font-sans">
+            <span>{{ displayedTextAI }}</span>
+            <span *ngIf="isTypingAI" class="inline-block w-2 h-5 bg-emerald-500 ml-1 animate-pulse"></span>
+        </div>
     </div>
     <br>
 </div>

@@ -42,6 +42,12 @@ export class ConsultaBoletosComponent implements OnInit {
   DataSelectDocument: any = [];
   DataMaestroDataTransbordos: MaestroDataTransbordos[] = [];
 
+  displayedTextAI = '';
+  isTypingAI = false;
+  intervalAI: any;
+
+  isLoading: Boolean = false;
+
   constructor(private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
     var dia = "";
@@ -100,7 +106,7 @@ export class ConsultaBoletosComponent implements OnInit {
   buscarDatos(){
     var textoBuscar = String($("#inputBuscar").val()).trim();
     if(textoBuscar != ""){
-      $(".loader").fadeIn("slow");
+      //$(".loader").fadeIn("slow");
 
       $('#div_vista_viajes').css('display', 'none');
       $('#div_vista_detalles').css('display', 'none');
@@ -122,12 +128,19 @@ export class ConsultaBoletosComponent implements OnInit {
       this.DataSelectDocument = [];
       this.DataMaestroDataTransbordos = [];
 
+      clearInterval(this.intervalAI);
+      this.isTypingAI = false;
+      $('#div_buscando_resumen_ai').css('display', 'none');
+      this.displayedTextAI = "";
+
+      this.isLoading = true;
+
       this.taskService.getBuscarPasajes(String(textoBuscar)).subscribe(responsegetBuscarPasajes => {
         //console.log(responsegetBuscarPasajes);
         
         this.responsegetBuscarPasajes = responsegetBuscarPasajes;
       }, error => {
-        $(".loader").fadeOut("slow");
+        //$(".loader").fadeOut("slow");
       }, () => {
         this.nueva_funcionalidad();
       });
@@ -204,6 +217,86 @@ export class ConsultaBoletosComponent implements OnInit {
     
     //console.log(this.responsegetBuscarPasajes);
     //console.log(this.nuevos_datos_agrupados);
+
+    this.isLoading = false;
+  }
+
+ cleanHTMLtoText(html: string): string {
+  return html
+    .replace(/<thead[^>]*>/g, '\n--- ENCABEZADOS ---\n')
+    .replace(/<\/thead>/g, '\n---------------------\n')
+    .replace(/<table[^>]*>/g, '\n[TABLA INICIO]\n')
+    .replace(/<\/table>/g, '\n[TABLA FIN]\n')
+    .replace(/<tr[^>]*>/g, '\n')
+    .replace(/<\/tr>/g, '')
+    .replace(/<th[^>]*>/g, '')
+    .replace(/<\/th>/g, ', ')
+    .replace(/<td[^>]*>/g, '')
+    .replace(/<\/td>/g, ', ')
+    .replace(/<[^>]+>/g, '') // elimina otras etiquetas
+    .replace(/,+\s*\n/g, '\n') // limpia comas sobrantes
+    .replace(/\n{2,}/g, '\n') // elimina saltos dobles
+    .trim();
+  }
+
+  resumenOpenIA(){
+    console.log("comenzando resumen por inteligencia artificial");
+    
+    const tablaViajes = document.querySelector('#table_vista_viajes')?.outerHTML || '';
+    const tablaVentas = document.querySelector('#table_vista_detalles')?.outerHTML || '';
+    //const tablaTransbordos = document.querySelector('#table_vista_transbordos')?.outerHTML || '';
+
+    const tablaViajesText = tablaViajes ? this.cleanHTMLtoText(tablaViajes) : '';
+    const tablaVentasText = tablaVentas ? this.cleanHTMLtoText(tablaVentas) : '';
+    //const tablaTransbordosText = tablaTransbordos ? this.cleanHTMLtoText(tablaTransbordos) : '';
+
+    const contenido = `
+    # Contexto:
+    Los montos están en SOLES. las POSTERGACION FA son 'POSTERGACIONES DE FECHA ABIERTA', las CONFIRMACION FA son 'CONFIRMACION DE FECHA ABIERTA', A continuación se presentan las tablas exportadas desde el sistema de ventas.
+
+    ${tablaViajesText ? `# Tabla de Viajes\n${tablaViajesText}` : ''}
+    ${tablaVentasText ? `# Tabla de Ventas\n${tablaVentasText}` : ''}
+    `;
+
+    if (contenido.trim() === '') {
+      console.warn('No hay datos para enviar a OpenAI');
+      return;
+    }
+
+    $('#div_buscando_resumen_ai').css('display', 'inline');
+    this.taskService.resumenOpenIA(contenido).subscribe({
+      next: (responseResumenOpenIA) => {
+        //console.log(responseResumenOpenIA);
+        const content = responseResumenOpenIA['choices'][0]['message']['content'] || '';
+        this.startTypingEffectAI(content);
+      },
+      error: (err) => {
+        console.error('Error en resumenOpenIA:', err);
+        $('#div_buscando_resumen_ai').css('display', 'none');
+      },
+      complete: () => {
+        $('#div_buscando_resumen_ai').css('display', 'none');
+      }
+    });
+  }
+
+  startTypingEffectAI(fullTextAI: string) {
+    this.isTypingAI = true;
+    this.displayedTextAI = '';
+
+    const chars = [...fullTextAI];
+    let i = 0;
+
+    this.intervalAI = setInterval(() => {
+      this.displayedTextAI += chars[i];
+      i++;
+
+      if (i === chars.length) {
+        clearInterval(this.intervalAI);
+        this.isTypingAI = false;
+        $('#div_buscando_resumen_ai').css('display', 'none');
+      }
+    }, 15);
   }
 
   asociar_promociones_faltantes(){
@@ -307,7 +400,7 @@ export class ConsultaBoletosComponent implements OnInit {
     // 3️⃣ Función recursiva para procesar lotes uno por uno
     const procesarLote = () => {
       if (indice >= lotes.length) {
-        // 🔹 Cuando termina, actualiza estado final
+        // Cuando termina, actualiza estado final
         if (acumulado.length > 0) {
           this.pdf_para_descargar = acumulado;
           this.permitir_descargar_pdfs = 1;
@@ -316,7 +409,7 @@ export class ConsultaBoletosComponent implements OnInit {
           this.permitir_descargar_pdfs = 3;
         }
 
-        // 🔹 Marcar PDFs en nuevos_datos_agrupados
+        // Marcar PDFs en nuevos_datos_agrupados
         for (let a = 0; a < acumulado.length; a++) {
           for (let b = 0; b < this.nuevos_datos_agrupados.length; b++) {
             for (let c = 0; c < this.nuevos_datos_agrupados[b]['datos_asociados'].length; c++) {
@@ -328,6 +421,9 @@ export class ConsultaBoletosComponent implements OnInit {
         }
 
         $('#div_buscando_pdf').css('display', 'none');
+        if(this.rol_superusuario == 1){
+          this.resumenOpenIA();
+        }
         //console.log(this.pdf_para_descargar);
         return;
       }
