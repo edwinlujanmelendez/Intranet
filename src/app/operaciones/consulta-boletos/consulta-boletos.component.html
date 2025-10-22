@@ -424,7 +424,7 @@
 </div>
 
 <div class="w-full px-4 mx-auto pt-3">
-    <div id="div_vista_viajes" class="flex justify-start mb-2 hidden">
+    <div *ngIf="pdf_para_descargar.length > 0" class="flex justify-start mb-2">
         <div class="w-full md:w-10/12 2xl:w-8/12">
             <div class="border border-gray-300 rounded-lg shadow-sm mb-2 bg-white">
                 <div *ngIf="permitir_descargar_pdfs == 1 || permitir_enviar_correo == 1" class="w-full p-2">

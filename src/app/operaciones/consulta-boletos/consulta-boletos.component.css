@@ -23,23 +23,12 @@ h3{
     border-bottom: hidden;
 }
 
-
-
-/*.tr_viaje{
-    background-color: #dfffec !important;
-}
-.tr_anulacion{
-    background-color: #ffdfdf !important;
-}
-.tr_nota_credito{
-    background-color: #faffdf !important;
-}
-.tr_postergacion{
-    background-color: #dff2ff !important;
-}*/
-
 /* ? ************** NUEVOS 1 ***************/
 .tr_viaje {
+    background-color: rgba(209, 231, 221, 0.7) !important; /* #d1e7dd */
+}
+
+.tr_confirmacion {
     background-color: rgba(209, 231, 221, 0.7) !important; /* #d1e7dd */
 }
 
@@ -56,29 +45,6 @@ h3{
 }
 
 /* ? ************** NUEVOS 2 ***************/
-/*.tr_viaje{
-    background-color: #d1e7dd;
-    color: #048b4d !important;
-}
-.tr_anulacion{
-    background-color: #f8d7da;
-    color: #d10e1f !important;
-}
-.tr_nota_credito{
-    background-color: #fff3cd;
-    color: #b18c16 !important;
-}
-.tr_postergacion{
-    background-color: #cfe2ff;
-    color: #195bc1 !important;
-}*/
-
-/*.tr_boleto_nota_credito{
-    background-color: #ffdfdf !important;
-}
-.tr_boleto_anterior_nota_credito{
-    background-color: #dff2ff !important;
-}*/
 .toggle_seleccion > td{
     background-color: #ff6719 !important;       /*7239EA*/ /*0d6efd*/
     color: #ffffff;

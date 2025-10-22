@@ -35,6 +35,7 @@ export class PromocionesComponent implements OnInit {
 
   //token: string = "";
   ArrayMostrarModal: any = [];
+  usuario_login: String = "";
 
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
@@ -61,6 +62,9 @@ export class PromocionesComponent implements OnInit {
   ngOnInit(): void {
     this.tokenService.verificarToken();         // TODO: Verifica el logeo del Usuario y lo redirecciona
     this.innerWidth = window.innerWidth;
+
+    let StorageUsuario = JSON.parse(localStorage.getItem('StorageUsuario') || '{}');
+    this.usuario_login = StorageUsuario['login'];
   }
 
   ngAfterViewInit(){
@@ -116,7 +120,7 @@ export class PromocionesComponent implements OnInit {
         this.cargarListaPromocionesCupones();
 
         this.cargarRutas();
-      }, 100);
+      }, 1000);
     }, 500);
   }
 
@@ -321,46 +325,51 @@ export class PromocionesComponent implements OnInit {
       tipo_promocion = 2;
     }
 
-    var data = {
-      'cupones_id': Number($('#code_promocion').val()),
-      'nombre': $('#nombre_promocion').val(),
-      'porcentaje_desc': Number($('#porcentaje_descuento').val()),
-      'usosrestantes': Number($('#stock_pasajeros').val()),
-      'servicios': ServiciosPromocion,
-      'rutas_prohibidas': RutasProhibidas,
-      'fecha_inicio': this.funcionesService.convert_format_fecha_barra($('#fecha_cupon_inicio').val()),
-      'fecha_fin': this.funcionesService.convert_format_fecha_barra($('#fecha_cupon_fin').val()),
-      'compra_inicio': this.funcionesService.convert_format_fecha_barra($('#fecha_compra_inicio').val()),
-      'compra_fin': this.funcionesService.convert_format_fecha_barra($('#fecha_compra_fin').val()),
-      'estado': Number($('#estado_promocion').val()),
-      'grupo_cupones': Number($('#select_grupo_cupones').val()),
-      'rutas_aceptadas': RutasAceptadas,
-      'tipo_promocion': tipo_promocion,
-      'tipo_sistema': Number($('#select_sistemas').val())
-    }
+    if(Number($('#porcentaje_descuento').val()) >= 50){
+      this.funcionesService.notificacion_mensaje("Error", "No se puede insertar una promoción mayor o igual al 50%.");
+    }else{
+      var data = {
+        'cupones_id': Number($('#code_promocion').val()),
+        'nombre': $('#nombre_promocion').val(),
+        'porcentaje_desc': Number($('#porcentaje_descuento').val()),
+        'usosrestantes': Number($('#stock_pasajeros').val()),
+        'servicios': ServiciosPromocion,
+        'rutas_prohibidas': RutasProhibidas,
+        'fecha_inicio': this.funcionesService.convert_format_fecha_barra($('#fecha_cupon_inicio').val()),
+        'fecha_fin': this.funcionesService.convert_format_fecha_barra($('#fecha_cupon_fin').val()),
+        'compra_inicio': this.funcionesService.convert_format_fecha_barra($('#fecha_compra_inicio').val()),
+        'compra_fin': this.funcionesService.convert_format_fecha_barra($('#fecha_compra_fin').val()),
+        'estado': Number($('#estado_promocion').val()),
+        'grupo_cupones': Number($('#select_grupo_cupones').val()),
+        'rutas_aceptadas': RutasAceptadas,
+        'tipo_promocion': tipo_promocion,
+        'tipo_sistema': Number($('#select_sistemas').val()),
+        'usuario_login': this.usuario_login
+      }
 
-    if(this.verificar_modal_promociones(data) == true){
-      this.taskService.updateInsertPromocion(data).subscribe(responseupdateInsertPromocion => {
-        if(responseupdateInsertPromocion['result'] == true){
-          if(responseupdateInsertPromocion['mensaje'].includes('0')){
-            this.funcionesService.notificacion_mensaje("Success", "Se insertó con éxito la promoción.");
-          }else{
-            this.funcionesService.notificacion_mensaje("Success", "Se actualizó con éxito la promoción.");
-          }
+      if(this.verificar_modal_promociones(data) == true){
+        this.taskService.updateInsertPromocion(data).subscribe(responseupdateInsertPromocion => {
+          if(responseupdateInsertPromocion['result'] == true){
+            if(responseupdateInsertPromocion['mensaje'].includes('0')){
+              this.funcionesService.notificacion_mensaje("Success", "Se insertó con éxito la promoción.");
+            }else{
+              this.funcionesService.notificacion_mensaje("Success", "Se actualizó con éxito la promoción.");
+            }
 
-          $("#tabla_promociones").DataTable().destroy();
-          this.cargarListaPromocionesCupones();
-          //$('#modal_create_editar_cupon').modal('hide');
-          this.cerrarModal('modal_create_editar_cupon');
-        }else{
-          if(responseupdateInsertPromocion['mensaje'].includes('0')){
-            this.funcionesService.notificacion_mensaje("Error", "Hubo un error al insertar la promoción.");
+            $("#tabla_promociones").DataTable().destroy();
+            this.cargarListaPromocionesCupones();
+            //$('#modal_create_editar_cupon').modal('hide');
+            this.cerrarModal('modal_create_editar_cupon');
           }else{
-            this.funcionesService.notificacion_mensaje("Error", "Hubo un error al actualizar la promoción.");
+            if(responseupdateInsertPromocion['mensaje'].includes('0')){
+              this.funcionesService.notificacion_mensaje("Error", "Hubo un error al insertar la promoción.");
+            }else{
+              this.funcionesService.notificacion_mensaje("Error", "Hubo un error al actualizar la promoción.");
+            }
           }
-        }
-      });
-    }
+        });
+      }
+    }    
   }
 
   eliminarPromocionCupon(DatosListaPromocionesCupones: any){

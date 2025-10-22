@@ -29,10 +29,10 @@ export class ConsultaBoletosComponent implements OnInit {
 
   responsegetBuscarPasajes: any = [];
   rol_superusuario: number = 0;
-  permitir_enviar_correo: number = 0;
+  permitir_enviar_correo: number = 1;       // 0 : NO PERMITE, 1 : PERMITE
   permitir_descargar_pdfs: number = 0;
   pdf_para_descargar: any = [];
-  pdf_pasajes_enviar: number = 0;
+  //pdf_pasajes_enviar: number = 0;
 
   nuevos_datos_agrupados: any = [];
   DatosVistaViajes: DatoAsociado[] = [];
@@ -47,6 +47,7 @@ export class ConsultaBoletosComponent implements OnInit {
   intervalAI: any;
 
   isLoading: Boolean = false;
+  usuario_login: String = "";
 
   constructor(private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
@@ -76,6 +77,9 @@ export class ConsultaBoletosComponent implements OnInit {
   ngAfterViewInit(){
     let StorageRol = JSON.parse(localStorage.getItem('StorageRol') || '{}');
     this.rol_superusuario = Number(StorageRol['rol_id']);
+
+    let StorageUsuario = JSON.parse(localStorage.getItem('StorageUsuario') || '{}');
+    this.usuario_login = StorageUsuario['login'];
   }
 
   toggle_seleccion(id: string){
@@ -108,7 +112,7 @@ export class ConsultaBoletosComponent implements OnInit {
     if(textoBuscar != ""){
       //$(".loader").fadeIn("slow");
 
-      $('#div_vista_viajes').css('display', 'none');
+      //$('#div_vista_viajes').css('display', 'none');
       $('#div_vista_detalles').css('display', 'none');
       $('#div_vista_transbordos').css('display', 'none');
       $('#div_buscando_pdf').css('display', 'none');
@@ -117,7 +121,7 @@ export class ConsultaBoletosComponent implements OnInit {
       this.lstDatosListaPasajerosRetorno = [];
 
       this.permitir_descargar_pdfs = 0;
-      this.permitir_enviar_correo = 0;
+      //this.permitir_enviar_correo = 0;
       this.pdf_para_descargar = [];
 
       this.responsegetBuscarPasajes = [];
@@ -201,17 +205,20 @@ export class ConsultaBoletosComponent implements OnInit {
     // TODO: LIMPIEZA DATA DE LOS AGRUPADOS
     this.limpieza_data_agrupados();
 
+    // TODO: AGRUPAR DATOS NO ASOCIADOS A LA LISTA PRINCIPAL
+    this.agrupar_datos_no_asociados();
+
     // TODO: SE MUESTRA EL PANEL PARA DESCARGAR LOS PDF
     this.verificar_descargas_pdf();
 
     // TODO: SE MUESTRA EL PANEL PARA ENVIAR LOS CORREOS
-    this.mostrar_panel_correo_pdf();
+    //this.mostrar_panel_correo_pdf();
     
     // TODO: SE BUSCA SI EXISTE ALGUN TRANSBORDO EN ALGUNOS DE LOS BOLETOS
     this.buscar_transbordos_de_boletos();
 
     // TODO: ARMAMOS LA VISTA FINAL
-    $('#div_vista_viajes').css('display', 'inline');
+    //$('#div_vista_viajes').css('display', 'inline');
     $('#div_vista_detalles').css('display', 'inline');
     $(".loader").fadeOut("slow");
     
@@ -239,7 +246,7 @@ export class ConsultaBoletosComponent implements OnInit {
     .trim();
   }
 
-  resumenOpenIA(){
+  resumenOpenAI(){
     console.log("comenzando resumen por inteligencia artificial");
     
     const tablaViajes = document.querySelector('#table_vista_viajes')?.outerHTML || '';
@@ -271,7 +278,7 @@ export class ConsultaBoletosComponent implements OnInit {
         this.startTypingEffectAI(content);
       },
       error: (err) => {
-        console.error('Error en resumenOpenIA:', err);
+        console.error('Error en resumenOpenAI:', err);
         $('#div_buscando_resumen_ai').css('display', 'none');
       },
       complete: () => {
@@ -297,6 +304,33 @@ export class ConsultaBoletosComponent implements OnInit {
         $('#div_buscando_resumen_ai').css('display', 'none');
       }
     }, 15);
+  }
+
+  agrupar_datos_no_asociados(){
+    for (var a = 0; a < this.responsegetBuscarPasajes.length; a++) {
+      var encontrado = false;
+      let datosAsociados: any[] = [];
+
+      for (var b = 0; b < this.nuevos_datos_agrupados.length; b++) {
+        datosAsociados = this.nuevos_datos_agrupados[b]['datos_asociados'];
+
+        // Verificar si algún elemento dentro de datosAsociados coincide
+        const existe = datosAsociados.some(
+          item => item['c_numboleto'] === this.responsegetBuscarPasajes[a]['c_numbolant']
+        );
+
+        if (existe) {
+          encontrado = true;
+          break; // ya no busques más
+        }
+      }
+
+      if (encontrado && datosAsociados) {
+        datosAsociados.push(this.responsegetBuscarPasajes[a]);
+        this.responsegetBuscarPasajes.splice(a, 1);
+        a--; // retroceder porque eliminaste un elemento
+      }
+    }
   }
 
   asociar_promociones_faltantes(){
@@ -406,7 +440,7 @@ export class ConsultaBoletosComponent implements OnInit {
           this.permitir_descargar_pdfs = 1;
         } else {
           this.pdf_para_descargar = [];
-          this.permitir_descargar_pdfs = 3;
+          this.permitir_descargar_pdfs = 0;
         }
 
         // Marcar PDFs en nuevos_datos_agrupados
@@ -421,8 +455,8 @@ export class ConsultaBoletosComponent implements OnInit {
         }
 
         $('#div_buscando_pdf').css('display', 'none');
-        if(this.rol_superusuario == 1){
-          this.resumenOpenIA();
+        if(this.rol_superusuario == 1 || this.usuario_login == "jhuaman" || this.usuario_login == "kcenteno" || this.usuario_login == "lsilva" || this.usuario_login == "ereynoso"){
+          this.resumenOpenAI();
         }
         //console.log(this.pdf_para_descargar);
         return;
@@ -449,7 +483,7 @@ export class ConsultaBoletosComponent implements OnInit {
     procesarLote();
   }
 
-  mostrar_panel_correo_pdf(){
+  /*mostrar_panel_correo_pdf(){
     this.pdf_pasajes_enviar = 0;
 
     for(var a=0; a<this.DatosVistaViajes.length; a++){
@@ -474,7 +508,7 @@ export class ConsultaBoletosComponent implements OnInit {
         this.pdf_pasajes_enviar = 1;
       }
     }
-  }
+  }*/
 
   ordenar_detalles_de_la_venta(){
     this.DatosDetallesVenta = [];
@@ -525,6 +559,8 @@ export class ConsultaBoletosComponent implements OnInit {
         if(boleto['c_numboleto'] != ultimo['c_numboleto']){
           if(ultimo['detalle_tipmov'].includes('POSTERGACION')){
             return 'tr_postergacion';
+          }else if(ultimo['detalle_tipmov'].includes('CONFIRMACION')){
+            return 'tr_confirmacion';
           }else if(ultimo['detalle_tipmov'] == 'CREDITO' && ultimo['detalle_tipcom'] == 'NOTA DE CREDITO'){
             return 'tr_nota_credito';
           }else if(ultimo['detalle_tipmov'] == 'EFECTIVO' && ultimo['detalle_tipcom'] == 'FACTURA'){
@@ -547,27 +583,31 @@ export class ConsultaBoletosComponent implements OnInit {
 
   verificarDataObservaciones(ListaPasajeros: any){
     for(var a = 0; a < this.nuevos_datos_agrupados.length; a++){
-      const boleto = this.nuevos_datos_agrupados[a]['boleto'];
+      if(a == this.nuevos_datos_agrupados.length - 1){
+        //const boleto = this.nuevos_datos_agrupados[a]['boleto'];
       
-      if(ListaPasajeros['c_numboleto'] === boleto['c_numboleto'] || ListaPasajeros['c_numbolant'] === boleto['c_numboleto']){
-        const datosAsociados = this.nuevos_datos_agrupados[a]['datos_asociados'];
-        const ultimo = datosAsociados[datosAsociados.length - 1];
+        //if(ListaPasajeros['c_numboleto'] === boleto['c_numboleto'] || ListaPasajeros['c_numbolant'] === boleto['c_numboleto']){
+          const datosAsociados = this.nuevos_datos_agrupados[a]['datos_asociados'];
+          const ultimo = datosAsociados[datosAsociados.length - 1];
 
-        if(boleto['c_numboleto'] != ultimo['c_numboleto']){
-          if(ultimo['detalle_tipmov'].includes('POSTERGACION')){
-            return `${ultimo['detalle_tipmov']}: ${ultimo['c_numboleto']}`
-          }else if(ultimo['detalle_tipmov'] == 'CREDITO' && ultimo['detalle_tipcom'] == 'NOTA DE CREDITO'){
-            return `${ultimo['detalle_tipcom']}: ${ultimo['c_numboleto']}`
-          }else if(ultimo['detalle_tipmov'] == 'EFECTIVO' && ultimo['detalle_tipcom'] == 'FACTURA'){
-            return `${ultimo['detalle_tipcom']}: ${ultimo['c_numboleto']}`
-          }else if((ultimo['detalle_tipmov'] == 'CREDITO' || ultimo['detalle_tipmov'] == 'EFECTIVO') && ultimo['detalle_tipcom'] == 'BOLETA DE VENTA' && boleto['c_numboleto'] != ultimo['c_numboleto']){
-            return `${ultimo['detalle_tipcom']}: ${ultimo['c_numboleto']}`
+          if(ListaPasajeros['c_numboleto'] != ultimo['c_numboleto']){
+            if(ultimo['detalle_tipmov'].includes('POSTERGACION')){
+              return `${ultimo['detalle_tipmov']}: ${ultimo['c_numboleto']}`
+            }else if(ultimo['detalle_tipmov'].includes('CONFIRMACION')){
+              return `${ultimo['detalle_tipmov']}: ${ultimo['c_numboleto']}`
+            }else if(ultimo['detalle_tipmov'] == 'CREDITO' && ultimo['detalle_tipcom'] == 'NOTA DE CREDITO'){
+              return `${ultimo['detalle_tipcom']}: ${ultimo['c_numboleto']}`
+            }else if(ultimo['detalle_tipmov'] == 'EFECTIVO' && ultimo['detalle_tipcom'] == 'FACTURA'){
+              return `${ultimo['detalle_tipcom']}: ${ultimo['c_numboleto']}`
+            }else if((ultimo['detalle_tipmov'] == 'CREDITO' || ultimo['detalle_tipmov'] == 'EFECTIVO') && ultimo['detalle_tipcom'] == 'BOLETA DE VENTA' && ListaPasajeros['c_numboleto'] != ultimo['c_numboleto']){
+              return `${ultimo['detalle_tipcom']}: ${ultimo['c_numboleto']}`
+            }else{
+              return `-`
+            }
           }else{
             return `-`
           }
-        }else{
-          return `-`
-        }
+        //}
       }
     }
   }
@@ -721,9 +761,9 @@ export class ConsultaBoletosComponent implements OnInit {
       var boletos_seleccionados: Array<string> = [];
 
       for(var a=0; a<this.DataSelectDocument.length; a++){
-        if(this.pdf_pasajes_enviar == 1 || this.pdf_pasajes_enviar == 3){
+        //if(this.pdf_pasajes_enviar == 1){
           boletos_seleccionados.push(String(this.DataSelectDocument[a]['boleto']));
-        }
+        //}
       }
 
       var datos = {
