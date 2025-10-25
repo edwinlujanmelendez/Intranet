@@ -12,10 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    AuditoriaBoletosComponent,
-    VersionesComponent
-  ],
+  declarations: [AuditoriaBoletosComponent, VersionesComponent],
   imports: [CommonModule, FormsModule, RouterModule.forChild(routes)]
 })
 export class ModuloTiModule {}

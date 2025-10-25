@@ -45,6 +45,16 @@
                     </li>
                 </ul>
             </details>
+
+            <details class="group">
+                <summary class="flex cursor-pointer items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:bg-orange-100">
+                    <span><i class="fad fa-laptop-code text-gray-500 mr-1"></i> Modulo TI</span>
+                    <span class="icon-despegable"><i class="far fa-angle-right text-gray-500"></i></span>
+                </summary>
+                <ul class="mt-1 ml-5 space-y-3 list-disc list-inside">
+                    <li *ngIf="puedeVer('AsistenteSQLInteligente')"><a (click)="AsistenteSQLInteligente()" class="no-underline text-gray-600 hover:text-orange-600 cursor-pointer">Asistente SQL Inteligente</a></li>
+                </ul>
+            </details>
         </nav>
 
         <div class="py-3 border-t text-sm text-gray-500 text-center">

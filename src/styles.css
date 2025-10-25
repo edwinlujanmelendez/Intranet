@@ -21,6 +21,13 @@ details[open] .icon-despegable {
     transform: rotate(90deg);
 }
 
+.sql-keyword {
+  color: #ff79c6; /* Rosado tipo ChatGPT */
+  font-weight: 600;
+}
+.sql-string {
+  color: #50fa7b; /* Verde brillante tipo ChatGPT */
+}
 
 /*
 .ruta_ida_vuelta_selec{

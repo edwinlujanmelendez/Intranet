@@ -248,43 +248,63 @@ export class ConsultaBoletosComponent implements OnInit {
 
   resumenOpenAI(){
     console.log("comenzando resumen por inteligencia artificial");
-    
-    const tablaViajes = document.querySelector('#table_vista_viajes')?.outerHTML || '';
-    const tablaVentas = document.querySelector('#table_vista_detalles')?.outerHTML || '';
-    //const tablaTransbordos = document.querySelector('#table_vista_transbordos')?.outerHTML || '';
 
-    const tablaViajesText = tablaViajes ? this.cleanHTMLtoText(tablaViajes) : '';
-    const tablaVentasText = tablaVentas ? this.cleanHTMLtoText(tablaVentas) : '';
-    //const tablaTransbordosText = tablaTransbordos ? this.cleanHTMLtoText(tablaTransbordos) : '';
+    if (this.DatosVistaViajes.length > 0 || this.nuevos_datos_agrupados.length > 0) {
+      let tablaViajes = '';
+      let tablaViajesText = '';
+      let tablaVentas = '';
+      let tablaVentasText = '';
+      let seccionTablas = '';
 
-    const contenido = `
-    # Contexto:
-    Los montos están en SOLES. las POSTERGACION FA son 'POSTERGACIONES DE FECHA ABIERTA', las CONFIRMACION FA son 'CONFIRMACION DE FECHA ABIERTA', A continuación se presentan las tablas exportadas desde el sistema de ventas.
-
-    ${tablaViajesText ? `# Tabla de Viajes\n${tablaViajesText}` : ''}
-    ${tablaVentasText ? `# Tabla de Ventas\n${tablaVentasText}` : ''}
-    `;
-
-    if (contenido.trim() === '') {
-      console.warn('No hay datos para enviar a OpenAI');
-      return;
-    }
-
-    $('#div_buscando_resumen_ai').css('display', 'inline');
-    this.taskService.resumenOpenIA(contenido).subscribe({
-      next: (responseResumenOpenIA) => {
-        //console.log(responseResumenOpenIA);
-        const content = responseResumenOpenIA['choices'][0]['message']['content'] || '';
-        this.startTypingEffectAI(content);
-      },
-      error: (err) => {
-        console.error('Error en resumenOpenAI:', err);
-        $('#div_buscando_resumen_ai').css('display', 'none');
-      },
-      complete: () => {
-        $('#div_buscando_resumen_ai').css('display', 'none');
+      // Si existen viajes
+      if (this.DatosVistaViajes.length > 0) {
+        tablaViajes = document.querySelector('#table_vista_viajes')?.outerHTML || '';
+        tablaViajesText = tablaViajes ? this.cleanHTMLtoText(tablaViajes) : '';
+        if (tablaViajesText.trim()) {
+          seccionTablas += `# Tabla de Viajes\n${tablaViajesText}\n\n`;
+        }
       }
-    });
+
+      // Si existen ventas agrupadas
+      if (this.nuevos_datos_agrupados.length > 0) {
+        tablaVentas = document.querySelector('#table_vista_detalles')?.outerHTML || '';
+        tablaVentasText = tablaVentas ? this.cleanHTMLtoText(tablaVentas) : '';
+        if (tablaVentasText.trim()) {
+          seccionTablas += `# Tabla de Ventas\n${tablaVentasText}\n\n`;
+        }
+      }
+
+      const contenido = `
+      # Contexto:
+      Los montos están en SOLES.
+      Las POSTERGACION FA son "POSTERGACIONES DE FECHA ABIERTA".
+      Las CONFIRMACION FA son "CONFIRMACION DE FECHA ABIERTA".
+      A continuación se presentan las tablas exportadas desde el sistema de ventas.
+
+      ${seccionTablas.trim()}
+      `.trim();
+
+      if (!seccionTablas.trim()) {
+        console.warn('No hay tablas válidas para enviar a OpenAI');
+        return;
+      }
+
+      $('#div_buscando_resumen_ai').css('display', 'inline');
+
+      this.taskService.resumenOpenIA(contenido).subscribe({
+        next: (responseResumenOpenIA) => {
+          const content = responseResumenOpenIA['choices'][0]['message']['content'] || '';
+          this.startTypingEffectAI(content);
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          $('#div_buscando_resumen_ai').css('display', 'none');
+        },
+        complete: () => {
+          $('#div_buscando_resumen_ai').css('display', 'none');
+        }
+      });
+    }
   }
 
   startTypingEffectAI(fullTextAI: string) {
@@ -455,7 +475,7 @@ export class ConsultaBoletosComponent implements OnInit {
         }
 
         $('#div_buscando_pdf').css('display', 'none');
-        if(this.rol_superusuario == 1 || this.usuario_login == "jhuaman" || this.usuario_login == "kcenteno" || this.usuario_login == "lsilva" || this.usuario_login == "ereynoso"){
+        if((this.rol_superusuario == 1 || this.usuario_login == "elujan")){
           this.resumenOpenAI();
         }
         //console.log(this.pdf_para_descargar);

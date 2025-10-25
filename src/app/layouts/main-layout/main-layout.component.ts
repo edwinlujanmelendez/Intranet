@@ -91,7 +91,7 @@ export class MainLayoutComponent implements OnInit {
     //$('#detalle_liquidacion').removeClass("error_caja");    
   }
 
-  puedeVer(menu: 'VentaReservaPasajes' | 'ReporteVentasPasajes' | 'Promociones' | 'ReporteFrotcom') {
+  puedeVer(menu: 'VentaReservaPasajes' | 'ReporteVentasPasajes' | 'Promociones' | 'ReporteFrotcom' | 'AsistenteSQLInteligente') {
     return this.rolesService.manejarVistas(menu, this.rolId);
   }
 
@@ -154,6 +154,12 @@ export class MainLayoutComponent implements OnInit {
     this.router.navigate(['reportes/operaciones/reporte-frotcom']);
   }
   /****************************** REPORTES ******************************/
+
+  /****************************** MODULO TI ******************************/
+  AsistenteSQLInteligente(){
+    this.router.navigate(['modulo-ti-main/asistente-sql-inteligente']);
+  }
+  /****************************** MODULO TI ******************************/
   
   openNav(texto: string){
     $("#menuNav"+texto).toggleClass("show");

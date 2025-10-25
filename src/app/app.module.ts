@@ -145,7 +145,8 @@ const routes: Routes = [
       { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'simular-pagos', loadChildren: () => import('./ecommerce/ecommerce.module').then(m => m.EcommerceModule) },
       { path: 'operaciones', loadChildren: () => import('./operaciones/operaciones.module').then(m => m.OperacionesModule) },
-      { path: 'reportes', loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule) }
+      { path: 'reportes', loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule) },
+      { path: 'modulo-ti-main', loadChildren: () => import('./modulo-ti/modulo-ti-main.module').then(m => m.ModuloTiMainModule) }
     ]
   }
 ];

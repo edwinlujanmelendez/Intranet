@@ -1,0 +1,78 @@
+<div class="mt-3 mb-1 pl-7">
+    <div class="flex flex-col justify-center flex-wrap">
+        <span class="text-gray-900 dark:text-gray-100 font-bold text-lg my-0">Menú Principal</span>
+        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium pt-1">Modulo TI - Asistente SQL Inteligente</p>
+    </div>
+</div>
+
+<div class="w-full px-4 mx-auto pt-3">
+    <div class="flex justify-left mb-2">
+        <div class="w-full md:w-10/12 xxl:w-8/12">
+            <div class="border border-gray-300 rounded-lg shadow-sm mb-2 bg-white">
+                <div class="p-3 text-center">
+                    <label class="text-xs font-medium text-gray-700 text-orange-500">
+                        Búsqueda: <label class="text-gray-500">Genera un Query en ORACLE por medio de una descripción simple de lo que se requiere.</label>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-left mb-4">
+        <div class="w-full xl:w-8/12 lg:w-10/12">
+            <div class="flex flex-wrap items-center space-x-4">
+                <div class="w-1/12 flex justify-center items-center text-sm font-medium">PETICIÓN:</div>
+                <div class="w-6/12">
+                    <textarea id="inputBuscar" (keyup.enter)="generarQuery()" class="form-input w-full border border-gray-300 rounded px-2 py-1 resize-none text-sm" rows="4" spellcheck="false"></textarea>
+                </div>
+                <div class="w-4/12 flex items-center justify-start">
+                    <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mr-2" (click)="generarQuery()">Generar SQL</button>
+
+                    <div id="div_buscando_pdf" class="flex items-center" style="display: none; width: auto;">
+                        <i class="fad fa-spinner-third fa-spin text-red-500 text-xl mr-1" title="Buscando PDFs"></i>
+                        <i class="fad fa-file-pdf text-red-500 text-base" title="Buscando PDFs"></i>
+                        <span class="text-red-500 text-sm"> Buscando PDF...</span>
+                    </div>
+
+                    <div id="div_buscando_resumen_ai" class="flex items-center" style="display: none; width: auto;">
+                        <i class="fad fa-spinner-third fa-spin text-emerald-600 text-xl mr-1" title="Buscando PDFs"></i>
+                        <i class="fas fa-robot text-emerald-600 text-base" title="Buscando PDFs"></i>
+                        <span class="text-emerald-600 text-sm"> Generando resumen mediante IA...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="displayedTextAI.length == 0" class="flex justify-left mt-10">
+        <div class="w-full xl:w-8/12 lg:w-10/12">
+            <div class="w-3/4 relative mx-auto text-center text-gray-500 mt-[10%]">
+                No se realizó ninguna petición. <br>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-left mb-2">
+        <div class="w-full xl:w-8/12 lg:w-2/12 p-2">
+            <div *ngIf="displayedTextAI.length > 0" class="mb-4 pl-1">
+                <div class="flex flex-col justify-center flex-wrap">
+                    <span class="text-gray-900 dark:text-gray-100 text-md my-0">
+                        <i class="fas fa-robot text-emerald-600"></i> &nbsp; Aquí se muestra un pequeño resumen por medio de IA.
+                    </span>
+                </div>
+            </div>
+
+            <div *ngIf="displayedTextAI.length > 0" id="div_mensaje_ai" class="w-full relative">
+                <div class="bg-gray-900 text-gray-100 text-sm rounded-xl p-4 leading-relaxed whitespace-pre-wrap overflow-x-auto relative group">
+                    <button (click)="copiarSQL(displayedTextAI)" *ngIf="!copied" class="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors duration-200 text-xs flex items-center gap-1 bg-gray-800/80 hover:bg-gray-700 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100" title="Copiar SQL">
+                        <i class="fas fa-copy"></i>Copiar
+                    </button>
+                    <span [innerHTML]="highlightSQL(displayedTextAI)" style="font-size: 13px;"></span>
+                    <span *ngIf="isTypingAI" class="inline-block w-2 h-5 bg-emerald-500 ml-1 animate-pulse"></span>
+                </div>
+
+                <div *ngIf="copied" class="absolute top-2 right-1 bg-emerald-600 text-white text-xs px-2 py-1 rounded-md shadow animate-fade">Copiado ✅</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -30,7 +30,7 @@ export class PromocionesComponent implements OnInit {
 
   codigosEconomico: string = "29, 37, 30, 32, 2, 3, 39";
   codigosEjecutivoVip: string = "36, 31, 35, 1, 15, 22, 25, 44, 45, 50, 51";
-  codigosPresidencial: string = "34, 27, 21, 52";
+  codigosPresidencial: string = "34, 27, 21, 52, 54";
   codigosPremier: string = "24, 53";
 
   //token: string = "";
