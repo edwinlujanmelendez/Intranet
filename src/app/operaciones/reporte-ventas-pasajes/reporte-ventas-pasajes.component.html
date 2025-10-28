@@ -144,80 +144,14 @@
                     </tr>
                 </tbody>
             </table>
+
+            
         </div>
     </div>
 
-    <!--<div class="flex justify-left">
-        <div class="w-full">
-            <div class="border border-gray-300 rounded-lg shadow-sm mb-2 bg-white">
-                <div class="p-3">
-                    <div *ngIf="ListReporteDetallado.length == 0" class="relative mx-auto text-center text-gray-400">
-                        No hay registros disponibles para mostrar. <br>
-                    </div>
-
-                    <div class="w-full overflow-x-auto">
-                        <table *ngIf="ListReporteDetallado.length > 0" id="tabla_reportes" class="min-w-full border-collapse">
-                            <thead class="bg-gray-100">
-                                <tr class="text-gray-500 uppercase font-semibold tracking-wider">
-                                    <th class="text-xss text-center">RUTA</th>
-                                    <th class="text-xss text-center">TIPO</th>
-                                    <th class="text-xss text-center">N° COMPROB.</th>
-                                    <th class="text-xss text-center">IMPORTE</th>
-                                    <th class="text-xss text-center">USUARIO VENTA</th>
-                                    <th class="text-xss text-center">ESTADO</th>
-                                    <th class="text-xss text-center">FECHA VENTA</th>
-                                    <th class="text-xss text-center">EMAIL PASAJERO</th>
-                                    <th class="text-xss text-center">CORREO</th>
-                                    <th class="text-xss text-center">N° OPERACIÓN</th>
-                                    <th class="text-xss text-center">OBSERVACIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr *ngFor="let dat of ListReporteDetallado; index as i;" [ngClass]="{'bg-yellow-100': dat.delay_correo === 1}">
-                                    <td class="text-xss text-left">
-                                        <span class="font-semibold text-gray-700">{{dat.origen}} - {{dat.destino}}</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <img *ngIf="dat.tipforpag == 'ORBIS'" src="./assets/img/pago-efectivo2.png" class="w-11/12">
-                                        <span *ngIf="dat.tipforpag == 'ORBIS'" class="hidden">{{dat.tipforpag}}</span>
-                                        <span *ngIf="dat.tipforpag != 'ORBIS'" class="text-xss font-semibold text-blue-600">{{dat.tipforpag}}</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span *ngIf="dat.c_numboleto != ''" class="text-xss font-semibold text-orange-500 underline cursor-pointer" title="Ver Venta" (click)="ver_venta_modal(dat)">
-                                            {{dat.c_numboleto}}
-                                        </span>
-                                        <i *ngIf="dat.c_numboleto == null" class="fad fa-eye cursor-pointer text-base" title="Ver Venta" (click)="ver_venta_modal(dat)"></i>
-                                    </td>
-                                    <td class="text-xss text-center text-gray-700 font-semibold">
-                                        {{ dat.n_imppag | number:'1.2-2' }}
-                                    </td>
-                                    <td class="text-xss text-center text-gray-700 font-semibold">{{dat.c_login}}</td>
-                                    <td class="text-center">
-                                        <span *ngIf="dat.tipo_movimiento == 'EFECTIVO'" class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xss font-semibold">PAGADO</span>
-                                        <span *ngIf="dat.tipo_movimiento == 'RESERVA'" class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full text-xss font-semibold">RESERVA</span>
-                                        <span *ngIf="dat.tipo_movimiento == 'ANULACION SISTEMA'" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xss font-semibold">EXPIRADO</span>
-                                        <span *ngIf="dat.tipo_movimiento == 'ANULACION'" class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xss font-semibold">ANULADO</span>
-                                    </td>
-                                    <td class="text-xss text-center text-gray-700 font-semibold">{{dat.audfecins}}</td>
-                                    <td class="text-xss text-center text-gray-700 font-semibold">{{dat.email_pasajero}}</td>
-                                    <td class="text-center">
-                                        <span *ngIf="dat.correo_enviado == '1'" class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xss font-semibold">ENVIADO</span>
-                                        <span *ngIf="dat.correo_enviado == '0' || dat.correo_enviado == '2'" class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xss font-semibold">NO ENVIADO</span>
-                                    </td>
-                                    <td class="text-xss text-center text-gray-700 font-semibold">
-                                        {{dat.numero_cip ? dat.numero_cip : dat.n_numopeban}}
-                                    </td>
-                                    <td class="text-xss text-center text-gray-700 text-sm">
-                                        {{dat.c_observaciones}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+    <div *ngIf="ListReporteDetallado.length > 0" class="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-8xl border rounded-lg shadow-sm bg-white border-gray-300 mt-5 mb-5">
+        <div id="chart" class="w-full h-96"></div>
+    </div>
 </div>
 
 <div *ngIf="ArrayMostrarModal['ModalVerVenta']" id="ModalVerVenta" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('ModalVerVenta')">

@@ -28,7 +28,7 @@ export class ConsultaBoletosComponent implements OnInit {
   lstDatosListaPasajerosRetorno: any = [];
 
   responsegetBuscarPasajes: any = [];
-  rol_superusuario: number = 0;
+  id_rol_usuario: number = 0;
   permitir_enviar_correo: number = 1;       // 0 : NO PERMITE, 1 : PERMITE
   permitir_descargar_pdfs: number = 0;
   pdf_para_descargar: any = [];
@@ -76,7 +76,7 @@ export class ConsultaBoletosComponent implements OnInit {
 
   ngAfterViewInit(){
     let StorageRol = JSON.parse(localStorage.getItem('StorageRol') || '{}');
-    this.rol_superusuario = Number(StorageRol['rol_id']);
+    this.id_rol_usuario = Number(StorageRol['rol_id']);
 
     let StorageUsuario = JSON.parse(localStorage.getItem('StorageUsuario') || '{}');
     this.usuario_login = StorageUsuario['login'];
@@ -475,7 +475,7 @@ export class ConsultaBoletosComponent implements OnInit {
         }
 
         $('#div_buscando_pdf').css('display', 'none');
-        if((this.rol_superusuario == 1 || this.usuario_login == "elujan")){
+        if((this.id_rol_usuario == 1 || this.usuario_login == "elujan")){
           this.resumenOpenAI();
         }
         //console.log(this.pdf_para_descargar);
@@ -572,7 +572,7 @@ export class ConsultaBoletosComponent implements OnInit {
     for(var a = 0; a < this.nuevos_datos_agrupados.length; a++){
       const boleto = this.nuevos_datos_agrupados[a]['boleto'];
       
-      if(ListaPasajeros['c_numboleto'] === boleto['c_numboleto'] || ListaPasajeros['c_numbolant'] === boleto['c_numboleto']){
+      if(ListaPasajeros['c_numboleto'] == boleto['c_numboleto'] || ListaPasajeros['c_numbolant'] == boleto['c_numboleto']){
         const datosAsociados = this.nuevos_datos_agrupados[a]['datos_asociados'];
         const ultimo = datosAsociados[datosAsociados.length - 1];
 
@@ -597,19 +597,19 @@ export class ConsultaBoletosComponent implements OnInit {
         }
       }
     }
-
+    
     return '';
   }
 
   verificarDataObservaciones(ListaPasajeros: any){
-    for(var a = 0; a < this.nuevos_datos_agrupados.length; a++){
-      if(a == this.nuevos_datos_agrupados.length - 1){
-        //const boleto = this.nuevos_datos_agrupados[a]['boleto'];
+    //setTimeout(() => {
+      for(var a = 0; a < this.nuevos_datos_agrupados.length; a++){
+        const boleto = this.nuevos_datos_agrupados[a]['boleto'];
       
-        //if(ListaPasajeros['c_numboleto'] === boleto['c_numboleto'] || ListaPasajeros['c_numbolant'] === boleto['c_numboleto']){
+        if(ListaPasajeros['c_numboleto'] == boleto['c_numboleto'] || ListaPasajeros['c_numbolant'] == boleto['c_numboleto']){
           const datosAsociados = this.nuevos_datos_agrupados[a]['datos_asociados'];
           const ultimo = datosAsociados[datosAsociados.length - 1];
-
+          
           if(ListaPasajeros['c_numboleto'] != ultimo['c_numboleto']){
             if(ultimo['detalle_tipmov'].includes('POSTERGACION')){
               return `${ultimo['detalle_tipmov']}: ${ultimo['c_numboleto']}`
@@ -627,9 +627,9 @@ export class ConsultaBoletosComponent implements OnInit {
           }else{
             return `-`
           }
-        //}
+        }
       }
-    }
+    //}, 1000);
   }
 
   verificarDataViaje(DatosLista: any, ListaPasajeros: any): boolean {

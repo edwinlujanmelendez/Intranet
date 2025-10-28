@@ -7,6 +7,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
 declare var $:any;
+declare const echarts: any; 
 
 @Component({
   selector: 'app-reporte-ventas-pasajes',
@@ -84,6 +85,11 @@ export class ReporteVentasPasajesComponent implements OnInit {
 
   ArrayMostrarModal: any = [];
 
+  private chartInstance: any;
+
+  id_rol_usuario: number = 0;
+  usuario_login: String = "";
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService) {
     this.date = new Date();
     var dia = "";
@@ -148,6 +154,12 @@ export class ReporteVentasPasajesComponent implements OnInit {
       //console.log('✅ jQuery disponible:', !!(window as any).$);
       loadDataTables();
     }, 500);
+
+    let StorageRol = JSON.parse(localStorage.getItem('StorageRol') || '{}');
+    this.id_rol_usuario = Number(StorageRol['rol_id']);
+
+    let StorageUsuario = JSON.parse(localStorage.getItem('StorageUsuario') || '{}');
+    this.usuario_login = StorageUsuario['login'];
   }
 
   changeSelectAgencia(){
@@ -176,17 +188,6 @@ export class ReporteVentasPasajesComponent implements OnInit {
     this.taskService.getReporteDetallado(this.agencia_id, this.codSelectUsuario, $("#fechaInicio").val(), $("#fechaFin").val()).subscribe(responsegetReporteDetallado => {
       //console.log(responsegetReporteDetallado);
       this.ListReporteDetallado = responsegetReporteDetallado;
-
-      /*setTimeout(() => {
-        $("#tabla_reportes").DataTable({pageLength: 10,
-          deferRender: true,
-          scrollY: 400,
-          scrollCollapse: true,
-          scroller: true,
-          "searching": true,
-          order: [[6, "desc"]]
-        });
-      }, 100);*/
 
       setTimeout(() => {
         $('#tabla_reportes').DataTable({
@@ -222,7 +223,153 @@ export class ReporteVentasPasajesComponent implements OnInit {
       // TODO: PAGOLINK
       cantidad_pagos_pagolink = [...new Set(cantidad_pagos_pagolink)];
       this.cantidad_pagados_pagolink = cantidad_pagos_pagolink.length;
+
+      // TODO: GENERANDO ECHARTS
+      if((this.id_rol_usuario == 1 || this.usuario_login == "elujan")){
+        setTimeout(() => {
+          this.generarGraficosEcharts(responsegetReporteDetallado);
+        }, 100);
+      }
     });
+  }
+
+  generarGraficosEcharts(responsegetReporteDetallado: any[]) {
+    // Agrupar por fecha (solo la parte de la fecha, sin hora)
+    const resumenPorDia: any = {};
+
+    for (const item of responsegetReporteDetallado) {
+      const fecha = item['audfecins'] ? item['audfecins'].split(' ')[0] : null;
+      if (!fecha) continue;
+
+      if (!resumenPorDia[fecha]) {
+        resumenPorDia[fecha] = {
+          PAGOLINK: 0,
+          IMPORTE_PAGOLINK: 0,
+          RESERVA: 0,
+          ANULACION: 0
+        };
+      }
+
+      // Clasificamos tipo de movimiento
+      if (item['tipo_movimiento'] === 'EFECTIVO' && item['tipforpag'] === 'PAGOLINK') {
+        resumenPorDia[fecha].PAGOLINK++;
+        resumenPorDia[fecha].IMPORTE_PAGOLINK += item['n_imppag'] || 0;
+      } else if (item['tipo_movimiento'] === 'RESERVA') {
+        resumenPorDia[fecha].RESERVA++;
+      } else if (item['tipo_movimiento'] === 'ANULACION') {
+        resumenPorDia[fecha].ANULACION++;
+      }
+    }
+
+    // Ordenamos fechas de menor a mayor
+    const fechas = Object.keys(resumenPorDia).sort((a, b) => {
+      const [da, ma, ya] = a.split('/');
+      const [db, mb, yb] = b.split('/');
+      return (
+        new Date(+ya, +ma - 1, +da).getTime() -
+        new Date(+yb, +mb - 1, +db).getTime()
+      );
+    });
+
+    // Generar arrays de datos
+    const pagolinks = fechas.map(f => resumenPorDia[f].PAGOLINK);
+    const reservas = fechas.map(f => resumenPorDia[f].RESERVA);
+    const anulaciones = fechas.map(f => resumenPorDia[f].ANULACION);
+
+    // Buscar contenedor del gráfico
+    const chartDom = document.getElementById('chart')!;
+    if (!chartDom) {
+      console.error('No se encontró el div #chart en el DOM.');
+      return;
+    }
+
+    // Limpiamos gráfico previo si existe
+    if (this.chartInstance) {
+      this.chartInstance.dispose();
+    }
+
+    this.chartInstance = echarts.init(chartDom);
+
+    // Configuración del gráfico
+    const option = {
+      tooltip: { trigger: 'axis' },
+      legend: {
+        bottom: 0,
+        data: ['Pagos Pagolink', 'Reservas', 'Anulados'],
+        selected: {
+          'Pagos Pagolink': true, // visible al inicio
+          'Reservas': false,      // oculto por defecto
+          'Anulados': true        // visible al inicio
+        }
+      },
+      grid: { left: '3%', right: '4%', bottom: '10%', containLabel: true },
+      xAxis: {
+        type: 'category',
+        data: fechas,
+        axisLabel: { rotate: 30 }
+      },
+      yAxis: { type: 'value' },
+      series: [
+        {
+          name: 'Pagos Pagolink',
+          type: 'bar',
+          data: pagolinks,
+          itemStyle: { color: '#22c55e' }, // verde
+          label: {
+            show: true,
+            position: 'top',
+            fontWeight: 'bold',
+            formatter: (params: any) => {
+              const fecha = params.name;
+              const monto = resumenPorDia[fecha].IMPORTE_PAGOLINK || 0;
+              const montoFormateado = monto.toLocaleString('es-PE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              });
+              return `${params.value} — S/ ${montoFormateado}`;
+            }
+          }
+        },
+        {
+          name: 'Reservas',
+          type: 'bar',
+          data: reservas,
+          itemStyle: { color: '#7C3AED' }, // violeta
+          label: {
+            show: true,
+            position: 'top',
+            fontWeight: 'bold'
+          }
+        },
+        {
+          name: 'Anulados',
+          type: 'bar',
+          data: anulaciones,
+          itemStyle: { color: '#ef4444' }, // rojo
+          label: {
+            show: true,
+            position: 'top',
+            fontWeight: 'bold'
+          }
+        }
+      ]
+    };
+
+    this.chartInstance.setOption(option);
+
+    // Ajuste automático al redimensionar
+    window.addEventListener('resize', () => {
+      if (this.chartInstance) this.chartInstance.resize();
+    });
+  }
+
+  resizeChart = () => {
+    this.chartInstance?.resize();
+  };
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.resizeChart);
+    this.chartInstance?.dispose();
   }
 
   contar_cantidad_dinero_reporte(responsegetReporteDetallado: any){

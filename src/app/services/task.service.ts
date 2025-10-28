@@ -203,6 +203,39 @@ export class TaskService {
       );
     });
   }
+
+  VerificarSQLValidado(respuestaSql: string){
+    const promptValidacion = `
+      Eres un experto en SQL Oracle.
+      Tu tarea es revisar y mejorar el siguiente SQL para que sea correcto, eficiente y ejecutable.
+      No cambies los nombres de tablas ni columnas.
+      No uses subconsultas dentro de CASE que dependan de cada fila.
+      Prefiere LEFT JOIN o agregaciones para validar existencia de datos.
+      Para concatenar columnas en Oracle SQL, siempre usa el operador ||.
+      NO uses la función CONCAT para unir más de dos valores, ya que en Oracle solo acepta 2 argumentos.
+      Devuelve solo el SQL final, sin explicaciones ni comentarios.
+
+      SQL ORIGINAL:
+      ${respuestaSql}
+    `;
+
+    return this.http.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: promptValidacion },
+          { role: "user", content: "Valida y mejora este SQL. NO uses ningún tipo de formato markdown (no incluyas ```sql ni ```)." },
+        ],
+      },
+      {
+        headers: {
+          "Authorization": `Bearer ${environment.openaiApiKey}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
   // TODO: ************************************ API - INTRANET ************************************ //
 
 
