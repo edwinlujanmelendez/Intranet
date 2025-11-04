@@ -33,7 +33,7 @@ export class TaskService {
 
   LIMITE_CANTIDAD_ASIENTOS: number = 20;              // LIMITE CANTIDAD ASIENTOS POR BUS
 
-  VERSION_INTRANET: number = 2.4;                     // CAMBIOS DE DISEÑO
+  VERSION_INTRANET: number = 2.5;                     // CAMBIOS DE DISEÑO
 
   constructor(private http: HttpClient, private authService: AuthService, private sqlInteligenteService: SqlInteligenteService){ }
 
@@ -167,7 +167,7 @@ export class TaskService {
     return this.http.delete<any[]>(this.url_api_intranet+"Asiento/liberar", options);
   }
 
-  resumenOpenIA(textoDelReporte: string){
+  resumenOpenAI(textoDelReporte: string){
     // gpt-4o-mini
     // gpt-4.1-mini
 

@@ -17,6 +17,15 @@ export class VersionesComponent implements OnInit {
   ngOnInit(): void {
     const data: HistorialCambio[] = [
       {
+        version: '2.5',
+        fecha_hora_publicacion: '14:00:00 PM del 29/10/2025',
+        descripcion: [
+          'Se añadieron gráficos al módulo de reportes de ventas para visualizar la cantidad de ventas procesadas mediante PagoLink, los montos pagados por día y las anulaciones registradas.',
+          'Se agregó un resumen escrito por medio de AI en el módulo de consulta de boletos. (BETA)',
+          'Ya se puede ver las ventas anuladas y no pagadas en el módulo de consulta de boletos.'
+        ]
+      },
+      {
         version: '2.4',
         fecha_hora_publicacion: '19:00:00 PM del 06/10/2025',
         descripcion: [

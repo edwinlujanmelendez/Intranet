@@ -368,6 +368,8 @@ export class PromocionesComponent implements OnInit {
             }
           }
         });
+      }else{
+        this.funcionesService.notificacion_mensaje("Error", "No se debe tener campos vacíos.");
       }
     }    
   }
@@ -398,8 +400,8 @@ export class PromocionesComponent implements OnInit {
     if(data['servicios'] == ""){ $('#chkEconomico').addClass("empty_datos"); $('#chkEjecutivo').addClass("empty_datos"); $('#chkPresidencial').addClass("empty_datos"); $('#chkPremier').addClass("empty_datos"); return false;
     }else{ $('#chkEconomico').removeClass("empty_datos"); $('#chkEjecutivo').removeClass("empty_datos"); $('#chkPresidencial').removeClass("empty_datos"); $('#chkPremier').removeClass("empty_datos"); }
 
-    if(data['rutas_prohibidas'] == "" && data['rutas_aceptadas'] == ""){ $('#rutas_aceptadas').addClass("empty_datos"); $('#rutas_prohibidas').addClass("empty_datos"); return false;
-    }else{ $('#rutas_aceptadas').removeClass("empty_datos"); $('#rutas_prohibidas').removeClass("empty_datos"); }
+    //if(data['rutas_prohibidas'] == "" && data['rutas_aceptadas'] == ""){ $('#rutas_aceptadas').addClass("empty_datos"); $('#rutas_prohibidas').addClass("empty_datos"); return false;
+    //}else{ $('#rutas_aceptadas').removeClass("empty_datos"); $('#rutas_prohibidas').removeClass("empty_datos"); }
 
     if(data['fecha_inicio'] == ""){ $('#fecha_cupon_inicio').addClass("empty_datos"); return false;
     }else{ $('#fecha_cupon_inicio').removeClass("empty_datos"); }

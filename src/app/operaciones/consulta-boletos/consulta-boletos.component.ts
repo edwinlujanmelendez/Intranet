@@ -114,6 +114,7 @@ export class ConsultaBoletosComponent implements OnInit {
 
       //$('#div_vista_viajes').css('display', 'none');
       $('#div_vista_detalles').css('display', 'none');
+      $('#div_vista_detalles_anulados').css('display', 'none');
       $('#div_vista_transbordos').css('display', 'none');
       $('#div_buscando_pdf').css('display', 'none');
 
@@ -152,80 +153,82 @@ export class ConsultaBoletosComponent implements OnInit {
   }
 
   nueva_funcionalidad(){
-    // TODO: ASOCIAR PROMOCIONES FALTANTES
-    this.asociar_promociones_faltantes();
+    var todos_son_vouchers = 0;
 
-    // TODO: LIMPIAMOS EL ARRAY DE DATOS QUE NO VALEN - VOUCHERS
-    for(let i = 0; i < this.responsegetBuscarPasajes.length; i++){
-      let boleto = this.responsegetBuscarPasajes[i]['c_numboleto'];
+    for(let i = 0; i < this.responsegetBuscarPasajes.length; i++){ if(this.responsegetBuscarPasajes[i]['detalle_tipcom'] != 'VOUCHER DE AGENCIA DE VIAJES'){ todos_son_vouchers++; } }
 
-      if(!boleto){ continue; }
+    if(todos_son_vouchers == 0){
+      //console.log("TODOS SON VOUCHERS");
 
-      /*if(!this.responsegetBuscarPasajes[i]['c_numboleto'].includes('FB') && !this.responsegetBuscarPasajes[i]['c_numboleto'].includes('BB')){
-        this.responsegetBuscarPasajes.splice(i, 1);
-        i--;
-      }*/
-
-      if(this.responsegetBuscarPasajes[i]['detalle_tipcom'].includes('VOUCHER DE AGENCIA DE VIAJES')){
-        this.responsegetBuscarPasajes.splice(i, 1);
-        i--;
-      }
-    }
-
-    // TODO: LIMPIAMOS EL ARRAY DE DATOS QUE NO VALEN - ANULACIONES
-    for(let i = 0; i < this.responsegetBuscarPasajes.length; i++){
-      if(this.responsegetBuscarPasajes[i]['detalle_tipmov'] == 'ANULACION SISTEMA'){
-        this.responsegetBuscarPasajes.splice(i, 1);
-        i--;
-      }
-    }
-
-    // TODO: BUSCAMOS LOS BOLETOS MAESTROS
-    const boletosPrincipales: DatoAsociado[] = [];
-
-    this.responsegetBuscarPasajes = this.responsegetBuscarPasajes.filter(item => {
-      const esPrincipal = (item.detalle_tipcom === 'BOLETA DE VENTA' || item.detalle_tipcom === 'FACTURA') && 
-                          (item.detalle_tipmov === 'CREDITO' || item.detalle_tipmov === 'EFECTIVO');
+      // TODO: ARMAMOS LA VISTA FINAL
+      $('#div_vista_detalles_anulados').css('display', 'inline');
+      $('#div_vista_detalles').css('display', 'none');
       
-      if(esPrincipal){
-        boletosPrincipales.push(item); //return false; 
+      this.isLoading = false;
+    }else{
+      // TODO: ASOCIAR PROMOCIONES FALTANTES
+      this.asociar_promociones_faltantes();
+    
+      // TODO: LIMPIAMOS EL ARRAY DE DATOS QUE NO VALEN - VOUCHERS
+      for(let i = 0; i < this.responsegetBuscarPasajes.length; i++){
+        let boleto = this.responsegetBuscarPasajes[i]['c_numboleto'];
+
+        if(!boleto){ continue; }
+
+        if(this.responsegetBuscarPasajes[i]['detalle_tipcom'].includes('VOUCHER DE AGENCIA DE VIAJES')){
+          this.responsegetBuscarPasajes.splice(i, 1);
+          i--;
+        }
       }
-      return true;
-    });
 
-    // TODO: BUSCAMOS LOS BOLETOS MAESTROS Y LOS JUNTAMOS EN GRUPOS
-    this.agrupar_datos_por_boleto(boletosPrincipales);
+      // TODO: LIMPIAMOS EL ARRAY DE DATOS QUE NO VALEN - ANULACIONES
+      for(let i = 0; i < this.responsegetBuscarPasajes.length; i++){
+        if(this.responsegetBuscarPasajes[i]['detalle_tipmov'] == 'ANULACION SISTEMA'){
+          this.responsegetBuscarPasajes.splice(i, 1);
+          i--;
+        }
+      }
 
-    // TODO: ORDENAMOS LAS VISTAS DE VIAJES (PRIMER REGISTRO Y FECHA DE PARTIDAS UNICAS)
-    this.ordenar_vista_de_viajes();
+      // TODO: BUSCAMOS LOS BOLETOS MAESTROS
+      const boletosPrincipales: DatoAsociado[] = [];
 
-    // TODO: ORDENAMOS LOS DETALLES DE LAS VENTAS
-    this.ordenar_detalles_de_la_venta();
+      this.responsegetBuscarPasajes = this.responsegetBuscarPasajes.filter(item => {
+        const esPrincipal = (item.detalle_tipcom === 'BOLETA DE VENTA' || item.detalle_tipcom === 'FACTURA') && 
+                            (item.detalle_tipmov === 'CREDITO' || item.detalle_tipmov === 'EFECTIVO');
+        
+        if(esPrincipal){
+          boletosPrincipales.push(item); //return false; 
+        }
+        return true;
+      });
 
-    // TODO: LIMPIEZA DATA DE LOS AGRUPADOS
-    this.limpieza_data_agrupados();
+      // TODO: BUSCAMOS LOS BOLETOS MAESTROS Y LOS JUNTAMOS EN GRUPOS
+      this.agrupar_datos_por_boleto(boletosPrincipales);
 
-    // TODO: AGRUPAR DATOS NO ASOCIADOS A LA LISTA PRINCIPAL
-    this.agrupar_datos_no_asociados();
+      // TODO: ORDENAMOS LAS VISTAS DE VIAJES (PRIMER REGISTRO Y FECHA DE PARTIDAS UNICAS)
+      this.ordenar_vista_de_viajes();
 
-    // TODO: SE MUESTRA EL PANEL PARA DESCARGAR LOS PDF
-    this.verificar_descargas_pdf();
+      // TODO: ORDENAMOS LOS DETALLES DE LAS VENTAS
+      this.ordenar_detalles_de_la_venta();
 
-    // TODO: SE MUESTRA EL PANEL PARA ENVIAR LOS CORREOS
-    //this.mostrar_panel_correo_pdf();
-    
-    // TODO: SE BUSCA SI EXISTE ALGUN TRANSBORDO EN ALGUNOS DE LOS BOLETOS
-    this.buscar_transbordos_de_boletos();
+      // TODO: LIMPIEZA DATA DE LOS AGRUPADOS
+      this.limpieza_data_agrupados();
 
-    // TODO: ARMAMOS LA VISTA FINAL
-    //$('#div_vista_viajes').css('display', 'inline');
-    $('#div_vista_detalles').css('display', 'inline');
-    $(".loader").fadeOut("slow");
-    
-    //console.log(this.responsegetBuscarPasajes);
-    //console.log(this.nuevos_datos_agrupados);
+      // TODO: AGRUPAR DATOS NO ASOCIADOS A LA LISTA PRINCIPAL
+      this.agrupar_datos_no_asociados();
 
-    this.isLoading = false;
+      // TODO: SE MUESTRA EL PANEL PARA DESCARGAR LOS PDF
+      this.verificar_descargas_pdf();
+      
+      // TODO: SE BUSCA SI EXISTE ALGUN TRANSBORDO EN ALGUNOS DE LOS BOLETOS
+      this.buscar_transbordos_de_boletos();
+
+      // TODO: ARMAMOS LA VISTA FINAL
+      $('#div_vista_detalles').css('display', 'inline');
+      $('#div_vista_detalles_anulados').css('display', 'inline');
+      
+      this.isLoading = false;
+    }
   }
 
  cleanHTMLtoText(html: string): string {
@@ -291,7 +294,7 @@ export class ConsultaBoletosComponent implements OnInit {
 
       $('#div_buscando_resumen_ai').css('display', 'inline');
 
-      this.taskService.resumenOpenIA(contenido).subscribe({
+      this.taskService.resumenOpenAI(contenido).subscribe({
         next: (responseResumenOpenIA) => {
           const content = responseResumenOpenIA['choices'][0]['message']['content'] || '';
           this.startTypingEffectAI(content);
@@ -475,7 +478,7 @@ export class ConsultaBoletosComponent implements OnInit {
         }
 
         $('#div_buscando_pdf').css('display', 'none');
-        if((this.id_rol_usuario == 1 || this.usuario_login == "elujan")){
+        if((this.id_rol_usuario == 1 && this.usuario_login == "elujan")){
           this.resumenOpenAI();
         }
         //console.log(this.pdf_para_descargar);
@@ -502,34 +505,7 @@ export class ConsultaBoletosComponent implements OnInit {
     // 🚀 Iniciar procesamiento
     procesarLote();
   }
-
-  /*mostrar_panel_correo_pdf(){
-    this.pdf_pasajes_enviar = 0;
-
-    for(var a=0; a<this.DatosVistaViajes.length; a++){
-      var fecha1;
-
-      if(this.DatosVistaViajes[a]['fecha_partida'] != null && this.DatosVistaViajes[a]['fecha_partida'] != ""){
-        fecha1 = new Date(this.funcionesService.convert_format_fecha_guion(this.funcionesService.invertir_fecha_guion(this.DatosVistaViajes[a]['fecha_partida']).replaceAll("-","/")));
-      }else{
-        fecha1 = "";
-      }
-
-      var fecha2 = new Date(this.funcionesService.convert_format_fecha_guion(this.date_actual.replaceAll("-","/")));
-      
-      if(fecha1 > fecha2){
-        this.permitir_enviar_correo = 1;
-        this.pdf_pasajes_enviar = 1;
-      }else if(fecha1 < fecha2){
-        this.permitir_enviar_correo = 0;
-        this.pdf_pasajes_enviar = 0;
-      }else{
-        this.permitir_enviar_correo = 1;
-        this.pdf_pasajes_enviar = 1;
-      }
-    }
-  }*/
-
+  
   ordenar_detalles_de_la_venta(){
     this.DatosDetallesVenta = [];
 

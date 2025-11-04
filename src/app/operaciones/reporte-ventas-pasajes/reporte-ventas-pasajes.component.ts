@@ -225,7 +225,7 @@ export class ReporteVentasPasajesComponent implements OnInit {
       this.cantidad_pagados_pagolink = cantidad_pagos_pagolink.length;
 
       // TODO: GENERANDO ECHARTS
-      if((this.id_rol_usuario == 1 || this.usuario_login == "elujan")){
+      if((this.id_rol_usuario == 1 || this.id_rol_usuario == 37 || this.usuario_login == "elujan" || this.usuario_login == "jhuaman" || this.usuario_login == "lsilva")){
         setTimeout(() => {
           this.generarGraficosEcharts(responsegetReporteDetallado);
         }, 100);
@@ -306,7 +306,21 @@ export class ReporteVentasPasajesComponent implements OnInit {
       xAxis: {
         type: 'category',
         data: fechas,
-        axisLabel: { rotate: 30 }
+        axisLabel: {
+          rotate: 30,
+          fontSize: 10,
+          formatter: (value: string) => {
+            const [dia, mes, anio] = value.split('/');
+            const fecha = new Date(+anio, +mes - 1, +dia);
+            const diasSemana = [
+              'Domingo', 'Lunes', 'Martes', 'Miércoles',
+              'Jueves', 'Viernes', 'Sábado'
+            ];
+            const nombreDia = diasSemana[fecha.getDay()];
+            // Mostrar en dos líneas
+            return `${nombreDia} - ${value}`;
+          }
+        }
       },
       yAxis: { type: 'value' },
       series: [
@@ -319,6 +333,7 @@ export class ReporteVentasPasajesComponent implements OnInit {
             show: true,
             position: 'top',
             fontWeight: 'bold',
+            fontSize: 10,
             formatter: (params: any) => {
               const fecha = params.name;
               const monto = resumenPorDia[fecha].IMPORTE_PAGOLINK || 0;
@@ -326,7 +341,7 @@ export class ReporteVentasPasajesComponent implements OnInit {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               });
-              return `${params.value} — S/ ${montoFormateado}`;
+              return `S/ ${montoFormateado} (${params.value} ventas)`;
             }
           }
         },
@@ -338,7 +353,8 @@ export class ReporteVentasPasajesComponent implements OnInit {
           label: {
             show: true,
             position: 'top',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            fontSize: 10
           }
         },
         {
@@ -349,7 +365,8 @@ export class ReporteVentasPasajesComponent implements OnInit {
           label: {
             show: true,
             position: 'top',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            fontSize: 10
           }
         }
       ]

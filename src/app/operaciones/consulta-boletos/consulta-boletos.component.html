@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="flex justify-left mt-10" *ngIf="nuevos_datos_agrupados.length == 0 && !isLoading">
+    <div class="flex justify-left mt-10" *ngIf="nuevos_datos_agrupados.length == 0 && !isLoading && responsegetBuscarPasajes.length == 0">
         <div class="w-full xl:w-8/12 lg:w-10/12">
             <div class="w-3/4 relative mx-auto text-center text-gray-500 mt-[10%]">
                 No existe el boleto en la base de datos. <br>
@@ -544,14 +544,39 @@
                         </table>
                     </td>
                 </tr>
-                <tr><td *ngIf="responsegetBuscarPasajes.length > 0" colspan="14">&nbsp;</td></tr>
-                <tr *ngIf="responsegetBuscarPasajes.length > 0" class="border">
+            </tbody>
+        </table>
+    </div>
+
+    <div id="div_vista_detalles_anulados" class="w-full hidden mt-1">
+        <table *ngIf="responsegetBuscarPasajes.length > 0" class="w-full border-collapse">
+            <thead>
+                <tr>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700">#</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 9.3%;">Creación</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">Comprobante</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">T. Movimiento</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">N. Pedido</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">Boleto</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">Boleto Ref.</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 3.97%;">Importe</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">Ruta</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 6.97%;">F. Partida</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 4.97%;">H. Partida</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 12.3%;">Pasajero</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 12.3%;">Cliente</th>
+                    <th class="text-center bg-gray-300 border border-gray-400 text-sm text-gray-700" style="width: 3.3%;">Asiento</th>
+                </tr>
+            </thead>
+
+            <tbody id="table_vista_detalles">
+                <!--<tr *ngIf="responsegetBuscarPasajes.length > 0" class="border">
                     <td colspan="14" class="text-left p-0 border-x border-gray-400">
                         <div class="border-x border-gray-400 pl-2 text-sm font-bold text-gray-600">
                             Registros No Asociados
                         </div>
                         <table class="w-full">
-                            <tbody>
+                            <tbody>-->
                                 <tr *ngFor="let DatosLista of responsegetBuscarPasajes; index as ii" [style.cursor]="DatosLista.c_observaciones?.trim() !== '' ? 'help' : 'pointer'" [attr.title]="DatosLista.c_observaciones?.trim() !== '' ? 'Observaciones: '+DatosLista.c_observaciones+' - Usuario Modific: '+DatosLista.audusumod : null" (click)="toggle_seleccion('#tr_lista_boletos_no_asociados_'+DatosLista.venpas_id)" id="tr_lista_boletos_no_asociados_{{DatosLista.venpas_id}}">
                                     <td class="text-center border border-gray-400 bg-gray-100 text-xs" [ngClass]="getClaseFila(DatosLista)">
                                         <i *ngIf="DatosLista.pdf_para_descargar == 0" class="fad fa-file-pdf text-gray-500 text-sm p-1" title="El Boleto {{DatosLista.c_numboleto}}, no se encuentra en el FE"></i>
@@ -575,10 +600,10 @@
                                     </td>
                                     <td class="text-center border border-gray-400 bg-gray-100 text-xs" style="width: 3.3%;" [ngClass]="getClaseFila(DatosLista)"><span *ngIf="DatosLista.n_numasiento != 0">{{DatosLista.n_numasiento}}</span></td>
                                 </tr>
-                            </tbody>
+                            <!--</tbody>
                         </table>
                     </td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
     </div>
