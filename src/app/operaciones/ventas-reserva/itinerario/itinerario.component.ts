@@ -134,14 +134,30 @@ export class ItinerarioComponent implements OnInit {
     $(".loader").fadeIn("slow");
     var ida_vuelta_iguales = this.verificarMismoDiaPorRuta(this.codLocalidadIda, this.codLocalidadDestino);
 
+    let find1 = this.ltLocalidadOrigen.find(x => x.id == this.codLocalidadIda);
+    this.nombre_ciudad_origen = String(find1?.denominacion);
+
+    let find2 = this.ltLocalidadDestino.find(x => x.id == this.codLocalidadDestino);
+    this.nombre_ciudad_destino = String(find2?.denominacion);
+
+    this.nombreFechaIda = this.funcionesService.convert_nom_fecha(this.date_salida);
+
     this.taskService.getItinerario(this.codLocalidadIda, this.codLocalidadDestino, this.date_salida, this.date_retorno, ida_vuelta_iguales, 120).subscribe(responseItinerario => {
       //console.log(responseItinerario);
 
       if(responseItinerario['listaIdaDisponibles'].length != 0){
         this.listadoItinerariosIda = responseItinerario['listaIdaDisponibles'];
 
+        this.listadoItinerariosIda = this.listadoItinerariosIda.map(dat => ({...dat,
+          c_desc_escalas: this.generarDescripcionEscalasIda(dat.c_desc_escalas)
+        }));
+
         if(this.ida_vuelta == 2 && responseItinerario['listaVueltaDisponibles'] != null){
           this.listadoItinerariosVuelta = responseItinerario['listaVueltaDisponibles'];
+
+          this.listadoItinerariosVuelta = this.listadoItinerariosVuelta.map(dat => ({...dat,
+            c_desc_escalas: this.generarDescripcionEscalasVuelta(dat.c_desc_escalas)
+          }));
         }else if(this.ida_vuelta == 2 && responseItinerario['listaVueltaDisponibles'] == null){
           this.ida_vuelta = 1;
           //this.funcionesService.mostrar_modal("modal_not_tickets_vuelta");
@@ -156,18 +172,72 @@ export class ItinerarioComponent implements OnInit {
     }, () => {
       $(".loader").fadeOut("slow");
 
-      let find1 = this.ltLocalidadOrigen.find(x => x.id == this.codLocalidadIda);
-      this.nombre_ciudad_origen = String(find1?.denominacion);
-
-      let find2 = this.ltLocalidadDestino.find(x => x.id == this.codLocalidadDestino);
-      this.nombre_ciudad_destino = String(find2?.denominacion);
-
-      this.nombreFechaIda = this.funcionesService.convert_nom_fecha(this.date_salida);
-
       /*if(this.ida_vuelta == 2){
         this.nombreFechaVuelta = this.funcionesService.convert_nom_fecha(this.date_retorno);
       }*/
     });
+  }
+
+  contarEscalas(cadena: string): number {
+    if (!cadena) return 0;
+    return cadena.split('-').length;
+  }
+
+  generarDescripcionEscalasIda(descripcionEscalas: string){
+    var nombre_origen = "";
+    if(this.nombre_ciudad_origen.includes("Lima")){ nombre_origen = "LIMA"; }else{ nombre_origen = this.nombre_ciudad_origen; }
+
+    var nombre_destino = "";
+    if(this.nombre_ciudad_destino.includes("Lima")){ nombre_destino = "LIMA"; }else{ nombre_destino = this.nombre_ciudad_destino; }
+
+    return this.obtenerTramosIntermedios(descripcionEscalas, nombre_origen, nombre_destino);
+  }
+
+  generarDescripcionEscalasVuelta(descripcionEscalas: string){
+    var nombre_origen = "";
+    if(this.nombre_ciudad_origen.includes("Lima")){ nombre_origen = "LIMA"; }else{ nombre_origen = this.nombre_ciudad_origen; }
+
+    var nombre_destino = "";
+    if(this.nombre_ciudad_destino.includes("Lima")){ nombre_destino = "LIMA"; }else{ nombre_destino = this.nombre_ciudad_destino; }
+
+    return this.obtenerTramosIntermedios(descripcionEscalas, nombre_destino, nombre_origen);
+  }
+
+  obtenerTramosIntermedios(escalas: string | null, origen: string, destino: string): string {
+    try {
+      // Si escalas es null, vacío o solo espacios
+      if (!escalas || escalas.trim() === '') {
+        return '';
+      }
+
+      // Convertimos las escalas en lista, separadas por "-"
+      const lista = escalas
+        .split(/\s*-\s*/)
+        .map(e => e.trim().toUpperCase())
+        .filter(e => e.length > 0);
+
+      const indexOrigen = lista.indexOf(origen.toUpperCase());
+      const indexDestino = lista.indexOf(destino.toUpperCase());
+
+      // Si el destino no se encuentra, tomamos todo
+      const fin = indexDestino === -1 ? lista.length : indexDestino;
+
+      // Si el origen no está, asumimos que empieza desde el primer tramo
+      const inicio = indexOrigen === -1 ? -1 : indexOrigen;
+
+      // Obtenemos los tramos intermedios
+      const tramos = lista.slice(inicio + 1, fin);
+
+      if (tramos.length === 0) {
+        return '';
+      }
+
+      return tramos.join('-');
+
+    } catch (e) {
+      console.error(e);
+      return '';
+    }
   }
 
   seleccionar_itinerario_ida(datos: any){
@@ -194,7 +264,9 @@ export class ItinerarioComponent implements OnInit {
       "codLocalidadIda": this.codLocalidadIda,
       "codLocalidadDestino": this.codLocalidadDestino,
       "date_salida": this.date_salida,
-      "date_retorno": this.date_retorno
+      "date_retorno": this.date_retorno,
+      "descripcionEscalasIda": datos['c_desc_escalas'],
+      "descripcionEscalasVuelta": ""
     };
 
     this.sharedService.enviarDatosAsientosIda(dat);

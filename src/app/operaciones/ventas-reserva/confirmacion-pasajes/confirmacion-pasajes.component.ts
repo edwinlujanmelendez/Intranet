@@ -91,8 +91,8 @@ export class ConfirmacionPasajesComponent implements OnInit {
       this.DatosPasajeros = this.sharedService.getDatosPasajeros();
       this.ConfirmacionPasajes = this.sharedService.getConfirmacionPasajes();
 
-      console.log(this.DatosPasajeros);
-      console.log(this.ConfirmacionPasajes);
+      //console.log(this.DatosPasajeros);
+      //console.log(this.ConfirmacionPasajes);
 
       this.ida_vuelta = this.DatosPasajeros['ida_vuelta'];
       this.nombre_ciudad_origen = this.DatosPasajeros['nombre_ciudad_origen'];
@@ -173,9 +173,9 @@ export class ConfirmacionPasajesComponent implements OnInit {
       $(".loader").fadeIn("slow");
       this.ConfirmacionPasajes['observaciones'] = $('#texto_observaciones').val();
 
-      if(TipForPago == 4){                // TODO: PAGOLINK
+      //if(TipForPago == 4){                // TODO: PAGOLINK
         if(this.ValErrorPagoLink == 0){
-          this.taskService.pagoLinkNiubiz(this.ConfirmacionPasajes).subscribe(responseRegistroVenta => {
+          this.taskService.pagoLinkIziPay(this.ConfirmacionPasajes).subscribe(responseRegistroVenta => {
             //console.log(responseRegistroVenta);
             if(responseRegistroVenta['result'] == true){
               this.linkPagoLink = responseRegistroVenta['mensaje'];
@@ -195,7 +195,7 @@ export class ConfirmacionPasajesComponent implements OnInit {
             $(".loader").fadeOut("slow");
           },() =>{});
         }else{
-          this.taskService.pagoLinkNiubiz(this.ConfirmacionPasajes).subscribe(responseRegistroVenta => {
+          this.taskService.pagoLinkIziPay(this.ConfirmacionPasajes).subscribe(responseRegistroVenta => {
             //console.log(responseRegistroVenta);
             if(responseRegistroVenta['result'] == true){
               this.linkPagoLink = responseRegistroVenta['mensaje'];
@@ -215,7 +215,8 @@ export class ConfirmacionPasajesComponent implements OnInit {
             $(".loader").fadeOut("slow");
           },() =>{});
         }
-      }else if(TipForPago == 11){         // TODO: PAGOEFECTIVO
+      //}
+      /*else if(TipForPago == 11){         // TODO: PAGOEFECTIVO
         if(this.ValErrorPagoEfectivo == 0){
           this.taskService.pagoLinkPagoEfectivo(this.ConfirmacionPasajes).subscribe(responseRegistroVenta => {
             //console.log(responseRegistroVenta);
@@ -251,7 +252,7 @@ export class ConfirmacionPasajesComponent implements OnInit {
             $(".loader").fadeOut("slow");
           },() =>{});
         }
-      }
+      }*/
     }else{
       this.funcionesService.notificacion_mensaje("Error", "Debe rellenar el campo de Observaciones para poder continuar.");      
     }
@@ -259,7 +260,7 @@ export class ConfirmacionPasajesComponent implements OnInit {
 
   generarTexto(){                 // TODO: GENERAR TEXTO
     //var fecha_salida = this.funcionesService.convert_nom_fecha(this.date_salida);
-
+    //console.log("fechaEmbarqueIda: "+this.fechaEmbarqueIda);
     var cant_pass_total = 0;
     var cant_pass_ida = 0;
     var cant_pass_vuelta = 0;
@@ -289,10 +290,10 @@ export class ConfirmacionPasajesComponent implements OnInit {
 
     var servicio_itinerario = "";
     if(cant_pass_ida > 0){
-      servicio_itinerario = ' Servicio de ida <b>'+this.servicioIda+'</b>, con Itinerario: <b>'+this.nombre_ciudad_origen+' - '+this.nombre_ciudad_destino+'</b> para el día '+this.funcionesService.convert_nom_fecha(this.fechaEmbarqueIda)+' del '+this.anio+' a las '+this.horaEmbarqueIda+' con embarque en la agencia de <b>'+this.agenciaEmbarqueIda+'</b>, y desembarque en la agencia de <b>'+this.agenciaDesembarqueIda+'</b>.<br>';
+      servicio_itinerario = ' Servicio de ida <b>'+this.servicioIda+'</b>, con Itinerario: <b>'+this.nombre_ciudad_origen+' - '+this.nombre_ciudad_destino+'</b> para el día '+this.funcionesService.convert_nom_fecha(this.fechaEmbarqueIda)+' a las '+this.horaEmbarqueIda+' con embarque en la agencia de <b>'+this.agenciaEmbarqueIda+'</b>, y desembarque en la agencia de <b>'+this.agenciaDesembarqueIda+'</b>.<br>';
       if(cant_pass_vuelta != 0){
-        servicio_itinerario = ' Servicio de ida <b>'+this.servicioIda+'</b>, con Itinerario: <b>'+this.nombre_ciudad_origen+' - '+this.nombre_ciudad_destino+'</b> para el día '+this.funcionesService.convert_nom_fecha(this.fechaEmbarqueIda)+' del '+this.anio+' a las '+this.horaEmbarqueIda+' con embarque en la agencia de <b>'+this.agenciaEmbarqueIda+'</b>, y desembarque en la agencia de <b>'+this.agenciaDesembarqueIda+'</b>.<br>'+
-                              ' Servicio de retorno <b>'+this.servicioVuelta+'</b>, con Itinerario: <b>'+this.nombre_ciudad_destino+' - '+this.nombre_ciudad_origen+'</b> para el día '+this.funcionesService.convert_nom_fecha(this.fechaEmbarqueVuelta)+' del '+this.anio+' a las '+this.horaEmbarqueVuelta+' con embarque en la agencia de <b>'+this.agenciaEmbarqueVuelta+'</b>, y desembarque en la agencia de <b>'+this.agenciaDesembarqueVuelta+'</b>.';
+        servicio_itinerario = ' Servicio de ida <b>'+this.servicioIda+'</b>, con Itinerario: <b>'+this.nombre_ciudad_origen+' - '+this.nombre_ciudad_destino+'</b> para el día '+this.funcionesService.convert_nom_fecha(this.fechaEmbarqueIda)+' a las '+this.horaEmbarqueIda+' con embarque en la agencia de <b>'+this.agenciaEmbarqueIda+'</b>, y desembarque en la agencia de <b>'+this.agenciaDesembarqueIda+'</b>.<br>'+
+                              ' Servicio de retorno <b>'+this.servicioVuelta+'</b>, con Itinerario: <b>'+this.nombre_ciudad_destino+' - '+this.nombre_ciudad_origen+'</b> para el día '+this.funcionesService.convert_nom_fecha(this.fechaEmbarqueVuelta)+' a las '+this.horaEmbarqueVuelta+' con embarque en la agencia de <b>'+this.agenciaEmbarqueVuelta+'</b>, y desembarque en la agencia de <b>'+this.agenciaDesembarqueVuelta+'</b>.';
       }
     }
     

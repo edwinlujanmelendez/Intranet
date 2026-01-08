@@ -79,6 +79,9 @@ export class AsientosRetornoComponent implements OnInit {
   idUsuario: number = 0;
   idHardware: number = 0;
 
+  descripcion_escalas_ida: string = "";
+  descripcion_escalas_vuelta: string = "";
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
     var dia = "";
@@ -142,6 +145,9 @@ export class AsientosRetornoComponent implements OnInit {
       this.codLocalidadDestino = this.DatosItinerario['codLocalidadDestino'];
 
       this.cant_max_asientos = this.taskService.LIMITE_CANTIDAD_ASIENTOS;
+
+      this.descripcion_escalas_ida = this.DatosItinerario['descripcionEscalasIda'];
+      this.descripcion_escalas_vuelta = this.DatosItinerario['descripcionEscalasVuelta'];
 
       if(this.sharedService.getRegresarDatosAsientosVuelta() != undefined){
         var DatosAsientosVuelta = this.sharedService.getRegresarDatosAsientosVuelta();
@@ -394,7 +400,9 @@ export class AsientosRetornoComponent implements OnInit {
       "precioTotalVuelta": this.precio_vuelta_total,
       "precioTotal": this.DatosItinerario['precioTotalIda'] + this.precio_vuelta_total,
       "date_salida": this.DatosItinerario['date_salida'],
-      "date_retorno": this.DatosItinerario['date_retorno']
+      "date_retorno": this.DatosItinerario['date_retorno'],
+      "descripcionEscalasIda": this.descripcion_escalas_ida,
+      "descripcionEscalasVuelta": this.descripcion_escalas_vuelta
     };
 
     //console.log(dat);

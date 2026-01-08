@@ -95,7 +95,10 @@
                                     <span *ngIf="dat.nropisos == 2">{{ dat.nropisos }} Pisos</span>
                                 </div>
                                 <div class="mr-4 flex items-center"><i class="fad fa-clock text-gray-400 mr-1"></i> {{ dat.duracionViaje }}h</div>
-                                <div class="mr-4 flex items-center"><i class="fad fa-dot-circle text-gray-400 mr-1"></i> {{ dat.nroescala }} Escalas</div>
+                                <div class="mr-4 flex items-center" *ngIf="dat.c_desc_escalas != ''" [title]="dat.c_desc_escalas" style="cursor: help;">
+                                    <!--<i class="fad fa-dot-circle text-gray-400 mr-1"></i> {{ dat.nroescala }} Escalas-->
+                                    <i class="fad fa-dot-circle text-gray-400 mr-1"></i> {{ contarEscalas(dat.c_desc_escalas) }} Escalas
+                                </div>
                                 <div class="mr-4 flex items-center">
                                     <img src="./assets/img/iconos/seat.png" alt="" class="w-4 h-4 mr-1"/>
                                     <span *ngIf="dat.servAsiento1 != ''">{{ dat.servAsiento1 }}</span>

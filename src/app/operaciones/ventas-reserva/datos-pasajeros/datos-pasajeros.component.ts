@@ -133,6 +133,21 @@ export class DatosPasajerosComponent implements OnInit {
 
   ArrayMostrarModal: any = [];
 
+  descripcion_escalas_ida: string = "";
+  descripcion_escalas_vuelta: string = "";
+
+  promocionesAgrupadas = {
+    gestion: [] as any[],
+    convenio: [] as any[],
+    otros: [] as any[]
+  };
+
+  accordion = {
+    gestion: false,
+    convenio: false,
+    otros: false
+  };
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
     var dia = "";
@@ -195,6 +210,9 @@ export class DatosPasajerosComponent implements OnInit {
       this.fechaDesembarqueIda = this.DatosPasajeros['fechaDesembarqueIda'];
       this.horaDesembarqueIda = this.DatosPasajeros['horaDesembarqueIda'];
 
+      this.descripcion_escalas_ida = this.DatosPasajeros['descripcionEscalasIda'];
+      this.descripcion_escalas_vuelta = this.DatosPasajeros['descripcionEscalasVuelta'];
+
       if(this.DatosPasajeros['idItinerarioVuelta'] == ""){ this.idItinerarioVuelta = 0; }else{ this.idItinerarioVuelta = this.DatosPasajeros['idItinerarioVuelta']};
       if(this.DatosPasajeros['idRutaVuelta'] == ""){ this.idRutaVuelta = 0; }else{ this.idRutaVuelta = this.DatosPasajeros['idRutaVuelta']};
       if(this.DatosPasajeros['idServicioVuelta'] == ""){ this.idServicioVuelta = 0; }else{ this.idServicioVuelta = this.DatosPasajeros['idServicioVuelta']};
@@ -254,13 +272,53 @@ export class DatosPasajerosComponent implements OnInit {
       this.promocionesVentas = [];
       this.taskService.getPromocionesSispas(this.idItinerarioIda, this.idRutaIda, this.idServicioIda, this.fechaEmbarqueIda, this.idItinerarioVuelta, this.idRutaVuelta, this.idServicioVuelta, this.fechaEmbarqueVuelta).subscribe(responsePromocionesSispas => {
         //console.log(responsePromocionesSispas);
-        //this.promocionesVentas = responsePromocionesSispas;
 
-        this.promocionesVentas = Array.from(
+        const promocionesUnicas = Array.from(
           new Map(responsePromocionesSispas.map(p => [p.promocion_id, p])).values()
         );
 
-        //console.log(unicos);
+        // descuentos permitidos según fechas
+        const descuentosPermitidos = new Set<string>();
+
+        if (this.esFechaValida(this.fechaEmbarqueIda)) {
+          descuentosPermitidos.add(
+            this.obtenerColaboradorPermitido(this.fechaEmbarqueIda)
+          );
+        }
+
+        if (this.esFechaValida(this.fechaEmbarqueVuelta)) {
+          descuentosPermitidos.add(
+            this.obtenerColaboradorPermitido(this.fechaEmbarqueVuelta)
+          );
+        }
+
+        // filtrar promociones
+        this.promocionesVentas = promocionesUnicas.filter(p => {
+          if (p.c_denominacion.startsWith('DSCT. COLABORADOR')) {
+            return descuentosPermitidos.has(p.c_denominacion);
+          }
+          return true; // las demás promociones pasan siempre
+        });
+
+        // limpiar grupos
+        this.promocionesAgrupadas = {
+          gestion: [],
+          convenio: [],
+          otros: []
+        };
+
+        // agrupar
+        this.promocionesVentas.forEach(p => {
+          const desc = p.c_denominacion.toUpperCase();
+
+          if (desc.startsWith('GESTIÓN COMERCIAL')) {
+            this.promocionesAgrupadas.gestion.push(p);
+          } else if (desc.startsWith('CONVENIO')) {
+            this.promocionesAgrupadas.convenio.push(p);
+          } else {
+            this.promocionesAgrupadas.otros.push(p);
+          }
+        });
       });
 
       /*************************** PASAJEROS ***************************/
@@ -361,7 +419,7 @@ export class DatosPasajerosComponent implements OnInit {
 
               if(id_add == add_id){
                 var pasajero = RegresarDatosPasajeros['ventaPasajeros'][cd]['ventaIda']['pasajero'];
-                console.log(pasajero);
+                //console.log(pasajero);
                 if(RegresarDatosPasajeros['ventaPasajeros'][cd]['ventaIda']['idParentesco'] != 4 && RegresarDatosPasajeros['ventaPasajeros'][cd]['ventaIda']['tipoPasajero'] != 3){
                   $('#selectTipDoc_'+id_add).val(pasajero['idTipoDocumento']);
                   $('#txtdocumento_'+id_add).val(pasajero['numDocumento']);
@@ -437,6 +495,38 @@ export class DatosPasajerosComponent implements OnInit {
       }, 100);
       /*************************************************************************************************************/
     }
+  }
+
+  esFechaValida(fecha: any): boolean {
+    if (!fecha) return false;
+    if (fecha === 0 || fecha === '0') return false;
+
+    // formato YYYY-MM-DD
+    return typeof fecha === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(fecha);
+  }
+
+  obtenerColaboradorPermitido(fecha: string | Date): string {
+    const dia = this.obtenerDiaSemana(fecha);
+
+    const esViernesODomingo = dia === 5 || dia === 0;
+
+    return esViernesODomingo
+      ? 'DSCT. COLABORADOR 20%'
+      : 'DSCT. COLABORADOR 50%';
+  }
+
+  obtenerDiaSemana(fecha: string | Date): number {
+    let f: Date;
+
+    if (fecha instanceof Date) {
+      f = fecha;
+    } else {
+      // parseo seguro YYYY-MM-DD → fecha local
+      const [year, month, day] = fecha.split('-').map(Number);
+      f = new Date(year, month - 1, day);
+    }
+
+    return f.getDay();
   }
 
   validarCampos(sector: number){
@@ -1092,31 +1182,67 @@ export class DatosPasajerosComponent implements OnInit {
       // TODO: IDA Y VUELTA
       this.porcentajeRestantePromocionVenta = 100 - Number(dat['n_valdes']);
 
-      for(var a=0; a<this.pasajero_asientos.length; a++){
-        this.namePromocionVenta = dat['c_denominacion'];
-        this.porcentajeDescuentoPromocionVenta = dat['n_valdes'];
-        this.pasajero_asientos[a]['porcentaje_descuento_ida'] = dat['n_valdes'];
-        this.pasajero_asientos[a]['tipo_descuento_ida'] = dat['c_tipdes'];
-        this.tipoDescuentoPromocionVenta = dat['c_tipdes'];
-        
-        if(dat['c_tipdes'] == 'P'){
-          this.precio_pasajeros_asientos_ida -= Number(Number(Number(this.pasajero_asientos[a]['precio_ida'])*dat['n_valdes']/100).toFixed(2));
-        }else if(dat['c_tipdes'] == 'S'){
-          this.precio_pasajeros_asientos_ida -= dat['n_valdes'];
+      if(dat['c_denominacion'].startsWith('DSCT. COLABORADOR')) {
+        if(this.obtenerColaboradorPermitido(this.fechaEmbarqueIda) == dat['c_denominacion']){
+          for(var a=0; a<this.pasajero_asientos.length; a++){
+            this.namePromocionVenta = dat['c_denominacion'];
+            this.porcentajeDescuentoPromocionVenta = dat['n_valdes'];
+            this.pasajero_asientos[a]['porcentaje_descuento_ida'] = dat['n_valdes'];
+            this.pasajero_asientos[a]['tipo_descuento_ida'] = dat['c_tipdes'];
+            this.tipoDescuentoPromocionVenta = dat['c_tipdes'];
+            
+            if(dat['c_tipdes'] == 'P'){
+              this.precio_pasajeros_asientos_ida -= Number(Number(Number(this.pasajero_asientos[a]['precio_ida'])*dat['n_valdes']/100).toFixed(2));
+            }else if(dat['c_tipdes'] == 'S'){
+              this.precio_pasajeros_asientos_ida -= dat['n_valdes'];
+            }
+          }
+        }
+      }else{
+        for(var a=0; a<this.pasajero_asientos.length; a++){
+          this.namePromocionVenta = dat['c_denominacion'];
+          this.porcentajeDescuentoPromocionVenta = dat['n_valdes'];
+          this.pasajero_asientos[a]['porcentaje_descuento_ida'] = dat['n_valdes'];
+          this.pasajero_asientos[a]['tipo_descuento_ida'] = dat['c_tipdes'];
+          this.tipoDescuentoPromocionVenta = dat['c_tipdes'];
+          
+          if(dat['c_tipdes'] == 'P'){
+            this.precio_pasajeros_asientos_ida -= Number(Number(Number(this.pasajero_asientos[a]['precio_ida'])*dat['n_valdes']/100).toFixed(2));
+          }else if(dat['c_tipdes'] == 'S'){
+            this.precio_pasajeros_asientos_ida -= dat['n_valdes'];
+          }
         }
       }
 
-      for(var a=0; a<this.pasajero_asientos.length; a++){
-        this.namePromocionVenta = dat['c_denominacion'];
-        this.porcentajeDescuentoPromocionVenta = dat['n_valdes'];
-        this.pasajero_asientos[a]['porcentaje_descuento_vuelta'] = dat['n_valdes'];
-        this.pasajero_asientos[a]['tipo_descuento_vuelta'] = dat['c_tipdes'];
-        this.tipoDescuentoPromocionVenta = dat['c_tipdes'];
-        
-        if(dat['c_tipdes'] == 'P'){
-          this.precio_pasajeros_asientos_vuelta -= Number(Number(Number(this.pasajero_asientos[a]['precio_vuelta'])*dat['n_valdes']/100).toFixed(2));
-        }else if(dat['c_tipdes'] == 'S'){
-          this.precio_pasajeros_asientos_vuelta -= dat['n_valdes'];
+      if(dat['c_denominacion'].startsWith('DSCT. COLABORADOR')) {
+        if(this.obtenerColaboradorPermitido(this.fechaEmbarqueVuelta) == dat['c_denominacion']){
+          for(var a=0; a<this.pasajero_asientos.length; a++){
+            this.namePromocionVenta = dat['c_denominacion'];
+            this.porcentajeDescuentoPromocionVenta = dat['n_valdes'];
+            this.pasajero_asientos[a]['porcentaje_descuento_vuelta'] = dat['n_valdes'];
+            this.pasajero_asientos[a]['tipo_descuento_vuelta'] = dat['c_tipdes'];
+            this.tipoDescuentoPromocionVenta = dat['c_tipdes'];
+            
+            if(dat['c_tipdes'] == 'P'){
+              this.precio_pasajeros_asientos_vuelta -= Number(Number(Number(this.pasajero_asientos[a]['precio_vuelta'])*dat['n_valdes']/100).toFixed(2));
+            }else if(dat['c_tipdes'] == 'S'){
+              this.precio_pasajeros_asientos_vuelta -= dat['n_valdes'];
+            }
+          }
+        }
+      }else{
+        for(var a=0; a<this.pasajero_asientos.length; a++){
+          this.namePromocionVenta = dat['c_denominacion'];
+          this.porcentajeDescuentoPromocionVenta = dat['n_valdes'];
+          this.pasajero_asientos[a]['porcentaje_descuento_vuelta'] = dat['n_valdes'];
+          this.pasajero_asientos[a]['tipo_descuento_vuelta'] = dat['c_tipdes'];
+          this.tipoDescuentoPromocionVenta = dat['c_tipdes'];
+          
+          if(dat['c_tipdes'] == 'P'){
+            this.precio_pasajeros_asientos_vuelta -= Number(Number(Number(this.pasajero_asientos[a]['precio_vuelta'])*dat['n_valdes']/100).toFixed(2));
+          }else if(dat['c_tipdes'] == 'S'){
+            this.precio_pasajeros_asientos_vuelta -= dat['n_valdes'];
+          }
         }
       }
     }

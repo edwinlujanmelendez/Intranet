@@ -23,10 +23,10 @@
             <div class="flex flex-wrap items-center space-x-4">
                 <div class="w-1/12 flex justify-center items-center text-sm font-medium">BUSCAR:</div>
                 <div class="w-4/12">
-                    <input type="text" id="inputBuscar" (keyup.enter)="buscarDatos()" class="form-input w-full uppercase border border-gray-300 rounded px-2 py-1" />
+                    <input type="text" id="inputBuscar" (keyup.enter)="buscarDatos('')" class="form-input w-full uppercase border border-gray-300 rounded px-2 py-1" />
                 </div>
                 <div class="w-6/12 flex items-center justify-start">
-                    <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mr-2" (click)="buscarDatos()">Buscar</button>
+                    <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mr-2" (click)="buscarDatos('')">Buscar</button>
 
                     <div id="div_buscando_pdf" class="flex items-center" style="display: none; width: auto;">
                         <i class="fad fa-spinner-third fa-spin text-red-500 text-xl mr-1" title="Buscando PDFs"></i>

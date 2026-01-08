@@ -36,7 +36,7 @@
     <div id="div_estructura_bus_ida" class="flex flex-wrap space-x-2 pt-2">
         <div class="w-full md:w-1/4 px-4 pt-2">
             <div class="border border-[#969696] rounded-lg shadow-sm">
-                <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center">
+                <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center" [ngClass]="{'pb-1.5': descripcion_escalas_ida != ''}">
                     <div>
                         <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Ida - {{servicioIda}}</p>
                         <p>
@@ -48,6 +48,9 @@
                             <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
                             <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaIda}}</span>
                         </p>
+                    </div>
+                    <div *ngIf="descripcion_escalas_ida != ''" class="text-xss pt-3 text-gray-600">
+                        <span class="font-bold">ESCALAS:</span> {{descripcion_escalas_ida}}
                     </div>
                 </div>
 
@@ -63,17 +66,22 @@
                     </div>
                 </div>
 
-                <div *ngIf="ida_vuelta == 2" class="ruta_ida_vuelta_no_selec rounded-b-lg p-4 text-center">
-                    <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Retorno</p>
-                    <p>
-                        <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</span>
-                        &nbsp;<i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i>&nbsp;
-                        <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</span>
-                    </p>
-                    <p>
-                        <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
-                        <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaVuelta}}</span>
-                    </p>
+                <div *ngIf="ida_vuelta == 2" class="ruta_ida_vuelta_no_selec rounded-b-lg p-4 text-center" [ngClass]="{'pb-1.5': descripcion_escalas_vuelta != ''}">
+                    <div>
+                        <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Retorno</p>
+                        <p>
+                            <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</span>
+                            &nbsp;<i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i>&nbsp;
+                            <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</span>
+                        </p>
+                        <p>
+                            <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
+                            <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaVuelta}}</span>
+                        </p>
+                    </div>
+                    <div *ngIf="descripcion_escalas_vuelta != ''" class="text-xss pt-3 text-gray-600">
+                        <span class="font-bold">ESCALAS:</span> {{descripcion_escalas_vuelta}}
+                    </div>
                 </div>
             </div>
         </div>

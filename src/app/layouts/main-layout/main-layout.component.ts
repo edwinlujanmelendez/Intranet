@@ -33,6 +33,8 @@ export class MainLayoutComponent implements OnInit {
 
   rolId!: number;
 
+  sidebarOpen = false;
+
   constructor(private router:Router, private taskService: TaskService, public funcionesService: FuncionesService, public rolesService: RolesService){
     this.date_actual = this.funcionesService.getFechaHoyGuion();
   }
@@ -91,7 +93,7 @@ export class MainLayoutComponent implements OnInit {
     //$('#detalle_liquidacion').removeClass("error_caja");    
   }
 
-  puedeVer(menu: 'VentaReservaPasajes' | 'ReporteVentasPasajes' | 'Promociones' | 'ReporteFrotcom' | 'AsistenteSQLInteligente') {
+  puedeVer(menu: 'VentaReservaPasajes' | 'ReporteVentasPasajes' | 'Promociones' | 'ReporteFrotcom' | 'AsistenteSQLInteligente' | 'FormularioReten' | 'MantenimientoRutas' | 'ReporteTareoConductor') {
     return this.rolesService.manejarVistas(menu, this.rolId);
   }
 
@@ -160,6 +162,20 @@ export class MainLayoutComponent implements OnInit {
     this.router.navigate(['modulo-ti-main/asistente-sql-inteligente']);
   }
   /****************************** MODULO TI ******************************/
+
+  /****************************** MODULO CONDUCTORES ******************************/
+  FormularioReten(){
+    this.router.navigate(['conductores/formulario-reten']);
+  }
+
+  MantenimientoRutas(){
+    this.router.navigate(['conductores/mantenimiento-rutas']);
+  }
+
+  ReporteTareoConductor(){
+    this.router.navigate(['conductores/reporte-tareo-conductor']);
+  }
+  /****************************** MODULO CONDUCTORES ******************************/
   
   openNav(texto: string){
     $("#menuNav"+texto).toggleClass("show");

@@ -35,7 +35,8 @@ export class AsistenteSqlInteligenteComponent implements OnInit {
   }
 
   generarQuery() {
-    if(this.id_rol_usuario == 1 && (this.usuario_login == "elujan" || this.usuario_login == "ereynoso" || this.usuario_login == "vvega")){
+    //if(this.id_rol_usuario == 1 && (this.usuario_login == "elujan" || this.usuario_login == "ereynoso" || this.usuario_login == "vvega")){
+    //if(this.id_rol_usuario == 1){
       const textoBuscar = String($("#inputBuscar").val()).trim();
 
       if (textoBuscar !== "") {
@@ -70,7 +71,7 @@ export class AsistenteSqlInteligenteComponent implements OnInit {
           });
         });
       }
-    }
+    //}
   }
 
   startTypingEffectAI(fullTextAI: string) {

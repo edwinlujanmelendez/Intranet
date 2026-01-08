@@ -78,6 +78,8 @@ export class AsientosComponent implements OnInit {
   idUsuario: number = 0;
   idHardware: number = 0;
 
+  descripcion_escalas_ida: string = "";
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
     var dia = "";
@@ -135,6 +137,8 @@ export class AsientosComponent implements OnInit {
       this.codLocalidadDestino = this.DatosItinerario['codLocalidadDestino'];
 
       this.cant_max_asientos = this.taskService.LIMITE_CANTIDAD_ASIENTOS;
+
+      this.descripcion_escalas_ida = this.DatosItinerario['descripcionEscalasIda'];
 
       if(this.sharedService.getRegresarDatosAsientosIda() != undefined){
         var DatosAsientosIda = this.sharedService.getRegresarDatosAsientosIda();
@@ -244,7 +248,9 @@ export class AsientosComponent implements OnInit {
       "precioTotalVuelta": 0,
       "precioTotal": this.precio_ida_total,
       "date_salida": this.DatosItinerario['date_salida'],
-      "date_retorno": this.DatosItinerario['date_retorno']
+      "date_retorno": this.DatosItinerario['date_retorno'],
+      "descripcionEscalasIda": this.descripcion_escalas_ida,
+      "descripcionEscalasVuelta": ""
     };
 
     if(this.ida_vuelta == 1){

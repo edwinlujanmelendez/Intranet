@@ -44,6 +44,8 @@ export class ItinerarioRetornoComponent implements OnInit {
   
   ida_vuelta: number = 0;
 
+  descripcion_escalas_ida: string = "";
+
   constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
     this.date = new Date();
     var dia = "";
@@ -92,6 +94,8 @@ export class ItinerarioRetornoComponent implements OnInit {
       this.agenciaEmbarqueIda = this.DatosItinerario['agenciaEmbarqueIda'];
       this.nombreFechaVuelta = this.funcionesService.convert_nom_fecha(this.DatosItinerario['date_retorno']);
       this.ida_vuelta = this.DatosItinerario['ida_vuelta'];
+
+      this.descripcion_escalas_ida = this.DatosItinerario['descripcionEscalasIda'];
     }
   }
 
@@ -144,7 +148,9 @@ export class ItinerarioRetornoComponent implements OnInit {
       "precioTotalVuelta": 0,
       "precioTotal": this.DatosItinerario['precioTotal'],
       "date_salida": this.DatosItinerario['date_salida'],
-      "date_retorno": this.DatosItinerario['date_retorno']
+      "date_retorno": this.DatosItinerario['date_retorno'],
+      "descripcionEscalasIda": this.descripcion_escalas_ida,
+      "descripcionEscalasVuelta": datos['c_desc_escalas']
     };
 
     this.sharedService.enviarDatosAsientosVuelta(dat);
@@ -163,5 +169,10 @@ export class ItinerarioRetornoComponent implements OnInit {
     }else{
       return 2;
     }
+  }
+
+  contarEscalas(cadena: string): number {
+    if (!cadena) return 0;
+    return cadena.split('-').length;
   }
 }

@@ -19,7 +19,10 @@ export class RolesService {
     ReporteVentasPasajes: [1, 29, 18, 37],
     Promociones: [1],
     ReporteFrotcom: [1, 47, 36],
-    AsistenteSQLInteligente: [1]
+    AsistenteSQLInteligente: [1],
+    FormularioReten: [1, 36, 47],
+    MantenimientoRutas: [1, 18, 29, 36, 37, 47],
+    ReporteTareoConductor: [1, 36, 47]
   };
 
   constructor(){ }

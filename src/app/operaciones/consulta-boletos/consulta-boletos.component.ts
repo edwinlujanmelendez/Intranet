@@ -8,6 +8,7 @@ import { MaestroAsociado } from '../../interfaces/MaestroAsociado';
 import { DatosDetallesVenta } from '../../interfaces/DatosDetallesVenta';
 import { MaestroDataTransbordos } from '../../interfaces/MaestroDataTransbordos';
 import { take } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $:any;
 
@@ -49,7 +50,7 @@ export class ConsultaBoletosComponent implements OnInit {
   isLoading: Boolean = false;
   usuario_login: String = "";
 
-  constructor(private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService){
+  constructor(private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService, private route: ActivatedRoute){
     this.date = new Date();
     var dia = "";
     if(Number(this.date.getDate()) < 10){
@@ -72,6 +73,13 @@ export class ConsultaBoletosComponent implements OnInit {
   ngOnInit(): void {
     this.tokenService.verificarToken();         // TODO: Verifica el logeo del Usuario y lo redirecciona
     this.innerWidth = window.innerWidth;
+
+    this.route.paramMap.subscribe(params => {
+      const referenciaBusqueda = params.get('referenciaBusqueda');
+      if (referenciaBusqueda) {
+        this.buscarDatos(referenciaBusqueda);
+      }
+    });
   }
 
   ngAfterViewInit(){
@@ -107,8 +115,10 @@ export class ConsultaBoletosComponent implements OnInit {
     }
   }
 
-  buscarDatos(){
+  buscarDatos(referenciaBusqueda: string){
     var textoBuscar = String($("#inputBuscar").val()).trim();
+    if(referenciaBusqueda != ""){ textoBuscar = referenciaBusqueda; $("#inputBuscar").val(referenciaBusqueda); }
+
     if(textoBuscar != ""){
       //$(".loader").fadeIn("slow");
 
@@ -141,7 +151,7 @@ export class ConsultaBoletosComponent implements OnInit {
       this.isLoading = true;
 
       this.taskService.getBuscarPasajes(String(textoBuscar)).subscribe(responsegetBuscarPasajes => {
-        //console.log(responsegetBuscarPasajes);
+        console.log(responsegetBuscarPasajes);
         
         this.responsegetBuscarPasajes = responsegetBuscarPasajes;
       }, error => {
@@ -425,7 +435,7 @@ export class ConsultaBoletosComponent implements OnInit {
     for (let a = 0; a < this.nuevos_datos_agrupados.length; a++) {
       for (let b = 0; b < this.nuevos_datos_agrupados[a]['datos_asociados'].length; b++) {
         const boleto = this.nuevos_datos_agrupados[a]['datos_asociados'][b]['c_numboleto'];
-        if (boleto.includes('BB') || boleto.includes('FB')) {
+        if (boleto && (boleto.includes('BB') || boleto.includes('FB'))) {
           pasajes.push(boleto);
         }
       }
@@ -434,7 +444,7 @@ export class ConsultaBoletosComponent implements OnInit {
     // 1️⃣ Recolectar todos los pasajes 2
     for (let a = 0; a < this.responsegetBuscarPasajes.length; a++) {
       const boleto = this.responsegetBuscarPasajes[a]['c_numboleto'];
-      if (boleto.includes('BB') || boleto.includes('FB')) {
+      if (boleto && (boleto.includes('BB') || boleto.includes('FB'))) {
         pasajes.push(boleto);
       }
     }
@@ -479,7 +489,7 @@ export class ConsultaBoletosComponent implements OnInit {
 
         $('#div_buscando_pdf').css('display', 'none');
         if((this.id_rol_usuario == 1 && this.usuario_login == "elujan")){
-          this.resumenOpenAI();
+          //this.resumenOpenAI();
         }
         //console.log(this.pdf_para_descargar);
         return;

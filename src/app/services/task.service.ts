@@ -15,25 +15,25 @@ import { SqlInteligenteService } from './sql-metadata.service';
 export class TaskService {
 
   // TODO: API - INTRANET
-  url_api_intranet: string = "https://www.movilbus.pe/backendIntranet/";                                            /* URL PRODUCTIVO - INTRANET */
+  //url_api_intranet: string = "https://www.movilbus.pe/backendIntranet/";                                            /* URL PRODUCTIVO - INTRANET */
   //url_api_intranet: string = "https://www.movilbus.pe/backendIntranetQA/";                                          /* URL DESARROLLO - INTRANET */
-  //url_api_intranet: string = "http://localhost:8080/";                                                                /* URL Localhost - INTRANET */
+  url_api_intranet: string = "http://localhost:8080/";                                                                /* URL Localhost - INTRANET */
 
   // TODO: API - ECOMMERCE
-  url_api_ecommerce: string = "https://www.movilbus.pe/backendEcommerce/";                                          /* URL PRODUCTIVO - ECOMMERCE */
-  //url_api_ecommerce: string = "https://www.movilbus.pe/devbackEcoBus/";                                               /* URL DESARROLLO - ECOMMERCE */
+  //url_api_ecommerce: string = "https://www.movilbus.pe/backendEcommerce/";                                          /* URL PRODUCTIVO - ECOMMERCE */
+  url_api_ecommerce: string = "https://www.movilbus.pe/devbackEcoBus/";                                               /* URL DESARROLLO - ECOMMERCE */
   //url_api_ecommerce: string = "http://localhost:8080/";                                                             /* URL Localhost - ECOMMERCE */
 
   // TODO: CANTIDAD CARACTERES RUC
   MAX_LENGTH_RUC: number = 11;
 
   // TODO: CONSTANTES
-  AMBIENTE: string = "PRODUCCIÓN";                    // PRODUCCIÓN
-  //AMBIENTE: string = "DESARROLLO";                  // DESARROLLO
+  //AMBIENTE: string = "PRODUCCIÓN";                    // PRODUCCIÓN
+  AMBIENTE: string = "DESARROLLO";                  // DESARROLLO
 
   LIMITE_CANTIDAD_ASIENTOS: number = 20;              // LIMITE CANTIDAD ASIENTOS POR BUS
 
-  VERSION_INTRANET: number = 2.5;                     // CAMBIOS DE DISEÑO
+  VERSION_INTRANET: number = 2.6;                     // CAMBIOS DE DISEÑO
 
   constructor(private http: HttpClient, private authService: AuthService, private sqlInteligenteService: SqlInteligenteService){ }
 
@@ -44,6 +44,10 @@ export class TaskService {
 
   getVerificarCajaAbierta(idUsuario: number, idAgencia: number){
     return this.http.get(this.url_api_intranet+"Usuarios/getVerificarCajaAbierta/"+idUsuario+"/"+idAgencia);
+  }
+
+  pagoLinkIziPay(jsonRegistrarVenta: any){
+    return this.http.post<any[]>(this.url_api_intranet+"Ventas/pagoLinkIziPay", jsonRegistrarVenta);
   }
 
   pagoLinkNiubiz(jsonRegistrarVenta: any){
@@ -235,6 +239,14 @@ export class TaskService {
         },
       }
     );
+  }
+
+  getPilotos(){
+    return this.http.get<any[]>(this.url_api_intranet+"Conductores/getPilotos");
+  }
+
+  getDatosBus(unidad: string){
+    return this.http.get<any[]>(this.url_api_intranet+"Conductores/getDatosBus/"+unidad);
   }
   // TODO: ************************************ API - INTRANET ************************************ //
 

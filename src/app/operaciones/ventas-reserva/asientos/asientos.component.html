@@ -31,12 +31,11 @@
             </button>
         </div>
     </div>
-    
 
     <div id="div_estructura_bus_ida" class="flex flex-wrap space-x-2 pt-2">
         <div class="w-full md:w-1/4 px-4 pt-2">
             <div class="border border-[#969696] rounded-lg shadow-sm">
-                <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center">
+                <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center" [ngClass]="{'pb-1.5': descripcion_escalas_ida != ''}">
                     <div>
                         <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Ida - {{servicioIda}}</p>
                         <p>
@@ -48,6 +47,9 @@
                             <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
                             <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaIda}}</span>
                         </p>
+                    </div>
+                    <div *ngIf="descripcion_escalas_ida != ''" class="text-xss pt-3 text-gray-600">
+                        <span class="font-bold">ESCALAS:</span> {{descripcion_escalas_ida}}
                     </div>
                 </div>
 

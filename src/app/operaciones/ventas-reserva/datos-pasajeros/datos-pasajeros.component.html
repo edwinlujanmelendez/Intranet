@@ -36,7 +36,7 @@
 <div id="div_datos_pasajeros" class="flex flex-wrap space-x-2 pt-2">
     <div class="w-full md:w-1/4 px-4 pt-2">
         <div class="border border-[#969696] rounded-lg shadow-sm">
-            <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center">
+            <div class="ruta_ida_vuelta_selec rounded-t-md p-4 text-center" [ngClass]="{'pb-1.5': descripcion_escalas_ida != ''}">
                 <div>
                     <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Ida - {{servicioIda}}</p>
                     <p>
@@ -48,6 +48,9 @@
                         <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
                         <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaIda}}</span>
                     </p>
+                </div>
+                <div *ngIf="descripcion_escalas_ida != ''" class="text-xss pt-3 text-gray-600">
+                    <span class="font-bold">ESCALAS:</span> {{descripcion_escalas_ida}}
                 </div>
             </div>
 
@@ -63,17 +66,22 @@
                 </div>
             </div>
 
-            <div *ngIf="ida_vuelta == 2" class="ruta_ida_vuelta_no_selec rounded-b-lg p-4 text-center">
-                <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Retorno</p>
-                <p>
-                    <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</span>
-                    &nbsp;<i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i>&nbsp;
-                    <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</span>
-                </p>
-                <p>
-                    <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
-                    <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaVuelta}}</span>
-                </p>
+            <div *ngIf="ida_vuelta == 2" class="ruta_ida_vuelta_no_selec rounded-b-lg p-4 text-center" [ngClass]="{'pb-1.5': descripcion_escalas_vuelta != ''}">
+                <div>
+                    <p class="rut_ida_vuelta_select_ida_vuelta font-semibold">Retorno</p>
+                    <p>
+                        <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_destino}}</span>
+                        &nbsp;<i class="fad fa-long-arrow-right rut_ida_vuelta_select_icon"></i>&nbsp;
+                        <span class="rut_ida_vuelta_select_ciudad_ida_vuelta">{{nombre_ciudad_origen}}</span>
+                    </p>
+                    <p>
+                        <i class="fal fa-calendar-check rut_ida_vuelta_select_icon2"></i>&nbsp;
+                        <span class="rut_ida_vuelta_select_fecha_ida_vuelta">{{nombreFechaVuelta}}</span>
+                    </p>
+                </div>
+                <div *ngIf="descripcion_escalas_vuelta != ''" class="text-xss pt-3 text-gray-600">
+                    <span class="font-bold">ESCALAS:</span> {{descripcion_escalas_vuelta}}
+                </div>
             </div>
         </div>
 
@@ -117,7 +125,7 @@
                 </h3>
             </div>
 
-            <div class="px-4 py-4">
+            <!--<div class="px-4 py-4">
                 <div class="overflow-x-auto">
                     <table class="table-auto w-full">
                         <tbody>
@@ -135,6 +143,58 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>-->
+
+            <div class="mt-2" *ngIf="promocionesAgrupadas.gestion.length > 0">
+                <div class="flex justify-between items-center px-4 py-3 cursor-pointer bg-gray-100 hover:bg-gray-200" (click)="accordion.gestion = !accordion.gestion">
+                    <span class="font-bold text-gray-800">GESTIÓN COMERCIAL</span>
+                    <i class="fad" [ngClass]="accordion.gestion ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+                <div *ngIf="accordion.gestion" class="px-4">
+                    <div *ngFor="let dat of promocionesAgrupadas.gestion" class="flex items-center justify-between border-b py-2">
+                        <div class="flex items-center">
+                            <i class="fad fa-badge-percent text-xl text-gray-600 mr-3"></i>
+                            <span class="text-xs font-bold text-gray-800">{{ dat.c_denominacion }}</span>
+                        </div>
+                        <i class="fad fa-plus-square text-green-600 text-2xl cursor-pointer" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                        <i class="fad fa-times-circle text-red-600 text-2xl cursor-pointer hidden" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-0" *ngIf="promocionesAgrupadas.convenio.length > 0">
+                <div class="flex justify-between items-center px-4 py-3 cursor-pointer bg-gray-100" (click)="accordion.convenio = !accordion.convenio">
+                    <span class="font-bold text-gray-800">CONVENIOS</span>
+                    <i class="fad" [ngClass]="accordion.convenio ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+                <div *ngIf="accordion.convenio" class="px-4">
+                    <div *ngFor="let dat of promocionesAgrupadas.convenio" class="flex items-center justify-between border-b py-2">
+                        <div class="flex items-center">
+                            <i class="fad fa-badge-percent text-xl text-gray-600 mr-3"></i>
+                            <span class="text-xs font-bold text-gray-800">{{ dat.c_denominacion }}</span>
+                        </div>
+                        <i class="fad fa-plus-square text-green-600 text-2xl cursor-pointer" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                        <i class="fad fa-times-circle text-red-600 text-2xl cursor-pointer hidden" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OTROS -->
+            <div class="mt-0" *ngIf="promocionesAgrupadas.otros.length > 0">
+                <div class="flex justify-between items-center px-4 py-3 cursor-pointer bg-gray-100" (click)="accordion.otros = !accordion.otros">
+                    <span class="font-bold text-gray-800">OTROS DESCUENTOS</span>
+                    <i class="fad" [ngClass]="accordion.otros ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
+                <div *ngIf="accordion.otros" class="px-4">
+                    <div *ngFor="let dat of promocionesAgrupadas.otros" class="flex items-center justify-between border-b py-2">
+                        <div class="flex items-center">
+                            <i class="fad fa-badge-percent text-xl text-gray-600 mr-3"></i>
+                            <span class="text-xs font-bold text-gray-800">{{ dat.c_denominacion }}</span>
+                        </div>
+                        <i class="fad fa-plus-square text-green-600 text-2xl cursor-pointer" id="icon_aplicar_promocionesventas2_{{dat.promocion_id}}" title="Aplicar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                        <i class="fad fa-times-circle text-red-600 text-2xl cursor-pointer hidden" id="icon_cerrar_promocionesventas2_{{dat.promocion_id}}" title="Quitar Promoción" (click)="aplicar_quitar_promocionesVentas(dat)"></i>
+                    </div>
                 </div>
             </div>
         </div>

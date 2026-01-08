@@ -17,6 +17,15 @@ export class VersionesComponent implements OnInit {
   ngOnInit(): void {
     const data: HistorialCambio[] = [
       {
+        version: '2.6',
+        fecha_hora_publicacion: '12:30:00 PM del 15/12/2025',
+        descripcion: [
+          'Se añadió las promociones de Descuento Colaborador.',
+          'También se agregó en la interfaz de agregar las promociones a las ventas, un despegable que agrupa las promociones.',
+          'Se cambio el método de pago de Niubiz a IziPay.'
+        ]
+      },
+      {
         version: '2.5',
         fecha_hora_publicacion: '14:00:00 PM del 29/10/2025',
         descripcion: [

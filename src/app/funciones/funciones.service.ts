@@ -235,7 +235,7 @@ export class FuncionesService {
         return partRuta[posicion];
     }
 
-    convert_nom_fecha(fecha: string){
+    /*convert_nom_fecha(fecha: string){
         if(fecha != ""){
             let dias = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
             let meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -249,6 +249,27 @@ export class FuncionesService {
         }else{
             return "";
         }
+    }*/
+
+    convert_nom_fecha(fecha: string) {
+        if (!fecha) return "";
+
+        const dias = [
+            "Domingo", "Lunes", "Martes", "Miércoles",
+            "Jueves", "Viernes", "Sábado"
+        ];
+
+        const meses = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        const [year, month, day] = fecha.split('-').map(Number);
+
+        // Fecha local, sin desfase de zona horaria
+        const date = new Date(year, month - 1, day);
+
+        return `${dias[date.getDay()]} ${day} de ${meses[month - 1]} del ${year}`;
     }
   
     ordenarEstructuraBus(estructuraBus: any){

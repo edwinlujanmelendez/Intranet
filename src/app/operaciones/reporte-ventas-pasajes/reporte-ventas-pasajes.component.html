@@ -40,7 +40,7 @@
 
                         <div class="flex justify-center space-x-2">
                             <button class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="buscarReporteDetallado()">
-                                <i class="ki-outline ki-magnifier text-base mr-1"></i> BUSCAR
+                                <i class="fa fa-search text-base mr-1"></i> BUSCAR
                             </button>
                             <button *ngIf="ListReporteDetallado.length > 0" class="bg-orange-600 hover:bg-orange-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="tableToExcel()">
                                 <i class="fad fa-file-excel text-base mr-1"></i> EXPORTAR
@@ -117,6 +117,9 @@
                             <span *ngIf="dat.c_numboleto != ''" class="text-xss font-semibold text-orange-500 underline cursor-pointer" title="Ver Venta" (click)="ver_venta_modal(dat)">
                                 {{dat.c_numboleto}}
                             </span>
+                            &nbsp;
+                            <!--<a *ngIf="dat.c_numboleto" [routerLink]="['/operaciones/consulta-boletos', dat.c_numboleto]" target="_blank" title="Buscar en Consulta de Boletos"><i class="fad fa-external-link text-xss font-semibold text-orange-500 underline cursor-pointer"></i></a>-->
+
                             <i *ngIf="dat.c_numboleto == null" class="fad fa-eye cursor-pointer text-base" title="Ver Venta" (click)="ver_venta_modal(dat)"></i>
                         </td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">
@@ -144,8 +147,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            
         </div>
     </div>
 

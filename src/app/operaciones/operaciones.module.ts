@@ -10,6 +10,7 @@ import { ReporteVentasPasajesComponent } from './reporte-ventas-pasajes/reporte-
 
 const routes: Routes = [
   { path: 'consulta-boletos', component: ConsultaBoletosComponent },
+  { path: 'consulta-boletos/:referenciaBusqueda', component: ConsultaBoletosComponent },
   { path: 'promociones', component: PromocionesComponent },
   { path: 'reporte-ventas-pasajes', component: ReporteVentasPasajesComponent },
   {
