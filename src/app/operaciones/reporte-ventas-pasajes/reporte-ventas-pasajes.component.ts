@@ -196,8 +196,7 @@ export class ReporteVentasPasajesComponent implements OnInit {
           scrollY: 400,
           scrollCollapse: true,
           scroller: true,
-          searching: true,
-          order: [[6, 'desc']]
+          searching: true
         });
         $(".loader").fadeOut("slow");
       }, 200);

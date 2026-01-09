@@ -24,6 +24,7 @@ export class FormularioRetenComponent implements OnInit {
   date_fecha_fin: string = "";
 
   date_fecha_inicio_modal: string = "";
+  date_fecha_fin_modal: string = "";
 
   ListReporteFormularioReten: any = [];
 
@@ -46,6 +47,12 @@ export class FormularioRetenComponent implements OnInit {
     var anio = this.date.getFullYear();
 
     this.date_actual = anio + "-" + mes + "-" + dia;
+
+    this.date_fecha_inicio = anio + "-" + mes + "-" + dia;
+    this.date_fecha_fin = anio + "-" + mes + "-" + dia;
+
+    this.date_fecha_inicio_modal = anio + "-" + mes + "-" + dia;
+    this.date_fecha_fin_modal = anio + "-" + mes + "-" + dia;
   }
 
   ngOnInit(): void {
@@ -54,12 +61,34 @@ export class FormularioRetenComponent implements OnInit {
 
   ngAfterViewInit() {
     this.taskService.getPilotos().subscribe(responsegetPilotos => {
+      //console.log(responsegetPilotos);
       this.ltPilotos = responsegetPilotos;
     });
+
+    this.mostrarDataReporte();
   }
 
-  buscarReporteFormularioReten(){
+  mostrarDataReporte(){
+    this.ListReporteFormularioReten = [];
 
+    $("#tabla_reportes").DataTable().destroy();
+
+    this.taskService.getReporteFormularioReten(this.date_fecha_inicio, this.date_fecha_fin).subscribe(responsegetReporteFormularioReten => {
+      //console.log(responsegetReporteFormularioReten);
+      this.ListReporteFormularioReten = responsegetReporteFormularioReten;
+
+      setTimeout(() => {
+        $('#tabla_reportes').DataTable({
+          pageLength: 10,
+          deferRender: true,
+          scrollY: 400,
+          scrollCollapse: true,
+          scroller: true,
+          searching: true
+        });
+        $(".loader").fadeOut("slow");
+      }, 200);
+    });
   }
 
   buscarUnidad(evt){
@@ -88,6 +117,33 @@ export class FormularioRetenComponent implements OnInit {
 
   tableToExcel(){
 
+  }
+
+  guardarRegistroPiloto(){
+    var data = {
+      'fecha_partida': this.funcionesService.convertir_barra_fecha_hora($('#fecha_partida').val()),
+      'idConductor': $('#conductor').val(),
+      'nombre_conductor': "",
+      'tipo_conductor': $('#tipo_conductor').val(),
+      'unidad': $('#unidad').val(),
+      'placa': $('#placa').val(),
+      'servicio': $('#servicio').val(),
+      'tipo': $('#tipo').val(),
+      'observaciones': $('#texto_observaciones').val()
+    }
+
+    //console.log(data);
+
+    this.taskService.insertFormularioReten(data).subscribe(responseinsertFormularioReten => {
+      if(responseinsertFormularioReten['result'] == true){
+        console.log("todo bien");
+
+        this.cerrarModal('modal_create_editar_conductor');
+        this.mostrarDataReporte();
+      }else{
+        console.log("todo mal");
+      }
+    });
   }
 
   abrirModal(nombreModal: string) {

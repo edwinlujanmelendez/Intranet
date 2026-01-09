@@ -245,8 +245,16 @@ export class TaskService {
     return this.http.get<any[]>(this.url_api_intranet+"Conductores/getPilotos");
   }
 
+  getReporteFormularioReten(fecha_inicio: string, fecha_fin: string){
+    return this.http.get<any[]>(this.url_api_intranet+"Conductores/getReporteFormularioReten/"+fecha_inicio+"/"+fecha_fin);
+  }
+
   getDatosBus(unidad: string){
     return this.http.get<any[]>(this.url_api_intranet+"Conductores/getDatosBus/"+unidad);
+  }
+
+  insertFormularioReten(data: any){
+    return this.http.post<any[]>(this.url_api_intranet+"Conductores/insertFormularioReten", data);
   }
   // TODO: ************************************ API - INTRANET ************************************ //
 

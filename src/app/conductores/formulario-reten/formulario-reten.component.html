@@ -22,7 +22,7 @@
                         </div>
 
                         <div class="flex justify-center space-x-2">
-                            <button class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="buscarReporteFormularioReten()">
+                            <button class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="mostrarDataReporte()">
                                 <i class="fa fa-search text-base mr-1"></i> BUSCAR
                             </button>
                             <button class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="agregarFormularioReten()">
@@ -47,49 +47,26 @@
             <table *ngIf="ListReporteFormularioReten.length > 0" id="tabla_reportes" class="min-w-full border-collapse">
                 <thead class="bg-gray-100">
                     <tr class="text-gray-500 uppercase font-semibold tracking-wider">
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">FECHA PARTIDA</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">CONDUCTOR</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">TIPO COND.</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">UNIDAD</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">PLACA</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">SERVICIO</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">TIPO</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss text-center">OBSERVACIONES</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">FECHA PARTIDA</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss" style="text-align: left !important;">CONDUCTOR</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">TIPO COND.</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">UNIDAD</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">PLACA</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">SERVICIO</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">TIPO</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">OBSERVACIONES</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr *ngFor="let dat of ListReporteFormularioReten; index as i;" [ngClass]="{'bg-yellow-100': dat.delay_correo === 1}">
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-left">
-                            <span class="font-semibold text-gray-700">{{dat.origen}} - {{dat.destino}}</span>
-                        </td>
-                        <td class="min-w-[120px] whitespace-nowrap text-center">
-                            <img *ngIf="dat.tipforpag == 'ORBIS'" src="./assets/img/pago-efectivo2.png" class="w-11/12">
-                            <span *ngIf="dat.tipforpag == 'ORBIS'" class="hidden">{{dat.tipforpag}}</span>
-                            <span *ngIf="dat.tipforpag != 'ORBIS'" class="text-xss font-semibold text-blue-600">{{dat.tipforpag}}</span>
-                        </td>
-                        <td class="min-w-[120px] whitespace-nowrap text-center">
-                            <span *ngIf="dat.c_numboleto != ''" class="text-xss font-semibold text-orange-500 underline cursor-pointer" title="Ver Venta">
-                                {{dat.c_numboleto}}
-                            </span>
-                            &nbsp;
-                            <i *ngIf="dat.c_numboleto == null" class="fad fa-eye cursor-pointer text-base" title="Ver Venta"></i>
-                        </td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">
-                            {{ dat.n_imppag | number:'1.2-2' }}
-                        </td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.c_login}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-center">
-                            <span *ngIf="dat.tipo_movimiento == 'EFECTIVO'" class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xss font-semibold">PAGADO</span>
-                            <span *ngIf="dat.tipo_movimiento == 'RESERVA'" class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full text-xss font-semibold">RESERVA</span>
-                            <span *ngIf="dat.tipo_movimiento == 'ANULACION SISTEMA'" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xss font-semibold">EXPIRADO</span>
-                            <span *ngIf="dat.tipo_movimiento == 'ANULACION'" class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xss font-semibold">ANULADO</span>
-                        </td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">
-                            {{dat.numero_cip ? dat.numero_cip : dat.n_numopeban}}
-                        </td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 text-sm">
-                            {{dat.c_observaciones}}
-                        </td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{funcionesService.convert_format_fecha_barra(dat.fecha_partida)}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-left text-gray-700 font-semibold">{{dat.nombre_conductor}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.unidad}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.placa}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.servicio}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.observaciones}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -120,7 +97,7 @@
                     <div class="w-1/2 flex pr-6">
                         <label for="fecha_fin" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Fecha Fin</label>
                         <span class="w-3/5">
-                            <input id="fecha_fin" type="date" [min]="date_fecha_inicio_modal" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                            <input id="fecha_fin" type="date" [(ngModel)]="date_fecha_fin_modal" [min]="date_fecha_inicio_modal" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
                         </span>
                     </div>
                 </div>
@@ -128,15 +105,15 @@
                     <div class="w-1/2 flex">
                         <label for="conductor" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Conductor</label>
                         <select id="conductor" class="w-3/5 px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
-                            <option *ngFor="let pilotos of ltPilotos;" [value]="pilotos.personal_id">{{pilotos.c_apepat}} {{pilotos.c_apemat}}, {{pilotos.c_nombre}}</option>
+                            <option *ngFor="let pilotos of ltPilotos;" [value]="pilotos.id">{{pilotos.c_apepat}} {{pilotos.c_apemat}}, {{pilotos.c_nombre}}</option>
                         </select>
                     </div>
                     <div class="w-1/2 flex pr-6">
                         <label for="tipo_conductor" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Tipo Conductor</label>
                         <select id="tipo_conductor" class="w-3/5 px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
-                            <option value="1" selected>PILOTO</option>
-                            <option value="2">COPILOTO</option>
-                            <option value="3">TERCER CONDUCTOR</option>
+                            <option value="PILOTO" selected>PILOTO</option>
+                            <option value="COPILOTO">COPILOTO</option>
+                            <option value="TERCER CONDUCTOR">TERCER CONDUCTOR</option>
                         </select>
                     </div>
                 </div>
@@ -165,9 +142,12 @@
                         <label for="tipo" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Tipo</label>
                         <span class="w-3/5">
                             <select id="tipo" class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                <option value="1" selected>PILOTO</option>
-                                <option value="2">COPILOTO</option>
-                                <option value="3">TERCER CONDUCTOR</option>
+                                <option value="RETEN" selected>RETEN</option>
+                                <option value="SIN PROGRAMACIÓN">SIN PROGRAMACIÓN</option>
+                                <option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option>
+                                <option value="DESCANSO FÍSICO">DESCANSO FÍSICO</option>
+                                <option value="LICENCIA">LICENCIA</option>
+                                <option value="CON GOCE">CON GOCE</option>
                             </select>
                         </span>
                     </div>
@@ -181,7 +161,7 @@
                 </div>
                 <div class="flex pt-2 pb-2"><hr class="w-full border-t border-gray-300"></div>
                 <div class="flex pt-2 pb-2 justify-end">
-                    <button  class="px-4 py-2 mr-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Guardar</button>
+                    <button (click)="guardarRegistroPiloto()" class="px-4 py-2 mr-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">Guardar</button>
 
                     <button (click)="cerrarModal('modal_create_editar_conductor')" class="px-4 py-2 mr-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">Cancelar</button>
                 </div>
