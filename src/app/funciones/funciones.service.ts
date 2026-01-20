@@ -217,6 +217,31 @@ export class FuncionesService {
         return date_actual;
     }
 
+    getFechaSemanaAtrasGuion(){
+        var date = new Date();
+        date.setDate(date.getDate() - 7);
+
+        var dia = "";
+        if(Number(date.getDate()) < 10){
+            dia = "0" + date.getDate();
+        }else{
+            dia = String(date.getDate());
+        }
+
+        var mes = "";
+        if(Number(date.getMonth() + 1) < 10){
+            mes = "0" + Number(date.getMonth() + 1);
+        }else{
+            mes = String(date.getMonth() + 1);
+        }
+
+        var anio = date.getFullYear();
+
+        var date_actual = anio + "-" + mes + "-" + dia;
+
+        return date_actual;
+    }
+
     format_fecha(fecha_ingresada: string){
         if(fecha_ingresada != null){
             fecha_ingresada = fecha_ingresada.replace(" 00:00:00", "");

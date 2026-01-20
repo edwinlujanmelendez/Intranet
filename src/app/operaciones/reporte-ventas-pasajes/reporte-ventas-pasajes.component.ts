@@ -145,7 +145,8 @@ export class ReporteVentasPasajesComponent implements OnInit {
       document.body.appendChild(script);
     };
 
-    this.taskService.getAgencias().subscribe(responsegetAgencias => {
+    // 345 - id agencia Call Center
+    this.taskService.getAgencias(345).subscribe(responsegetAgencias => {
       this.ltAgencias = responsegetAgencias;
     });
 

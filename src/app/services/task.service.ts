@@ -20,16 +20,16 @@ export class TaskService {
   url_api_intranet: string = "http://localhost:8080/";                                                                /* URL Localhost - INTRANET */
 
   // TODO: API - ECOMMERCE
-  //url_api_ecommerce: string = "https://www.movilbus.pe/backendEcommerce/";                                          /* URL PRODUCTIVO - ECOMMERCE */
-  url_api_ecommerce: string = "https://www.movilbus.pe/devbackEcoBus/";                                               /* URL DESARROLLO - ECOMMERCE */
+  url_api_ecommerce: string = "https://www.movilbus.pe/backendEcommerce/";                                          /* URL PRODUCTIVO - ECOMMERCE */
+  //url_api_ecommerce: string = "https://www.movilbus.pe/devbackEcoBus/";                                               /* URL DESARROLLO - ECOMMERCE */
   //url_api_ecommerce: string = "http://localhost:8080/";                                                             /* URL Localhost - ECOMMERCE */
 
   // TODO: CANTIDAD CARACTERES RUC
   MAX_LENGTH_RUC: number = 11;
 
   // TODO: CONSTANTES
-  //AMBIENTE: string = "PRODUCCIÓN";                    // PRODUCCIÓN
-  AMBIENTE: string = "DESARROLLO";                  // DESARROLLO
+  AMBIENTE: string = "PRODUCCIÓN";                    // PRODUCCIÓN
+  //AMBIENTE: string = "DESARROLLO";                  // DESARROLLO
 
   LIMITE_CANTIDAD_ASIENTOS: number = 20;              // LIMITE CANTIDAD ASIENTOS POR BUS
 
@@ -94,8 +94,8 @@ export class TaskService {
     return this.http.get<any[]>(this.url_api_intranet+"Promociones/eliminarPromocion/"+cupon_id);
   }
 
-  getAgencias(){
-    return this.http.get<any[]>(this.url_api_intranet+"Reportes/getAgencias");
+  getAgencias(idAgencia: number){
+    return this.http.get<any[]>(this.url_api_intranet+"Reportes/getAgencias/"+idAgencia);
   }
 
   getUsuariosCounter(agencia_id: number, fechaInicio: string, fechaFin: string){
@@ -255,6 +255,14 @@ export class TaskService {
 
   insertFormularioReten(data: any){
     return this.http.post<any[]>(this.url_api_intranet+"Conductores/insertFormularioReten", data);
+  }
+
+  getReporteMantenimientoRuta(codLocalidadIda: number, codLocalidadDestino: number){
+    return this.http.get<any[]>(this.url_api_intranet+"Conductores/getReporteMantenimientoRuta/"+codLocalidadIda+"/"+codLocalidadDestino);
+  }
+
+  getReporteTareoConductor(fecha_inicio: string, fecha_fin: string, conductor_id: number){
+    return this.http.get<any[]>(this.url_api_intranet+"Conductores/getReporteTareoConductor/"+fecha_inicio+"/"+fecha_fin+"/"+conductor_id);
   }
   // TODO: ************************************ API - INTRANET ************************************ //
 

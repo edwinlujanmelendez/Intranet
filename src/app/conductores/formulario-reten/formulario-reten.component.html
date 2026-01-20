@@ -54,18 +54,20 @@
                         <th class="min-w-[120px] whitespace-nowrap text-xss">PLACA</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">SERVICIO</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">TIPO</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">CIUDAD</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">OBSERVACIONES</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr *ngFor="let dat of ListReporteFormularioReten; index as i;" [ngClass]="{'bg-yellow-100': dat.delay_correo === 1}">
+                    <tr *ngFor="let dat of ListReporteFormularioReten; index as i;">
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{funcionesService.convert_format_fecha_barra(dat.fecha_partida)}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-left text-gray-700 font-semibold">{{dat.nombre_conductor}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.unidad}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold" style="text-align: center !important;">{{dat.unidad}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.placa}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.servicio}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.nombre_agencia}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.observaciones}}</td>
                     </tr>
                 </tbody>
@@ -119,38 +121,51 @@
                 </div>
                 <div class="flex">
                     <div class="w-1/2 flex">
+                        <label for="agencia" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Agencia</label>
+                        <select id="agencia" class="w-3/5 px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option *ngFor="let agencia of ltAgencias;" [value]="agencia.agencia_id">{{agencia.c_denominacion}}</option>
+                        </select>
+                    </div>
+                    <div class="w-1/2 flex pr-6">
                         <label for="unidad" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Unidad</label>
                         <span class="w-3/5">
                             <input id="unidad" type="text" (blur)="buscarUnidad($event)" (keyup.enter)="buscarUnidad($event)" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
                         </span>
                     </div>
-                    <div class="w-1/2 flex pr-6">
+                </div>
+                <div class="flex">
+                    <div class="w-1/2 flex">
                         <label for="placa" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Placa</label>
                         <span class="w-3/5">
                             <input id="placa" type="text" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
                         </span>
                     </div>
-                </div>
-                <div class="flex">
-                    <div class="w-1/2 flex">
+                    <div class="w-1/2 flex pr-6">
                         <label for="servicio" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Servicio</label>
                         <span class="w-3/5">
                             <input id="servicio" type="text" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
                         </span>
                     </div>
-                    <div class="w-1/2 flex pr-6">
+                </div>
+                <div class="flex">
+                    <div class="w-1/2 flex">
                         <label for="tipo" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Tipo</label>
                         <span class="w-3/5">
                             <select id="tipo" class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                <option value="RETEN" selected>RETEN</option>
-                                <option value="SIN PROGRAMACIÓN">SIN PROGRAMACIÓN</option>
-                                <option value="DESCANSO MÉDICO">DESCANSO MÉDICO</option>
-                                <option value="DESCANSO FÍSICO">DESCANSO FÍSICO</option>
-                                <option value="LICENCIA">LICENCIA</option>
+                                <option value="ACERCAMIENTO DIA" selected>ACERCAMIENTO DIA</option>
+                                <option value="ACERCAMIENTO NOCHE">ACERCAMIENTO NOCHE</option>
                                 <option value="CON GOCE">CON GOCE</option>
+                                <option value="DESCANSO FÍSICO">DESCANSO FÍSICO</option>
+                                <option value="DESCANSO MEDICO">DESCANSO MEDICO</option>
+                                <option value="LICENCIA">LICENCIA</option>
+                                <option value="RETEN DIA">RETEN DIA</option>
+                                <option value="RETEN NOCHE">RETEN NOCHE</option>
+                                <option value="SIN PROGRAMACIÓN">SIN PROGRAMACIÓN</option>
+                                <option value="VACACIONES">VACACIONES</option>
                             </select>
                         </span>
                     </div>
+                    <div class="w-1/2 flex pr-6">&nbsp;</div>
                 </div>
                 <div class="flex"><hr class="w-full border-t border-gray-300"></div>
                 <div class="flex">

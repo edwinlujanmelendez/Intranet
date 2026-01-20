@@ -3,7 +3,6 @@ import { TokenService } from '../../services/token.service';
 import { SharedService } from '../../shared.service';
 import { TaskService } from '../../services/task.service';
 import { FuncionesService } from '../../funciones/funciones.service';
-import { Router } from '@angular/router';
 
 declare var $:any;
 
@@ -16,9 +15,7 @@ export class FormularioRetenComponent implements OnInit {
 
   ArrayMostrarModal: any = [];
 
-  date!: Date;
   date_actual: string = "";
-  anio: string = "";
 
   date_fecha_inicio: string = "";
   date_fecha_fin: string = "";
@@ -29,30 +26,16 @@ export class FormularioRetenComponent implements OnInit {
   ListReporteFormularioReten: any = [];
 
   ltPilotos: any = [];
+  ltAgencias: any = [];
 
-  constructor(private router:Router, private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService) { 
-    this.date = new Date();
-    var dia = "";
-    if(Number(this.date.getDate()) < 10){
-      dia = "0"+ this.date.getDate();
-    }else{
-      dia = String(this.date.getDate());
-    }
-    var mes = "";
-    if(Number(this.date.getMonth() + 1) < 10){
-      mes = "0"+ Number(this.date.getMonth() + 1);
-    }else{
-      mes = String(this.date.getMonth() + 1);
-    }
-    var anio = this.date.getFullYear();
+  constructor(private sharedService:SharedService, private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService) { 
+    this.date_actual = this.funcionesService.getFechaHoyGuion();
 
-    this.date_actual = anio + "-" + mes + "-" + dia;
+    this.date_fecha_inicio = this.funcionesService.getFechaSemanaAtrasGuion();
+    this.date_fecha_fin = this.funcionesService.getFechaHoyGuion();
 
-    this.date_fecha_inicio = anio + "-" + mes + "-" + dia;
-    this.date_fecha_fin = anio + "-" + mes + "-" + dia;
-
-    this.date_fecha_inicio_modal = anio + "-" + mes + "-" + dia;
-    this.date_fecha_fin_modal = anio + "-" + mes + "-" + dia;
+    this.date_fecha_inicio_modal = this.funcionesService.getFechaHoyGuion();
+    this.date_fecha_fin_modal = this.funcionesService.getFechaHoyGuion();
   }
 
   ngOnInit(): void {
@@ -61,14 +44,19 @@ export class FormularioRetenComponent implements OnInit {
 
   ngAfterViewInit() {
     this.taskService.getPilotos().subscribe(responsegetPilotos => {
-      //console.log(responsegetPilotos);
       this.ltPilotos = responsegetPilotos;
+    });
+
+    this.taskService.getAgencias(0).subscribe(responsegetAgencias => {
+      this.ltAgencias = responsegetAgencias;
     });
 
     this.mostrarDataReporte();
   }
 
   mostrarDataReporte(){
+    $(".loader").fadeIn("slow");
+
     this.ListReporteFormularioReten = [];
 
     $("#tabla_reportes").DataTable().destroy();
@@ -116,14 +104,43 @@ export class FormularioRetenComponent implements OnInit {
   }
 
   tableToExcel(){
+    $(".loader").fadeIn("slow");
 
+    const header = ['FECHA PARTIDA', 'NOMBRE CONDUCTOR', 'TIPO', 'UNIDAD', 'PLACA', 'SERVICIO', 'TIPO', 'CIUDAD', 'OBSERVACIONES'];
+    
+    const body: string[][] = [];
+
+    for (let i = 0; i < this.ListReporteFormularioReten.length; i++) {
+      body.push([
+        `${this.funcionesService.convert_format_fecha_barra(this.ListReporteFormularioReten[i]['fecha_partida'])}`,
+        `${this.ListReporteFormularioReten[i]['nombre_conductor']}`,
+        `${this.ListReporteFormularioReten[i]['tipo']}`,
+        `${this.ListReporteFormularioReten[i]['unidad']}`,
+        `${this.ListReporteFormularioReten[i]['placa']}`,
+        `${this.ListReporteFormularioReten[i]['servicio']}`,
+        `${this.ListReporteFormularioReten[i]['tipo']}`,
+        `${this.ListReporteFormularioReten[i]['nombre_agencia']}`,
+        `${this.clean(this.ListReporteFormularioReten[i]['observaciones'])}`
+      ]);
+    }
+    
+    this.funcionesService.exportarReporteExcel(header, body, 'ReporteMantenimientoRutas');
+    $(".loader").fadeOut("slow");
   }
+
+  clean(v: any){
+    if (v === null || v === undefined) return '';
+    const s = String(v).trim();
+    return (s === '' || s.toLowerCase() === 'null' || s.toLowerCase() === 'undefined') ? '' : s;
+  };
 
   guardarRegistroPiloto(){
     var data = {
       'fecha_partida': this.funcionesService.convertir_barra_fecha_hora($('#fecha_partida').val()),
-      'idConductor': $('#conductor').val(),
+      'id_conductor': $('#conductor').val(),
       'nombre_conductor': "",
+      'agencia_id': $('#agencia').val(),
+      'nombre_agencia': "",
       'tipo_conductor': $('#tipo_conductor').val(),
       'unidad': $('#unidad').val(),
       'placa': $('#placa').val(),
