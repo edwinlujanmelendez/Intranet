@@ -39,7 +39,10 @@
                             <button class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="mostrarDataReporte()">
                                 <i class="fa fa-search text-base mr-1"></i> BUSCAR
                             </button>
-                            <button *ngIf="ListReporteTareoConductor.length > 0" class="bg-orange-600 hover:bg-orange-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="tableToExcel()">
+                            <button *ngIf="ListReporteTareoConductor.length > 0" title="Exportar Reporte Tareo Conductor" class="bg-orange-600 hover:bg-orange-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="tableToExcel()">
+                                <i class="fad fa-file-excel text-base mr-1"></i> EXPORTAR
+                            </button>
+                            <button *ngIf="ListReporteConsolidado.length > 0" title="Exportar Reporte Consolidado" class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded-md flex items-center" (click)="tableToExcel2()">
                                 <i class="fad fa-file-excel text-base mr-1"></i> EXPORTAR
                             </button>
                         </div>
@@ -58,7 +61,6 @@
             <table *ngIf="ListReporteTareoConductor.length > 0" id="tabla_reportes" class="min-w-full border-collapse">
                 <thead class="bg-gray-100">
                     <tr class="text-gray-500 uppercase font-semibold tracking-wider">
-                        <!--<th class="min-w-[120px] whitespace-nowrap text-xss">EMPRESA</th>-->
                         <th class="min-w-[120px] whitespace-nowrap text-xss">FECHA PARTIDA</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss" style="text-align: left !important;">CONDUCTOR</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">TIPO COND.</th>
@@ -71,41 +73,49 @@
                         <th class="min-w-[120px] whitespace-nowrap text-xss">DESTINO</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">KILOMETRAJE</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">PRECIO RUTA</th>
-                        
-                        
-                        <!--<th class="min-w-[120px] whitespace-nowrap text-xss">TERRAMOZA</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss">NRO PROGRAMACIÓN</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss">AUXPILOTO</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss">ADICIONAL - FIJO</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss">CAPACIDAD BUS</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss">T BOLETO</th>
-                        <th class="min-w-[120px] whitespace-nowrap text-xss">T MONTO</th>-->
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr *ngFor="let dat of ListReporteTareoConductor; index as i;">
-                        <!--<td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.empresa}}</td>-->
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.fecha_partida}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: left !important;">{{dat.conductor}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">-</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo_cond}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.turno}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.nro_bus}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.placa_bus}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.servicio}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">-</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.status}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.origen}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.destino}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">0</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">0</td>
-                        
-                        
-                        <!--<td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.terramoza}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.nro_programacion}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.auxpiloto}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.adicional_fijo}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.capacidad_bus}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.t_boleto}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.t_monto}}</td>-->
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.kilometraje}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.precio_ruta}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="ListReporteConsolidado.length > 0" class="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-8xl border rounded-lg shadow-sm bg-white border-gray-300 mt-5">
+        <div class="p-4 text-gray-700 text-sm">
+            <table *ngIf="ListReporteConsolidado.length > 0" id="tabla_reportes2" class="min-w-full border-collapse">
+                <thead class="bg-gray-100">
+                    <tr class="text-gray-500 uppercase font-semibold tracking-wider">
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">FECHA PARTIDA</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss" style="text-align: left !important;">NOMBRE</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">TOTAL KM</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">TOTAL RETEN</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">TOTAL S/ KM</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">TOTAL GENERAL</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngFor="let dat of ListReporteConsolidado; index as i;">
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.fecha_partida}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: left !important;">{{dat.conductor}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.kilometraje}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.precio_ruta_reten}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.precio_ruta_kilometraje}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-gray-700 font-semibold" style="text-align: center !important;">{{dat.precio_ruta}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -234,9 +234,9 @@
                                 <i class="fad fa-user text-gray-600"></i> {{ListaPasajeros.nombres_apellidos}}
                             </td>
                             <td class="px-3 py-1 border border-gray-300 text-center" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros)">
-                                <span *ngIf="ListaPasajeros.c_numboleto?.includes('BB') || ListaPasajeros.c_numboleto?.includes('FB')">{{ListaPasajeros.c_numboleto}}</span>
-                                <span *ngIf="!ListaPasajeros.c_numboleto?.includes('BB') && !ListaPasajeros.c_numboleto?.includes('FB')">
-                                    <span *ngIf="ListaPasajeros.c_numbolant?.includes('BB') || ListaPasajeros.c_numbolant?.includes('FB')">{{ListaPasajeros.c_numbolant}}</span>
+                                <span *ngIf="tieneCodigoBoleto(ListaPasajeros?.c_numboleto)">{{ListaPasajeros.c_numboleto}}</span>
+                                <span *ngIf="!tieneCodigoBoleto(ListaPasajeros?.c_numboleto)">
+                                    <span *ngIf="tieneCodigoBoleto(ListaPasajeros?.c_numboleto)">{{ListaPasajeros.c_numbolant}}</span>
                                 </span>
                             </td>
                             <td class="px-3 py-1 border border-gray-300 text-center" [ngClass]="verificarClaseObservaciones(ListaPasajeros)" *ngIf="verificarDataViaje(DatosLista, ListaPasajeros)">

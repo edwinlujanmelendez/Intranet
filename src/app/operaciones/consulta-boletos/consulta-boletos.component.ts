@@ -50,6 +50,8 @@ export class ConsultaBoletosComponent implements OnInit {
   isLoading: Boolean = false;
   usuario_login: String = "";
 
+  codigosBoletos: any = ["FB", "BB", "BV", "BT", "BE", "BM", "BA"];
+
   constructor(private tokenService: TokenService, private taskService: TaskService, @Inject(PLATFORM_ID) private platformId: Object, public funcionesService: FuncionesService, private route: ActivatedRoute){
     this.date = new Date();
     var dia = "";
@@ -88,6 +90,11 @@ export class ConsultaBoletosComponent implements OnInit {
 
     let StorageUsuario = JSON.parse(localStorage.getItem('StorageUsuario') || '{}');
     this.usuario_login = StorageUsuario['login'];
+  }
+
+  tieneCodigoBoleto(nro: string | null | undefined): boolean {
+    if (!nro) return false;
+    return this.codigosBoletos.some(cod => nro.includes(cod));
   }
 
   toggle_seleccion(id: string){
@@ -151,7 +158,7 @@ export class ConsultaBoletosComponent implements OnInit {
       this.isLoading = true;
 
       this.taskService.getBuscarPasajes(String(textoBuscar)).subscribe(responsegetBuscarPasajes => {
-        console.log(responsegetBuscarPasajes);
+        //console.log(responsegetBuscarPasajes);
         
         this.responsegetBuscarPasajes = responsegetBuscarPasajes;
       }, error => {
@@ -368,7 +375,7 @@ export class ConsultaBoletosComponent implements OnInit {
 
   asociar_promociones_faltantes(){
     for(var a=0; a<this.responsegetBuscarPasajes.length; a++){
-      if(this.responsegetBuscarPasajes[a]['c_numbolant']?.includes("FB") || this.responsegetBuscarPasajes[a]['c_numbolant']?.includes("BB")){
+      if(this.codigosBoletos.some(cod => this.responsegetBuscarPasajes[a]['c_numbolant']?.includes(cod))){
         if(this.responsegetBuscarPasajes[a]['nombre_promocion1'] != null || this.responsegetBuscarPasajes[a]['nombre_promocion2'] != null){
           for(var b=0; b<this.responsegetBuscarPasajes.length; b++){
             if(this.responsegetBuscarPasajes[a]['c_numbolant'] == this.responsegetBuscarPasajes[b]['c_numboleto']){
@@ -435,7 +442,7 @@ export class ConsultaBoletosComponent implements OnInit {
     for (let a = 0; a < this.nuevos_datos_agrupados.length; a++) {
       for (let b = 0; b < this.nuevos_datos_agrupados[a]['datos_asociados'].length; b++) {
         const boleto = this.nuevos_datos_agrupados[a]['datos_asociados'][b]['c_numboleto'];
-        if (boleto && (boleto.includes('BB') || boleto.includes('FB'))) {
+        if (boleto && this.codigosBoletos.some(cod => boleto.includes(cod))) {
           pasajes.push(boleto);
         }
       }
@@ -444,7 +451,7 @@ export class ConsultaBoletosComponent implements OnInit {
     // 1️⃣ Recolectar todos los pasajes 2
     for (let a = 0; a < this.responsegetBuscarPasajes.length; a++) {
       const boleto = this.responsegetBuscarPasajes[a]['c_numboleto'];
-      if (boleto && (boleto.includes('BB') || boleto.includes('FB'))) {
+      if (boleto && this.codigosBoletos.some(cod => boleto.includes(cod))) {
         pasajes.push(boleto);
       }
     }

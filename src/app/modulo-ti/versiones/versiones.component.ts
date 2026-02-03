@@ -17,6 +17,16 @@ export class VersionesComponent implements OnInit {
   ngOnInit(): void {
     const data: HistorialCambio[] = [
       {
+        version: '2.7',
+        fecha_hora_publicacion: '03:00:00 PM del 22/01/2026',
+        descripcion: [
+          'Se crearon 3 nuevos módulos para Operaciones.',
+          'Formulario Reten: Servirá para el manejo y control de las informaciones de Reten.',
+          'Mantenimiento Rutas: Se podrá actualizar los kilómetros, horas de viajes y precios bases de cada servicio de todas las rutas de manera masiva.',
+          'Reporte Tareo Conductor: Obtiene de una mejor manera la data de "Ventas por Servicios" del SISPAS, junto con el Formulario Reten y Mantenimiento de Rutas, se cruza la información para un mejor manejo de la data.'
+        ]
+      },
+      {
         version: '2.6',
         fecha_hora_publicacion: '12:30:00 PM del 15/12/2025',
         descripcion: [

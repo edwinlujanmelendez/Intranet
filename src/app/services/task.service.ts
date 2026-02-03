@@ -15,9 +15,9 @@ import { SqlInteligenteService } from './sql-metadata.service';
 export class TaskService {
 
   // TODO: API - INTRANET
-  //url_api_intranet: string = "https://www.movilbus.pe/backendIntranet/";                                            /* URL PRODUCTIVO - INTRANET */
+  url_api_intranet: string = "https://www.movilbus.pe/backendIntranet/";                                            /* URL PRODUCTIVO - INTRANET */
   //url_api_intranet: string = "https://www.movilbus.pe/backendIntranetQA/";                                          /* URL DESARROLLO - INTRANET */
-  url_api_intranet: string = "http://localhost:8080/";                                                                /* URL Localhost - INTRANET */
+  //url_api_intranet: string = "http://localhost:8080/";                                                                /* URL Localhost - INTRANET */
 
   // TODO: API - ECOMMERCE
   url_api_ecommerce: string = "https://www.movilbus.pe/backendEcommerce/";                                          /* URL PRODUCTIVO - ECOMMERCE */
@@ -33,7 +33,7 @@ export class TaskService {
 
   LIMITE_CANTIDAD_ASIENTOS: number = 20;              // LIMITE CANTIDAD ASIENTOS POR BUS
 
-  VERSION_INTRANET: number = 2.6;                     // CAMBIOS DE DISEÑO
+  VERSION_INTRANET: number = 2.7;                     // CAMBIOS DE DISEÑO
 
   constructor(private http: HttpClient, private authService: AuthService, private sqlInteligenteService: SqlInteligenteService){ }
 
@@ -253,8 +253,8 @@ export class TaskService {
     return this.http.get<any[]>(this.url_api_intranet+"Conductores/getDatosBus/"+unidad);
   }
 
-  insertFormularioReten(data: any){
-    return this.http.post<any[]>(this.url_api_intranet+"Conductores/insertFormularioReten", data);
+  insertUpdateFormularioReten(data: any){
+    return this.http.post<any[]>(this.url_api_intranet+"Conductores/insertUpdateFormularioReten", data);
   }
 
   getReporteMantenimientoRuta(codLocalidadIda: number, codLocalidadDestino: number){
@@ -263,6 +263,14 @@ export class TaskService {
 
   getReporteTareoConductor(fecha_inicio: string, fecha_fin: string, conductor_id: number){
     return this.http.get<any[]>(this.url_api_intranet+"Conductores/getReporteTareoConductor/"+fecha_inicio+"/"+fecha_fin+"/"+conductor_id);
+  }
+
+  insertDatosMantenimientoRuta(data: any){
+    return this.http.post<any[]>(this.url_api_intranet+"Conductores/insertDatosMantenimientoRuta", data);
+  }
+
+  eliminarRegistroFormularioReten(id: number){
+    return this.http.get<any[]>(this.url_api_intranet+"Conductores/eliminarRegistroFormularioReten/"+id);
   }
   // TODO: ************************************ API - INTRANET ************************************ //
 

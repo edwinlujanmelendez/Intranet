@@ -56,19 +56,29 @@
                         <th class="min-w-[120px] whitespace-nowrap text-xss">TIPO</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">CIUDAD</th>
                         <th class="min-w-[120px] whitespace-nowrap text-xss">OBSERVACIONES</th>
+                        <th class="min-w-[120px] whitespace-nowrap text-xss">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr *ngFor="let dat of ListReporteFormularioReten; index as i;">
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{funcionesService.convert_format_fecha_barra(dat.fecha_partida)}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-left text-gray-700 font-semibold">{{dat.nombre_conductor}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo_conductor}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold" style="text-align: center !important;">{{dat.unidad}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.placa}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.servicio}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.tipo}}</td>
                         <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.nombre_agencia}}</td>
-                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold">{{dat.observaciones}}</td>
+                        <td class="min-w-[120px] whitespace-nowrap text-xss text-center text-gray-700 font-semibold" style="text-align: center !important;">{{dat.observaciones}}</td>
+                        <td class="text-center">
+                            <button title="Editar" (click)="editarConductor(dat)" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-gray-100 text-gray-700 hover:bg-yellow-100 hover:text-yellow-600 transition mr-1">
+                                <i class="fas fa-pencil-alt text-sm"></i>
+                            </button>
+
+                            <button title="Eliminar" (click)="preguntarEliminarConductor(dat)" class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-600 transition">
+                                <i class="fas fa-trash-alt text-sm"></i>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -93,7 +103,8 @@
                     <div class="w-1/2 flex">
                         <label for="fecha_partida" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Fecha Partida</label>
                         <span class="w-3/5">
-                            <input id="fecha_partida" type="date" [(ngModel)]="date_fecha_inicio_modal" [min]="date_actual" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                            <input id="formularioreten_id" type="text" value="0" hidden>
+                            <input id="fecha_partida" type="date" [(ngModel)]="date_fecha_inicio_modal" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />   <!-- [min]="date_actual" -->
                         </span>
                     </div>
                     <div class="w-1/2 flex pr-6">
@@ -129,7 +140,7 @@
                     <div class="w-1/2 flex pr-6">
                         <label for="unidad" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Unidad</label>
                         <span class="w-3/5">
-                            <input id="unidad" type="text" (blur)="buscarUnidad($event)" (keyup.enter)="buscarUnidad($event)" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+                            <input id="unidad" type="text" (blur)="buscarUnidad($event)" class="w-full rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-600 focus:ring-2 focus:ring-orange-500 focus:outline-none" />  <!-- (keyup.enter)="buscarUnidad($event)" -->
                         </span>
                     </div>
                 </div>
@@ -152,13 +163,20 @@
                         <label for="tipo" class="w-2/5 text-sm font-semibold flex items-center justify-end pr-4">Tipo</label>
                         <span class="w-3/5">
                             <select id="tipo" class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                <option value="ACERCAMIENTO DIA" selected>ACERCAMIENTO DIA</option>
+                                <option value="ACERCAMIENTO DIA">ACERCAMIENTO DIA</option>
                                 <option value="ACERCAMIENTO NOCHE">ACERCAMIENTO NOCHE</option>
+                                <option value="APOYO Y MANTENIMIENTO">APOYO Y MANTENIMIENTO</option>
+                                <option value="CIERRE DE TURNO O SERVICIO">CIERRE DE TURNO O SERVICIO</option>
                                 <option value="CON GOCE">CON GOCE</option>
                                 <option value="DESCANSO FÍSICO">DESCANSO FÍSICO</option>
                                 <option value="DESCANSO MEDICO">DESCANSO MEDICO</option>
+                                <option value="GRUPO">GRUPO</option>
                                 <option value="LICENCIA">LICENCIA</option>
+                                <option value="REINTEGRO DE RETEN">REINTEGRO DE RETEN</option>
+                                <option value="RETEN ANTAMINA EXTERNA">RETEN ANTAMINA EXTERNO</option>
+                                <option value="RETEN ANTAMINA INTERNA">RETEN ANTAMINA INTERNO</option>
                                 <option value="RETEN DIA">RETEN DIA</option>
+                                <option value="RETEN LA ARENA">RETEN LA ARENA</option>
                                 <option value="RETEN NOCHE">RETEN NOCHE</option>
                                 <option value="SIN PROGRAMACIÓN">SIN PROGRAMACIÓN</option>
                                 <option value="VACACIONES">VACACIONES</option>
@@ -183,4 +201,21 @@
             </form>
         </div>
     </div>
+</div>
+
+<div *ngIf="ArrayMostrarModal['modal_confirmar_eliminar']" id="modal_confirmar_eliminar" class="fixed inset-0 z-50 flex items-center justify-center" (click)="cerrarModal('modal_confirmar_eliminar')">
+  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div class="relative bg-white w-full max-w-md rounded-lg shadow-lg z-10" (click)="$event.stopPropagation()">
+    <div class="flex items-center justify-between border-b border-gray-300 px-5 pt-3 pb-2">
+      <span class="font-bold text-gray-800 text-base">¡ATENCIÓN!</span>
+      <i class="fa fa-times text-xl cursor-pointer" (click)="cerrarModal('modal_confirmar_eliminar')"></i>
+    </div>
+    <div class="px-6 py-6 text-sm text-gray-700 text-center">
+      <p class="text-base font-semibold text-gray-800">¿DESEA ELIMINAR EL REGISTRO?</p>
+    </div>
+    <div class="flex justify-center gap-3 border-t border-gray-300 px-6 py-4">
+      <button (click)="eliminarConductor()" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">SI</button>
+      <button (click)="cerrarModal('modal_confirmar_eliminar')" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">NO</button>
+    </div>
+  </div>
 </div>
