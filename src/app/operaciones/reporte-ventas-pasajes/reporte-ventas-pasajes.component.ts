@@ -147,7 +147,18 @@ export class ReporteVentasPasajesComponent implements OnInit {
 
     // 345 - id agencia Call Center
     this.taskService.getAgencias(345).subscribe(responsegetAgencias => {
-      this.ltAgencias = responsegetAgencias;
+      // this.ltAgencias = responsegetAgencias;
+      this.ltAgencias.push(...responsegetAgencias);
+    });
+
+    // 7 - id agencia Barranca Terminal - jabanto
+    this.taskService.getAgencias(7).subscribe(responsegetAgencias => {    
+      this.ltAgencias.push(...responsegetAgencias);
+    });
+
+    // 674 - id agencia Barranca Sur Terminal - jabanto
+    this.taskService.getAgencias(674).subscribe(responsegetAgencias => {    
+      this.ltAgencias.push(...responsegetAgencias);
     });
 
     setTimeout(() => {

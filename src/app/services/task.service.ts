@@ -16,8 +16,8 @@ export class TaskService {
 
   // TODO: API - INTRANET
   url_api_intranet: string = "https://www.movilbus.pe/backendIntranet/";                                            /* URL PRODUCTIVO - INTRANET */
-  //url_api_intranet: string = "https://www.movilbus.pe/backendIntranetQA/";                                          /* URL DESARROLLO - INTRANET */
-  //url_api_intranet: string = "http://localhost:8080/";                                                                /* URL Localhost - INTRANET */
+  // url_api_intranet: string = "https://www.movilbus.pe/backendIntranetQA/";                                          /* URL DESARROLLO - INTRANET */
+  // url_api_intranet: string = "http://localhost:8091/";                                                                /* URL Localhost - INTRANET */
 
   // TODO: API - ECOMMERCE
   url_api_ecommerce: string = "https://www.movilbus.pe/backendEcommerce/";                                          /* URL PRODUCTIVO - ECOMMERCE */
@@ -33,7 +33,7 @@ export class TaskService {
 
   LIMITE_CANTIDAD_ASIENTOS: number = 20;              // LIMITE CANTIDAD ASIENTOS POR BUS
 
-  VERSION_INTRANET: number = 2.7;                     // CAMBIOS DE DISEÑO
+  VERSION_INTRANET: number = 2.8;                     // CAMBIOS DE DISEÑO
 
   constructor(private http: HttpClient, private authService: AuthService, private sqlInteligenteService: SqlInteligenteService){ }
 
